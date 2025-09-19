@@ -469,7 +469,6 @@
     <a href="javascript:void(0);" class="tab active" onclick="switchTab('about')">About Us</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('socials')">Socials</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('products')">Products</a>
-    <a href="javascript:void(0);" class="tab" onclick="switchTab('promotions')">Promotions</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('prices')">Prices</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('contact')">Contact</a>
   </div>
@@ -1020,20 +1019,14 @@
   });
 </script>
 
-  <div id="promotions" class="tab-content highlight-box">
-    <h2>Promotions</h2>
-    <p></p>
-    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%; border-radius:16px; box-shadow: var(--glow); margin-top:20px;">
-    <iframe 
-      src="" 
-      title="Store - R3vival" 
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen
-      style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px;">
-    </iframe>
-    </div>
-    </div>
+<style>
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px #000FFF88, 0 0 20px #000FFF44; }
+  50% { box-shadow: 0 0 20px #000FFFaa, 0 0 40px #000FFF66; }
+  100% { box-shadow: 0 0 10px #000FFF88, 0 0 20px #000FFF44; }
+}
+</style>
+
 <div id="prices" class="tab-content">
   <style>
     body {
