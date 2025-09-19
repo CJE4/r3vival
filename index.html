@@ -169,7 +169,7 @@
 }
 
 .button.support:hover {
-    bakcground color #000FFF;
+    background-color: #000FFF;
     transform: scale(1.10);
 }
 
@@ -331,10 +331,10 @@
 <!-- Countdown Banner -->
 <div id="countdown-banner">
   <div class="scroll-track" id="scroll-track">
-    <!-- One item, JS will clone it -->
     <div class="countdown-item">
       <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" alt="R3vival Logo">
-      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
+      <span class="countdown-text"></span>
+      <span class="sparkle">✨</span>
     </div>
   </div>
 </div>
@@ -346,34 +346,45 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    background: linear-gradient(270deg, #000010, #000033, #000010);
+    background: linear-gradient(270deg, #000010, #000022, #000010);
     background-size: 600% 600%;
-    animation: gradientShift 10s ease infinite;
-    margin-bottom: 20px; /* spacing from rest of page */
+    animation: gradientShift 15s ease infinite;
+    margin-bottom: 20px;
   }
 
   .scroll-track {
     display: flex;
     width: max-content;
-    animation: scroll-right 20s linear infinite;
+    animation: scroll-right 30s linear infinite;
   }
 
   .countdown-item {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     margin-right: 60px;
-    font-size: 1.6em;
+    font-size: 1.4em;
     font-weight: bold;
     color: #00f;
     white-space: nowrap;
-    text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
-    animation: glowPulse 2s infinite alternate;
+    text-shadow: 0 0 4px #00f;
+    position: relative;
   }
 
   .countdown-item img {
-    height: 45px;
-    filter: drop-shadow(0 0 12px #00F);
+    height: 40px;
+    filter: drop-shadow(0 0 6px #00f);
+    animation: logoPulse 2s infinite alternate;
+  }
+
+  .sparkle {
+    animation: sparkleAnim 1.5s infinite;
+    font-size: 1.2em;
+  }
+
+  @keyframes sparkleAnim {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2) rotate(10deg); }
   }
 
   @keyframes gradientShift {
@@ -382,50 +393,52 @@
     100% { background-position: 0% 50%; }
   }
 
-  @keyframes glowPulse {
-    0% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
-    50% { text-shadow: 0 0 16px #00f, 0 0 30px #00f, 0 0 50px #00f, 0 0 80px #00f; }
-    100% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+  @keyframes scroll-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
   }
 
-  @keyframes scroll-right {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(50%); }
+  @keyframes logoPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
 
   @media (max-width: 600px) {
-    .countdown-item { font-size: 1.2em; margin-right: 30px; }
+    .countdown-item { font-size: 1em; margin-right: 30px; }
     .countdown-item img { height: 30px; }
+    .sparkle { font-size: 1em; }
   }
 </style>
 
 <script>
-  // Duplicate the countdown item multiple times
+  const dropDate = new Date("Sep 27, 2025 00:00:00 EST").getTime();
   const scrollTrack = document.getElementById("scroll-track");
+  const firstItem = scrollTrack.children[0];
+
+  // Clone items for continuous scroll
   for (let i = 0; i < 5; i++) {
-    const clone = scrollTrack.children[0].cloneNode(true);
-    scrollTrack.appendChild(clone);
+    scrollTrack.appendChild(firstItem.cloneNode(true));
   }
 
-  // Countdown logic
-  const dropDate = new Date("Sep 27, 2025 00:00:00 EST").getTime();
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = dropDate - now;
-    const countdownElements = document.querySelectorAll(".countdown-text");
+    const elements = document.querySelectorAll(".countdown-text");
 
-    countdownElements.forEach(el => {
-      if (distance < 0) {
+    elements.forEach(el => {
+      if(distance <= 0){
         el.innerHTML = "🔥 DROPPED! Check out the shop below 🔥";
       } else {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
         el.innerHTML = `🚨 Dropping September 27th 12AM EST — ${days}d ${hours}h ${minutes}m ${seconds}s 🚨`;
       }
     });
   }
+
   setInterval(updateCountdown, 1000);
   updateCountdown();
 </script>
