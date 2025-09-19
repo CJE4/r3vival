@@ -460,181 +460,553 @@
     <a href="javascript:void(0);" class="tab" onclick="switchTab('prices')">Prices</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('contact')">Contact</a>
   </div>
-  <div id="about" class="tab-content active-tab highlight-box">
-    <h2>Welcome to R3vivals</h2>
-     <div style="font-family: Arial, sans-serif; background-color: #1e1e2f; color: #f1f1f1; padding: 20px; border-radius: 12px blue; max-width: 800px; margin: auto;">
-  <h2 style="color: #fffffff;">👥 About R3vival</h2>
-  <p>Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
+ <div id="about" class="tab-content active-tab highlight-box">
+  <style>
+    body {
+      background-color: #111;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-  <hr style="border-color: #000FFF; margin: 20px 0;">
+    .about-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 40px;
+      background: linear-gradient(135deg, #111122, #1a1a2f);
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,255,0.4);
+      position: relative;
+      overflow: hidden;
+      animation: glowBox 3s ease-in-out infinite alternate;
+    }
 
-  <h3 style="color: #fffffff;">🌐 Who We Are</h3>
-  <p>Project R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community. </P>
-  <ul>
-    <li>✔️ Stylish Clothing</li>
-    <li>✔️ Showcase Christian values </li>
-    <li>✔️ Focused on quality, professionalism, and personalization</li>
-  </ul>
-  
-  <hr style="border-color: #000FFF; margin: 20px 0;">
-  <h3>Community Connection</h3>
-        <li>The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
-        <li>The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
-  <hr style="border-color: #000FFF; margin: 20px 0;">
+    @keyframes glowBox {
+      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
+      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    }
 
-  <h3 style="color: #fffffff;">Why Choose R3vivals?</h3>
-  <ul>
-    <li>🔧 Full custom shirts/hoodies – designed from scratch</li>
-    <li>incredible comfortable shirts/hoodies</li>
-    <li>💬 Active support and professional service</li>
-  </ul>
+    /* Animated background lines */
+    .about-container::after {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,255,0.02),
+        rgba(0,0,255,0.02) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      z-index: 0;
+      pointer-events: none;
+      animation: slideBG 10s linear infinite;
+    }
 
-  <p>Whether you're a new for a new style or a growing brand, R3vival has clothe tailored to your ideas.</p>
+    @keyframes slideBG {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
 
-  <p>
-  <strong>📩 Questions? Need help? Contact us at 
-    <a href="mailto:r3vivalapparel@gmail.com" target="_blank" style="color: #ffffff;">
-      r3vivalapparel@gmail.com
-    </a>
-  </strong> or message us on one of our socials.
-</p>
+    .about-container > * { position: relative; z-index: 1; }
 
-     <p><a href="r3vivalapparel@gmail.com" target="_blank" style="color: #1e1e2f;">2</p>
-      <div class="button-group">
-  <a href="https://R3vivalapparel.myshopify.com" 
-     class="button youtube" 
-     target="_blank" 
-     rel="noopener noreferrer">
-    <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
-         alt="Logo" 
-         class="button-logo" />
-    <span>Shop Here</span>
-  </a>
-</div>
+    /* Headings */
+    .about-container h2 {
+      text-align: center;
+      color: #000FFF;
+      font-size: 2.2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px rgba(0,0,255,0.6);
+      animation: textGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    .about-container h3 {
+      color: #ffffff;
+      font-size: 1.6em;
+      margin: 20px 0 10px;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 6px #000FFF; }
+      100% { text-shadow: 0 0 15px #000FFF; }
+    }
+
+    /* Paragraphs and lists */
+    .about-container p, .about-container li {
+      color: #ffffff;
+      font-size: 1.1em;
+      line-height: 1.6em;
+      margin-bottom: 12px;
+    }
+
+    .about-container ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* Horizontal rules */
+    .about-container hr {
+      border: none;
+      border-top: 2px solid #000FFF;
+      margin: 20px 0;
+    }
+
+    /* Links */
+    .about-container a {
+      color: #000FFF;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .about-container a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 100%;
+      height: 2px;
+      background: #000FFF;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .about-container a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Button */
+    .button-group {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #000FFF;
+      color: #ffffff;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(0,0,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button span {
+      position: relative;
+      z-index: 1;
+      color: #ffffff;
+      text-shadow: 0 0 4px rgba(0,0,255,0.8); /* subtle neon glow */
+    }
+
+    .button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 18px rgba(0,0,255,0.9);
+    }
+
+    .button img.button-logo {
+      max-width: 40px;
+      margin-right: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .button:hover img.button-logo {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .about-container {
+        padding: 30px;
+      }
+
+      .button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+
+  <div class="about-container">
+    <h2>Welcome to R3vival</h2>
+    <h2>👥 About R3vival</h2>
+    <p>Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
+
+    <hr>
+
+    <h3>🌐 Who We Are</h3>
+    <p>Project R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community.</p>
+    <ul>
+      <li>✔️ Stylish Clothing</li>
+      <li>✔️ Showcase Christian values</li>
+      <li>✔️ Focused on quality, professionalism, and personalization</li>
+    </ul>
+
+    <hr>
+
+    <h3>Community Connection</h3>
+    <ul>
+      <li>The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
+      <li>The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
+    </ul>
+
+    <hr>
+
+    <h3>Why Choose R3vival?</h3>
+    <ul>
+      <li>🔧 Full custom shirts/hoodies – designed from scratch</li>
+      <li>Incredibly comfortable shirts/hoodies</li>
+      <li>💬 Active support and professional service</li>
+    </ul>
+
+    <p>Whether you're new to a style or a growing brand, R3vival has clothes tailored to your ideas.</p>
+
+    <p><strong>📩 Questions? Need help? Contact us at 
+      <a href="mailto:r3vivalapparel@gmail.com" target="_blank">r3vivalapparel@gmail.com</a>
+    </strong> or message us on one of our socials.</p>
+
+    <div class="button-group">
+      <a href="https://R3vivalapparel.myshopify.com" 
+         class="button" 
+         target="_blank" 
+         rel="noopener noreferrer">
+        <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
+             alt="Logo" 
+             class="button-logo" />
+        <span>Shop Here</span>
+      </a>
+    </div>
   </div>
+</div>
+
+
+<div id="socials" class="tab-content highlight-box">
+  <style>
+    body {
+      background-color: #111;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .socials-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: linear-gradient(135deg, #111122, #1a1a2f);
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,255,0.4);
+      position: relative;
+      overflow: hidden;
+      animation: glowBox 3s ease-in-out infinite alternate;
+      text-align: center;
+    }
+
+    @keyframes glowBox {
+      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
+      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    }
+
+    /* Subtle moving background pattern */
+    .socials-container::after {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,255,0.02),
+        rgba(0,0,255,0.02) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      z-index: 0;
+      pointer-events: none;
+      animation: slideBG 10s linear infinite;
+    }
+
+    @keyframes slideBG {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+
+    .socials-container > * { position: relative; z-index: 1; }
+
+    /* Section headings */
+    .socials-container h2 {
+      color: #000FFF;
+      font-size: 2.2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px rgba(0,0,255,0.6);
+      animation: textGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 6px #000FFF; }
+      100% { text-shadow: 0 0 15px #000FFF; }
+    }
+
+    /* Social image */
+    .socials-container img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 3px solid #000FFF;
+      box-shadow: 0 0 20px #000FFF;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .socials-container img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px #000FFF;
+    }
+
+    /* Social links */
+    .socials-container p {
+      color: #ffffff;
+      font-size: 1.1em;
+      margin: 15px 0;
+    }
+
+    .socials-container a {
+      color: #000FFF;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .socials-container a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 100%;
+      height: 2px;
+      background: #000FFF;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .socials-container a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .socials-container {
+        padding: 25px;
+      }
+    }
+  </style>
+
+  <div class="socials-container">
+    <h2>👥 Follow Our Socials</h2>
+
+    <img src="https://i.postimg.cc/TwqGCmSs/Chat-GPT-Image-Sep-18-2025-11-19-17-AM.png"
+         alt="Socials Image" />
+
+    <p>📩 Follow our TikTok page! 
+      <a href="https://www.tiktok.com/@projectr3vival" target="_blank">@projectr3vival</a>
+    </p>
+
+    <p>📩 Follow our Instagram page! 
+      <a href="https://www.instagram.com/r3vivalapparel?igsh=aGJucWkzYXlveGl5" target="_blank">@r3vivalapparel</a>
+    </p>
   </div>
-      <div id="socials" class="tab-content highlight-box">
-<h2>Socials</h2>
-<div style="font-family: Arial, sans-serif; background-color: #1e1e2f; color: #f1f1f1; padding: 20px; border-radius: 12px; max-width: 800px; margin: auto; text-align: center;">
-  
-  <h2 style="color: #ffffff;">👥 Follow Our Socials</h2>
-  
-  <!-- Image with glowing blue border -->
-  <img src="https://i.postimg.cc/TwqGCmSs/Chat-GPT-Image-Sep-18-2025-11-19-17-AM.png"
-       alt="Socials Image" 
-       style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f;" />
-  
-  <p><strong>📩 Follow our TikTok page! 
-    <a href="https://www.tiktok.com/@projectr3vival" target="_blank" style="color: #00f;">@projectr3vival</a></strong>
-  </p>
-  
-  <p><strong>📩 Follow our Instagram page! 
-    <a href="https://www.instagram.com/r3vivalapparel?igsh=aGJucWkzYXlveGl5" target="_blank" style="color: #00f;">@r3vivalapparel</a></strong>
-  </p>
-
 </div>
-</div>
-  
-<!-- Products Section -->
-<div id="products" class="tab-content highlight-box" style="padding: 60px 20px; text-align: center; background-color: #1e1e2f;">
-  <h2 style="font-size: 2.2em; font-weight: bold; color: #fff; text-shadow: 0 0 12px #000FFF;">
-    Products
-  </h2>
 
-  <!-- Email Signup -->
-  <p style="margin-top: 20px; font-size: 1.2em; font-weight: 500; color: #fff;">
-    🔥 Don't miss the next drop! Enter your email for early access.
-  </p>
-  <form id="notifyFormProducts" action="https://formspree.io/f/mkgvdbwq" method="POST" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-    <input type="email" name="email" id="notifyEmailProducts" placeholder="Enter your email" required
-           style="padding: 12px 18px; border-radius: 8px; border: none; font-size: 1em; width: 250px; max-width: 100%;">
-    <button type="submit" class="notify-button">Notify Me</button>
-  </form>
-  <p id="notifyMessageProducts" style="color:#00ff00; margin-top:10px;"></p>
+<div id="products" class="tab-content highlight-box">
+  <style>
+    body {
+      background-color: #111;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-  <!-- Product Images -->
-  <!-- First product with blue glow -->
-<img src="https://i.postimg.cc/4yZvRbmT/Untitled-design.jpg"
-     alt="Product Image 1" 
-     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f; margin-bottom: 20px;" />
+    .products-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #111122, #1a1a2f);
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,255,0.4);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      animation: glowBox 3s ease-in-out infinite alternate;
+    }
 
-<!-- Second product with blue glow -->
-<img src="https://i.postimg.cc/sXzGMfyY/Untitled-design.png"
-     alt="Product Image 2" 
-     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f;" />
+    @keyframes glowBox {
+      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
+      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    }
 
+    /* Subtle moving background lines */
+    .products-container::after {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,255,0.02),
+        rgba(0,0,255,0.02) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      z-index: 0;
+      pointer-events: none;
+      animation: slideBG 10s linear infinite;
+    }
 
+    @keyframes slideBG {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+
+    .products-container > * { position: relative; z-index: 1; }
+
+    /* Section heading */
+    .products-container h2 {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #000FFF;
+      text-shadow: 0 0 12px rgba(0,0,255,0.6);
+      margin-bottom: 20px;
+      animation: textGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 6px #000FFF; }
+      100% { text-shadow: 0 0 15px #000FFF; }
+    }
+
+    /* Email form */
+    .notify-form {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .notify-form input[type="email"] {
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      width: 250px;
+      max-width: 100%;
+      background: #1a1a2e;
+      color: #fff;
+    }
+
+    .notify-button {
+      padding: 12px 25px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      font-weight: 600;
+      background: #000FFF;
+      color: #fff;
+      cursor: pointer;
+      animation: glowPulse 2.5s infinite ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,0,255,0.7);
+    }
+
+    .notify-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(0,0,255,0.9);
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 8px rgba(0,0,255,0.6); }
+      50% { box-shadow: 0 0 16px rgba(0,0,255,0.9); }
+      100% { box-shadow: 0 0 8px rgba(0,0,255,0.6); }
+    }
+
+    #notifyMessageProducts {
+      color: #00ff00;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    /* Product images */
+    .product-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 3px solid #000FFF;
+      box-shadow: 0 0 20px rgba(0,0,255,0.6);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-image:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 30px rgba(0,0,255,0.8);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .notify-form input[type="email"] {
+        width: 100%;
+      }
+    }
+
+  </style>
+
+  <div class="products-container">
+    <h2>Products</h2>
+
+    <p style="margin-top: 20px; font-size: 1.2em; font-weight: 500; color: #fff;">
+      🔥 Don't miss the next drop! Enter your email for early access.
+    </p>
+
+    <form id="notifyFormProducts" class="notify-form" action="https://formspree.io/f/xandrjkk" method="POST">
+      <input type="email" name="email" id="notifyEmailProducts" placeholder="Enter your email" required>
+      <button type="submit" class="notify-button">Notify Me</button>
+    </form>
+    <p id="notifyMessageProducts"></p>
+
+    <!-- Product Images -->
+    <img src="https://i.postimg.cc/4yZvRbmT/Untitled-design.jpg" alt="Product Image 1" class="product-image">
+    <img src="https://i.postimg.cc/sXzGMfyY/Untitled-design.png" alt="Product Image 2" class="product-image">
   </div>
 </div>
-
-<style>
-/* Glowing Notify Me button */
-.notify-button {
-  padding: 12px 25px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1em;
-  font-weight: 600;
-  background: #000FFF;
-  color: #fff;
-  cursor: pointer;
-  animation: glowPulse 2.5s infinite ease-in-out;
-  transition: transform 0.3s ease;
-}
-.notify-button:hover {
-  transform: scale(1.05);
-}
-
-/* Product cards with glow */
-.product-card {
-  background: #111;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 0 12px #000FFF, 0 0 25px rgba(0,0,255,0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 250px;
-}
-.product-card img {
-  width: 100%;
-  border-radius: 8px;
-}
-.product-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #000FFF, 0 0 40px rgba(0,0,255,0.7);
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .product-card {
-    max-width: 160px;
-  }
-}
-</style>
 
 <script>
-// Separate Notify Me script for Products section
-document.getElementById("notifyFormProducts").addEventListener("submit", function(e){
-    e.preventDefault();
-    const email = document.getElementById("notifyEmailProducts").value;
+  // Notify Me button functionality
+  document.getElementById("notifyFormProducts").addEventListener("submit", function(e){
+      e.preventDefault();
+      const email = document.getElementById("notifyEmailProducts").value;
 
-    fetch("https://formspree.io/f/mkgvdbwq", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-    })
-    .then(response => {
-        if(response.ok){
-            document.getElementById("notifyMessageProducts").textContent = "✅ Thanks! We'll notify you.";
-            document.getElementById("notifyEmailProducts").value = "";
-        } else {
-            document.getElementById("notifyMessageProducts").textContent = "⚠️ Something went wrong, try again.";
-        }
-    });
-});
+      fetch("https://formspree.io/f/mkgvdbwq", {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+      })
+      .then(response => {
+          if(response.ok){
+              document.getElementById("notifyMessageProducts").textContent = "✅ Thanks! We'll notify you.";
+              document.getElementById("notifyEmailProducts").value = "";
+          } else {
+              document.getElementById("notifyMessageProducts").textContent = "⚠️ Something went wrong, try again.";
+          }
+      });
+  });
 </script>
 
-</div>
-</div>
   <div id="promotions" class="tab-content highlight-box">
     <h2>Promotions</h2>
     <p></p>
@@ -650,83 +1022,160 @@ document.getElementById("notifyFormProducts").addEventListener("submit", functio
     </div>
     </div>
 <div id="prices" class="tab-content">
+  <style>
+    body {
+      background-color: #111; 
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Main section */
+    .compare-section {
+      position: relative;
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 50px;
+      background: linear-gradient(135deg, #000011, #000022);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 255, 0.4);
+      animation: glowBox 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowBox {
+      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
+      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    }
+
+    /* Moving subtle background pattern */
+    .compare-section::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,255,0.02),
+        rgba(0,0,255,0.02) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      z-index: 0;
+      pointer-events: none;
+      animation: slideBG 10s linear infinite;
+    }
+
+    @keyframes slideBG {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+
+    .compare-section > * { position: relative; z-index: 1; }
+
+    /* Titles */
+    .compare-section h2 {
+      text-align: center;
+      color: #000FFF;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 8px rgba(0,0,255,0.6);
+      animation: textGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 6px #000FFF; }
+      100% { text-shadow: 0 0 15px #000FFF; }
+    }
+
+    .compare-section h3 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 1.6em;
+      margin: 25px 0 15px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Table styling */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 35px;
+      table-layout: fixed;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,255,0.3);
+    }
+
+    .comparison-table th {
+      background-color: #000FFF;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 14px;
+      text-align: center;
+      text-transform: uppercase;
+      border-bottom: 2px solid #ffffff;
+      box-shadow: inset 0 0 8px rgba(0,0,255,0.5);
+    }
+
+    .comparison-table td {
+      position: relative;
+      padding: 12px;
+      text-align: center;
+      color: #ffffff;
+      border: 1px solid rgba(0,0,255,0.3);
+      background: rgba(0,0,255,0.05);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .comparison-table td:first-child {
+      font-weight: 600;
+      color: #000FFF;
+    }
+
+    /* Row hover effect */
+    .comparison-table tbody tr:hover td {
+      background: rgba(0,0,255,0.15);
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(0,0,255,0.3);
+    }
+
+    /* Subtle gradient shimmer effect */
+    .comparison-table td::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .comparison-table { font-size: 0.95em; }
+    }
+
+    @media (max-width: 600px) {
+      .compare-section { padding: 30px; }
+      .comparison-table { font-size: 0.85em; }
+    }
+  </style>
+
   <div class="compare-section">
-    <style>
-      .compare-section {
-        max-width: 1000px;
-        margin: 40px auto;
-        padding: 30px;
-        background-color: #00000;  /* Background color */
-        border-radius: 30px;
-        font-family: "Segoe UI", sans-serif;
-
-        /* Glowing effect around the box */
-        box-shadow: 0 0 15px 5px #000FFF; /* Glow color and spread */
-      }
-
-      /* Title Color */
-      .compare-section h2 {
-        text-align: center;
-        color: #000FFF;
-        margin: 30px 0 20px;
-      }
-
-      /* Heading color */
-      .compare-section h3 {
-        text-align: center;
-        color: #ffffff;
-        margin: 30px 0 20px;
-      }
-
-      .comparison-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-        table-layout: fixed;
-      }
-
-      /* Table outline */
-      .comparison-table th,
-      .comparison-table td {
-        padding: 14px;
-        text-align: center;
-        border: 3px solid #ffffff;
-        word-wrap: break-word;
-      }
-
-      /* Topic box color */
-      .comparison-table th {
-        background-color: #000FFF;
-        color: #ffffff;
-        font-weight: bold;
-      }
-
-      /* Text color */
-      .comparison-table td:first-child {
-        text-align: center;
-        font-weight: 600;
-        color: #ffffff;
-      }
-
-      @media (max-width: 768px) {
-        .comparison-table {
-          font-size: 0.95em;
-        }
-      }
-
-      @media (max-width: 600px) {
-        .comparison-table {
-          font-size: 0.85em;
-        }
-
-        .compare-section {
-          padding: 20px;
-        }
-      }
-    </style>
-
     <h2>R3vival Prices</h2>
 
+    <!-- Shirts Table -->
     <h3>Shirts</h3>
     <table class="comparison-table">
       <thead>
@@ -748,13 +1197,14 @@ document.getElementById("notifyFormProducts").addEventListener("submit", functio
           <td>$55.99</td>
         </tr>
         <tr>
-          <td>Cotton/Polyester mix</td>
+          <td>Cotton/Polyester Mix</td>
           <td>$42.99</td>
           <td>$50.99</td>
         </tr>
       </tbody>
     </table>
 
+    <!-- Hoodies Table -->
     <h3>Hoodies</h3>
     <table class="comparison-table">
       <thead>
@@ -771,7 +1221,7 @@ document.getElementById("notifyFormProducts").addEventListener("submit", functio
           <td>$69.99</td>
         </tr>
         <tr>
-          <td>Cotton/Polyester mix</td>
+          <td>Cotton/Polyester Mix</td>
           <td>$54.99</td>
           <td>$69.99</td>
         </tr>
@@ -779,59 +1229,187 @@ document.getElementById("notifyFormProducts").addEventListener("submit", functio
     </table>
   </div>
 </div>
+
+
   <div id="contact" class="tab-content highlight-box">
-  <header style="text-align:center; padding:20px 0;">
-    <a href="#home">
-      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
-           alt="R3vival Logo" 
-           style="max-width:200px; filter: drop-shadow(0 0 12px #000FFF);">
-    </a>
-  </header>
+  <style>
+    body {
+      background-color: #111;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-  <div class="container" style="
-      max-width:600px;
-      margin:40px auto;
-      background:#111122;
-      padding:30px;
-      border-radius:15px;
-      box-shadow:0 0 20px rgba(0,0,255,0.6);
-      text-align:left;">
-      
-    <h2 style="text-align:center; margin-bottom:20px; color:#000FFF; text-shadow:0 0 8px #000FFF;">
-      Contact R3vival Support
-    </h2>
+    /* Contact container */
+    .contact-container {
+      position: relative;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 40px;
+      background: linear-gradient(135deg, #000011, #000022);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,255,0.4);
+      animation: glowBox 3s ease-in-out infinite alternate;
+      overflow: hidden;
+    }
 
-    <form action="https://formspree.io/f/mkgvdbwq" method="POST">
-      <label for="name" style="font-weight:bold; display:block; margin-top:15px;">Your Name</label>
-      <input type="text" name="name" id="name" required
-             style="width:100%; padding:12px; margin-top:5px; border-radius:8px; border:1px solid #000FFF; background:#1a1a2e; color:#fff; font-size:16px;">
+    @keyframes glowBox {
+      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
+      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    }
 
-      <label for="email" style="font-weight:bold; display:block; margin-top:15px;">Your Email</label>
-      <input type="email" name="email" id="email" required
-             style="width:100%; padding:12px; margin-top:5px; border-radius:8px; border:1px solid #000FFF; background:#1a1a2e; color:#fff; font-size:16px;">
+    /* Animated background lines */
+    .contact-container::after {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,255,0.02),
+        rgba(0,0,255,0.02) 2px,
+        transparent 2px,
+        transparent 10px
+      );
+      z-index: 0;
+      pointer-events: none;
+      animation: slideBG 10s linear infinite;
+    }
 
-      <label for="message" style="font-weight:bold; display:block; margin-top:15px;">Your Message</label>
-      <textarea name="message" id="message" required
-                style="width:100%; padding:12px; margin-top:5px; border-radius:8px; border:1px solid #000FFF; background:#1a1a2e; color:#fff; font-size:16px; height:120px; resize:vertical;"></textarea>
+    @keyframes slideBG {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
 
-      <button type="submit" style="
-        margin-top:20px;
-        background:#000FFF;
-        color:#fff;
-        border:none;
-        padding:14px;
-        width:100%;
-        border-radius:8px;
-        font-size:18px;
-        font-weight:bold;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        box-shadow:0 0 12px rgba(0,0,255,0.8);">
-        Send Message
-      </button>
+    .contact-container > * { position: relative; z-index: 1; }
+
+    /* Header */
+    .contact-header img {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 200px;
+      filter: drop-shadow(0 0 12px #000FFF);
+      transition: transform 0.3s ease;
+    }
+
+    .contact-header img:hover {
+      transform: scale(1.05);
+    }
+
+    .contact-container h2 {
+      text-align: center;
+      color: #000FFF;
+      font-size: 2.2em;
+      margin-bottom: 25px;
+      text-shadow: 0 0 8px rgba(0,0,255,0.6);
+      animation: textGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 6px #000FFF; }
+      100% { text-shadow: 0 0 15px #000FFF; }
+    }
+
+    /* Form elements */
+    .contact-form label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      color: #ffffff;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #000FFF;
+      background: #1a1a2e;
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(0,0,255,0.6);
+      border-color: #000FFF;
+    }
+
+    /* Submit button */
+    .contact-form button {
+      margin-top: 20px;
+      background: #000FFF;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(0,0,255,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button hover with subtle shimmer */
+    .contact-form button::before {
+      content: '';
+      position: absolute;
+      top:0; left:-100%;
+      width:100%;
+      height:100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: shimmer 3s infinite;
+    }
+
+    .contact-form button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 18px rgba(0,0,255,0.9);
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .contact-container {
+        padding: 30px;
+      }
+    }
+  </style>
+
+  <div class="contact-container">
+    <header class="contact-header">
+      <a href="#home">
+        <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" alt="R3vival Logo">
+      </a>
+    </header>
+
+    <h2>Contact R3vival Support</h2>
+
+    <form class="contact-form" action="https://formspree.io/f/mkgvdbwq" method="POST">
+      <label for="name">Your Name</label>
+      <input type="text" name="name" id="name" required>
+
+      <label for="email">Your Email</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="message">Your Message</label>
+      <textarea name="message" id="message" required style="height:120px; resize:vertical;"></textarea>
+
+      <button type="submit">Send Message</button>
     </form>
   </div>
 </div>
+
 
 </div>
   <footer>
@@ -839,8 +1417,6 @@ document.getElementById("notifyFormProducts").addEventListener("submit", functio
   </footer>
 </body>
 
-</html>
-</body>
 </html>
 </body>
 </html>
