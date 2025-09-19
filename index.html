@@ -344,21 +344,20 @@
     width: 100%;
     height: 70px;
     overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
     display: flex;
     align-items: center;
     background: linear-gradient(270deg, #000010, #000033, #000010);
     background-size: 600% 600%;
     animation: gradientShift 10s ease infinite;
+    margin-bottom: 20px; /* spacing from rest of page */
   }
+
   .scroll-track {
     display: flex;
     width: max-content;
-    animation: scroll-right 25s linear infinite;
+    animation: scroll-right 20s linear infinite;
   }
+
   .countdown-item {
     display: flex;
     align-items: center;
@@ -371,25 +370,29 @@
     text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
     animation: glowPulse 2s infinite alternate;
   }
+
   .countdown-item img {
     height: 45px;
     filter: drop-shadow(0 0 12px #00F);
   }
+
   @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
+
   @keyframes glowPulse {
     0% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
     50% { text-shadow: 0 0 16px #00f, 0 0 30px #00f, 0 0 50px #00f, 0 0 80px #00f; }
     100% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
   }
+
   @keyframes scroll-right {
-    0%   { transform: translateX(-50%); }
-    100% { transform: translateX(0%); }
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(50%); }
   }
-  body { margin-top: 80px; } /* push page down so banner doesn't overlap */
+
   @media (max-width: 600px) {
     .countdown-item { font-size: 1.2em; margin-right: 30px; }
     .countdown-item img { height: 30px; }
@@ -428,7 +431,7 @@
 </script>
 
 
-  <header>
+<header>
     <div class="header-text-container">
    
       <h1>R3vival</h1>
@@ -532,7 +535,7 @@
 </div>
 </div>
   
-  <!-- Products Section -->
+<!-- Products Section -->
 <div id="products" class="tab-content highlight-box" style="padding: 60px 20px; text-align: center; background-color: #1e1e2f;">
   <h2 style="font-size: 2.2em; font-weight: bold; color: #fff; text-shadow: 0 0 12px #000FFF;">
     Products
@@ -542,12 +545,12 @@
   <p style="margin-top: 20px; font-size: 1.2em; font-weight: 500; color: #fff;">
     🔥 Don't miss the next drop! Enter your email for early access.
   </p>
-  <form id="notifyForm" action="https://formspree.io/f/mkgvdbwq" method="POST" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-    <input type="email" name="email" id="notifyEmail" placeholder="Enter your email" required
+  <form id="notifyFormProducts" action="https://formspree.io/f/mkgvdbwq" method="POST" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+    <input type="email" name="email" id="notifyEmailProducts" placeholder="Enter your email" required
            style="padding: 12px 18px; border-radius: 8px; border: none; font-size: 1em; width: 250px; max-width: 100%;">
     <button type="submit" class="notify-button">Notify Me</button>
   </form>
-  <p id="notifyMessage" style="color:#00ff00; margin-top:10px;"></p>
+  <p id="notifyMessageProducts" style="color:#00ff00; margin-top:10px;"></p>
 
   <!-- Product Images -->
   <!-- First product with blue glow -->
@@ -560,7 +563,9 @@
      alt="Product Image 2" 
      style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f;" />
 
-</section>
+
+  </div>
+</div>
 
 <style>
 /* Glowing Notify Me button */
@@ -586,11 +591,11 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 0 12px #000FFF, 0 0 25px rgba(0,0,255,0.4);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 250px;
 }
 .product-card img {
-  width: 220px;
-  max-width: 100%;
+  width: 100%;
   border-radius: 8px;
 }
 .product-card:hover {
@@ -598,31 +603,19 @@
   box-shadow: 0 0 20px #000FFF, 0 0 40px rgba(0,0,255,0.7);
 }
 
-/* Glow animation */
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 8px #000FFF, 0 0 20px #000FFF, 0 0 40px #000FFF;
-  }
-  50% {
-    box-shadow: 0 0 16px #000FFF, 0 0 30px #000FFF, 0 0 60px #000FFF;
-  }
-  100% {
-    box-shadow: 0 0 8px #000FFF, 0 0 20px #000FFF, 0 0 40px #000FFF;
-  }
-}
-
 /* Mobile responsiveness */
 @media (max-width: 600px) {
-  .product-card img {
-    width: 160px;
+  .product-card {
+    max-width: 160px;
   }
 }
 </style>
 
 <script>
-document.getElementById("notifyForm").addEventListener("submit", function(e){
+// Separate Notify Me script for Products section
+document.getElementById("notifyFormProducts").addEventListener("submit", function(e){
     e.preventDefault();
-    const email = document.getElementById("notifyEmail").value;
+    const email = document.getElementById("notifyEmailProducts").value;
 
     fetch("https://formspree.io/f/mkgvdbwq", {
         method: "POST",
@@ -631,15 +624,16 @@ document.getElementById("notifyForm").addEventListener("submit", function(e){
     })
     .then(response => {
         if(response.ok){
-            document.getElementById("notifyMessage").textContent = "✅ Thanks! We'll notify you.";
-            document.getElementById("notifyEmail").value = "";
+            document.getElementById("notifyMessageProducts").textContent = "✅ Thanks! We'll notify you.";
+            document.getElementById("notifyEmailProducts").value = "";
         } else {
-            document.getElementById("notifyMessage").textContent = "⚠️ Something went wrong, try again.";
+            document.getElementById("notifyMessageProducts").textContent = "⚠️ Something went wrong, try again.";
         }
     });
 });
 </script>
 
+</div>
 </div>
   <div id="promotions" class="tab-content highlight-box">
     <h2>Promotions</h2>
@@ -845,6 +839,8 @@ document.getElementById("notifyForm").addEventListener("submit", function(e){
   </footer>
 </body>
 
+</html>
+</body>
 </html>
 </body>
 </html>
