@@ -318,8 +318,122 @@
   </script>
 </head>
 <body>
+<!-- Countdown Banner (top of page) -->
+<div id="countdown-banner" style="
+    width: 100%;
+    height: 70px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(270deg, #000010, #000033, #000010);
+    background-size: 600% 600%;
+    animation: gradientShift 10s ease infinite;
+">
+  <div id="countdown-content" style="
+      display: inline-flex;
+      position: absolute;
+      white-space: nowrap;
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #00f;
+      text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+      gap: 50px;
+      animation: glowPulse 2s infinite alternate;
+  ">
+    <!-- Repeat countdown items -->
+    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
+      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
+           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
+      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
+    </div>
+    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
+      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
+           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
+      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
+    </div>
+    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
+      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
+           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
+      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// Countdown logic
+const dropDate = new Date("Sep 27, 2025 00:00:00 EST").getTime();
+const countdownElements = document.querySelectorAll(".countdown-text");
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = dropDate - now;
+
+  countdownElements.forEach(el => {
+    if (distance < 0) {
+      el.innerHTML = "🔥 DROPPED! Check out the shop below 🔥";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    el.innerHTML = `🚨 Dropping September 27th 12AM EST — ${days}d ${hours}h ${minutes}m ${seconds}s 🚨`;
+  });
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Scroll loop
+const content = document.getElementById("countdown-content");
+let pos = -content.offsetWidth / 2;
+function scrollLoop() {
+  pos += 2; // speed
+  if (pos > 0) pos = -content.offsetWidth / 2;
+  content.style.left = pos + "px";
+  requestAnimationFrame(scrollLoop);
+}
+scrollLoop();
+</script>
+
+<style>
+/* Gradient background animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glowing/flicker effect on text */
+@keyframes glowPulse {
+  0% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+  50% { text-shadow: 0 0 16px #00f, 0 0 30px #00f, 0 0 50px #00f, 0 0 80px #00f; }
+  100% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+}
+
+/* Push content down so banner doesn't cover header */
+body {
+  margin-top: 80px; /* adjust based on banner height */
+}
+
+/* Responsive mobile adjustments */
+@media (max-width: 600px) {
+  #countdown-content {
+    font-size: 1.2em;
+    gap: 30px;
+  }
+  #countdown-content img {
+    height: 35px;
+  }
+}
+</style>
+
   <header>
     <div class="header-text-container">
+   
       <h1>R3vival</h1>
     <a href="#home">
       <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
@@ -333,7 +447,7 @@
      class="button youtube" 
      target="_blank" 
      rel="noopener noreferrer">
-    <span>Dropping September 27th...</span>
+    <span>Shop Now</span>
   </a>
 </div>
   </header>
@@ -364,10 +478,8 @@
   
   <hr style="border-color: #000FFF; margin: 20px 0;">
   <h3>Community Connection</h3>
-       <ul>
         <li>The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
         <li>The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
-       </ul>
   <hr style="border-color: #000FFF; margin: 20px 0;">
 
   <h3 style="color: #fffffff;">Why Choose R3vivals?</h3>
@@ -396,7 +508,7 @@
     <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
          alt="Logo" 
          class="button-logo" />
-    <span>Dropping September 27th...</span>
+    <span>Shop Here</span>
   </a>
 </div>
   </div>
@@ -424,6 +536,42 @@
 </div>
   <div id="products" class="tab-content highlight-box">
     <h2>Products</h2>
+    <!-- Notify Me Form (Step 1) -->
+<div class="notify-container" style="margin-top:20px; text-align:center;">
+  <h3>Want to be notified when new stuff drops?</h3>
+  <form id="notifyForm">
+    <input type="email" id="notifyEmail" placeholder="Enter your email" required style="
+      padding:10px; border-radius:5px; border:1px solid #000FFF; width:250px;">
+    <button type="submit" style="
+      padding:10px 20px; background:#000FFF; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+      Notify Me
+    </button>
+  </form>
+  <p id="notifyMessage" style="color:#00ff00; margin-top:10px;"></p>
+</div>
+
+<!-- Step 2: JavaScript to handle form submission -->
+<script>
+document.getElementById("notifyForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const email = document.getElementById("notifyEmail").value;
+
+    fetch("https://formspree.io/f/xandrjkk", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => {
+        if(response.ok){
+            document.getElementById("notifyMessage").textContent = "✅ Thanks! We'll notify you.";
+            document.getElementById("notifyEmail").value = "";
+        } else {
+            document.getElementById("notifyMessage").textContent = "⚠️ Something went wrong, try again.";
+        }
+    });
+});
+</script>
+
 <!-- First product with blue glow -->
 <img src="https://i.postimg.cc/4yZvRbmT/Untitled-design.jpg"
      alt="Product Image 1" 
@@ -638,6 +786,7 @@
     © 2025 R3vival
   </footer>
 </body>
+
 </html>
 </body>
 </html>
