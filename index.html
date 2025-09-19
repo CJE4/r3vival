@@ -531,29 +531,100 @@
 
 </div>
 </div>
-  <div id="products" class="tab-content highlight-box">
-    <h2>Products</h2>
-    <!-- Notify Me Form (Step 1) -->
-<div class="notify-container" style="margin-top:20px; text-align:center;">
-  <h3>Want to be notified when new stuff drops?</h3>
-  <form id="notifyForm">
-    <input type="email" id="notifyEmail" placeholder="Enter your email" required style="
-      padding:10px; border-radius:5px; border:1px solid #000FFF; width:250px;">
-    <button type="submit" style="
-      padding:10px 20px; background:#000FFF; color:#fff; border:none; border-radius:5px; cursor:pointer;">
-      Notify Me
-    </button>
+  
+  <!-- Products Section -->
+<div id="products" class="tab-content highlight-box" style="padding: 60px 20px; text-align: center; background-color: #1e1e2f;">
+  <h2 style="font-size: 2.2em; font-weight: bold; color: #fff; text-shadow: 0 0 12px #000FFF;">
+    Products
+  </h2>
+
+  <!-- Email Signup -->
+  <p style="margin-top: 20px; font-size: 1.2em; font-weight: 500; color: #fff;">
+    🔥 Don't miss the next drop! Enter your email for early access.
+  </p>
+  <form id="notifyForm" action="https://formspree.io/f/mkgvdbwq" method="POST" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+    <input type="email" name="email" id="notifyEmail" placeholder="Enter your email" required
+           style="padding: 12px 18px; border-radius: 8px; border: none; font-size: 1em; width: 250px; max-width: 100%;">
+    <button type="submit" class="notify-button">Notify Me</button>
   </form>
   <p id="notifyMessage" style="color:#00ff00; margin-top:10px;"></p>
-</div>
 
-<!-- Step 2: JavaScript to handle form submission -->
+  <!-- Product Images -->
+  <!-- First product with blue glow -->
+<img src="https://i.postimg.cc/4yZvRbmT/Untitled-design.jpg"
+     alt="Product Image 1" 
+     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f; margin-bottom: 20px;" />
+
+<!-- Second product with blue glow -->
+<img src="https://i.postimg.cc/sXzGMfyY/Untitled-design.png"
+     alt="Product Image 2" 
+     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f;" />
+
+</section>
+
+<style>
+/* Glowing Notify Me button */
+.notify-button {
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1em;
+  font-weight: 600;
+  background: #000FFF;
+  color: #fff;
+  cursor: pointer;
+  animation: glowPulse 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+.notify-button:hover {
+  transform: scale(1.05);
+}
+
+/* Product cards with glow */
+.product-card {
+  background: #111;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 12px #000FFF, 0 0 25px rgba(0,0,255,0.4);
+  transition: transform 0.3s ease;
+}
+.product-card img {
+  width: 220px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #000FFF, 0 0 40px rgba(0,0,255,0.7);
+}
+
+/* Glow animation */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 8px #000FFF, 0 0 20px #000FFF, 0 0 40px #000FFF;
+  }
+  50% {
+    box-shadow: 0 0 16px #000FFF, 0 0 30px #000FFF, 0 0 60px #000FFF;
+  }
+  100% {
+    box-shadow: 0 0 8px #000FFF, 0 0 20px #000FFF, 0 0 40px #000FFF;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .product-card img {
+    width: 160px;
+  }
+}
+</style>
+
 <script>
 document.getElementById("notifyForm").addEventListener("submit", function(e){
     e.preventDefault();
     const email = document.getElementById("notifyEmail").value;
 
-    fetch("https://formspree.io/f/xandrjkk", {
+    fetch("https://formspree.io/f/mkgvdbwq", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
@@ -568,16 +639,6 @@ document.getElementById("notifyForm").addEventListener("submit", function(e){
     });
 });
 </script>
-
-<!-- First product with blue glow -->
-<img src="https://i.postimg.cc/4yZvRbmT/Untitled-design.jpg"
-     alt="Product Image 1" 
-     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f; margin-bottom: 20px;" />
-
-<!-- Second product with blue glow -->
-<img src="https://i.postimg.cc/sXzGMfyY/Untitled-design.png"
-     alt="Product Image 2" 
-     style="width: 100%; height:auto; border-radius:10px; border: 3px solid #00f; box-shadow: 0 0 20px #00f;" />
 
 </div>
   <div id="promotions" class="tab-content highlight-box">
