@@ -98,22 +98,22 @@
 
    @keyframes glowPulse {
   0% {
-    box-shadow: 0 0 8px var(--glow-color),
+    box-shadow: 0 0 10px var(--glow-color),
                 0 0 20px var(--glow-color),
-                0 0 30px #000FFF,
-                0 0 45px #000FFF;
-  }
-  50% {
-    box-shadow: 0 0 16px var(--glow-color),
-                0 0 30px var(--glow-color),
                 0 0 40px #000FFF,
                 0 0 60px #000FFF;
   }
+  50% {
+    box-shadow: 0 0 20px var(--glow-color),
+                0 0 40px var(--glow-color),
+                0 0 80px #000FFF,
+                0 0 120px #000FFF;
+  }
   100% {
-    box-shadow: 0 0 8px var(--glow-color),
+    box-shadow: 0 0 10px var(--glow-color),
                 0 0 20px var(--glow-color),
-                0 0 30px #000FFF,
-                0 0 45px #000FFF;
+                0 0 40px #000FFF,
+                0 0 60px #000FFF;
   }
 }
 
@@ -132,22 +132,32 @@
   transition: transform 0.3s ease;
 }
 
+/* Icon inside */
 .button img {
   width: 22px;
   height: 22px;
 }
 
-
 /* YouTube */
 .button.youtube {
   background-color: #000FFF;
   --glow-color: #000FFF;
+
+  /* Always glowing + pulsing */
+  box-shadow: 0 0 10px var(--glow-color),
+              0 0 20px var(--glow-color),
+              0 0 40px #000FFF,
+              0 0 60px #000FFF;
   animation: glowPulse 2.5s infinite ease-in-out;
 }
 
+/* Hover = extra pop */
 .button.youtube:hover {
-  background-color: #000FFF;
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px var(--glow-color),
+              0 0 40px var(--glow-color),
+              0 0 80px #000FFF,
+              0 0 120px #000FFF;
 }
 
 /*support*/
@@ -318,118 +328,105 @@
   </script>
 </head>
 <body>
-<!-- Countdown Banner (top of page) -->
-<div id="countdown-banner" style="
+<!-- Countdown Banner -->
+<div id="countdown-banner">
+  <div class="scroll-track" id="scroll-track">
+    <!-- One item, JS will clone it -->
+    <div class="countdown-item">
+      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" alt="R3vival Logo">
+      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #countdown-banner {
     width: 100%;
     height: 70px;
     overflow: hidden;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 1000;
     display: flex;
     align-items: center;
     background: linear-gradient(270deg, #000010, #000033, #000010);
     background-size: 600% 600%;
     animation: gradientShift 10s ease infinite;
-">
-  <div id="countdown-content" style="
-      display: inline-flex;
-      position: absolute;
-      white-space: nowrap;
-      font-size: 1.6em;
-      font-weight: bold;
-      color: #00f;
-      text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
-      gap: 50px;
-      animation: glowPulse 2s infinite alternate;
-  ">
-    <!-- Repeat countdown items -->
-    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
-      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
-           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
-      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
-    </div>
-    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
-      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
-           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
-      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
-    </div>
-    <div class="countdown-item" style="display:flex; align-items:center; gap:20px;">
-      <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
-           alt="R3vival Logo" style="height:50px; filter: drop-shadow(0 0 12px #00F);">
-      <span class="countdown-text">🚨 Dropping September 27th 12AM EST — 0d 0h 0m 0s 🚨</span>
-    </div>
-  </div>
-</div>
+  }
+  .scroll-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-right 25s linear infinite;
+  }
+  .countdown-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 60px;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #00f;
+    white-space: nowrap;
+    text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f;
+    animation: glowPulse 2s infinite alternate;
+  }
+  .countdown-item img {
+    height: 45px;
+    filter: drop-shadow(0 0 12px #00F);
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes glowPulse {
+    0% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+    50% { text-shadow: 0 0 16px #00f, 0 0 30px #00f, 0 0 50px #00f, 0 0 80px #00f; }
+    100% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+  }
+  @keyframes scroll-right {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+  body { margin-top: 80px; } /* push page down so banner doesn't overlap */
+  @media (max-width: 600px) {
+    .countdown-item { font-size: 1.2em; margin-right: 30px; }
+    .countdown-item img { height: 30px; }
+  }
+</style>
 
 <script>
-// Countdown logic
-const dropDate = new Date("Sep 27, 2025 00:00:00 EST").getTime();
-const countdownElements = document.querySelectorAll(".countdown-text");
+  // Duplicate the countdown item multiple times
+  const scrollTrack = document.getElementById("scroll-track");
+  for (let i = 0; i < 5; i++) {
+    const clone = scrollTrack.children[0].cloneNode(true);
+    scrollTrack.appendChild(clone);
+  }
 
-function updateCountdown() {
-  const now = new Date().getTime();
-  const distance = dropDate - now;
+  // Countdown logic
+  const dropDate = new Date("Sep 27, 2025 00:00:00 EST").getTime();
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = dropDate - now;
+    const countdownElements = document.querySelectorAll(".countdown-text");
 
-  countdownElements.forEach(el => {
-    if (distance < 0) {
-      el.innerHTML = "🔥 DROPPED! Check out the shop below 🔥";
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    el.innerHTML = `🚨 Dropping September 27th 12AM EST — ${days}d ${hours}h ${minutes}m ${seconds}s 🚨`;
-  });
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-// Scroll loop
-const content = document.getElementById("countdown-content");
-let pos = -content.offsetWidth / 2;
-function scrollLoop() {
-  pos += 2; // speed
-  if (pos > 0) pos = -content.offsetWidth / 2;
-  content.style.left = pos + "px";
-  requestAnimationFrame(scrollLoop);
-}
-scrollLoop();
+    countdownElements.forEach(el => {
+      if (distance < 0) {
+        el.innerHTML = "🔥 DROPPED! Check out the shop below 🔥";
+      } else {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        el.innerHTML = `🚨 Dropping September 27th 12AM EST — ${days}d ${hours}h ${minutes}m ${seconds}s 🚨`;
+      }
+    });
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
 </script>
 
-<style>
-/* Gradient background animation */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Glowing/flicker effect on text */
-@keyframes glowPulse {
-  0% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
-  50% { text-shadow: 0 0 16px #00f, 0 0 30px #00f, 0 0 50px #00f, 0 0 80px #00f; }
-  100% { text-shadow: 0 0 8px #00f, 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
-}
-
-/* Push content down so banner doesn't cover header */
-body {
-  margin-top: 80px; /* adjust based on banner height */
-}
-
-/* Responsive mobile adjustments */
-@media (max-width: 600px) {
-  #countdown-content {
-    font-size: 1.2em;
-    gap: 30px;
-  }
-  #countdown-content img {
-    height: 35px;
-  }
-}
-</style>
 
   <header>
     <div class="header-text-container">
@@ -787,6 +784,8 @@ document.getElementById("notifyForm").addEventListener("submit", function(e){
   </footer>
 </body>
 
+</html>
+</body>
 </html>
 </body>
 </html>
