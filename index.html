@@ -13,9 +13,6 @@
     }
 
     [data-theme="dark"] {
-      --main-color: #1a1a1a;
-      --background: #0e0e10;
-      --section-bg: #1a1a1d;
       --text-color: #ffffff;
       --link-color: #ffffff;
       --tab-bg: #1a1a1d;
@@ -24,25 +21,16 @@
       --tab-active-color: #000000;
     }
 
-    [data-theme="light"] {
-      --main-color: #ffffff;
-      --background: #f0f0f0;
-      --section-bg: #ffffff;
-      --text-color: #000000;
-      --link-color: #1a1a1a;
-      --tab-bg: #e0e0e0;
-      --tab-hover-bg: #d0d0d0;
-      --tab-active-bg: #0000FF;
-      --tab-active-color: #000000;
-    }
 
     body {
-      margin: 0;
-      background: var(--background);
-      color: var(--text-color);
-      font-family: var(--font-main);
-      transition: background 0.3s, color 0.3s;
-    }
+  margin: 0;
+  background: radial-gradient(circle at top left, #0a0a12, #000000 70%),
+              linear-gradient(135deg, #000000 0%, #000214 100%);
+  background-blend-mode: screen;
+  color: var(--text-color);
+  font-family: var(--font-main);
+}
+
 
     header {
       position: relative;
@@ -96,85 +84,6 @@
         0 0 25px #7CED4Aaa;
     }
 
-   @keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 10px var(--glow-color),
-                0 0 20px var(--glow-color),
-                0 0 40px #000FFF,
-                0 0 60px #000FFF;
-  }
-  50% {
-    box-shadow: 0 0 20px var(--glow-color),
-                0 0 40px var(--glow-color),
-                0 0 80px #000FFF,
-                0 0 120px #000FFF;
-  }
-  100% {
-    box-shadow: 0 0 10px var(--glow-color),
-                0 0 20px var(--glow-color),
-                0 0 40px #000FFF,
-                0 0 60px #000FFF;
-  }
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #fff;
-  gap: 10px;
-  font-size: 1.1em;
-  user-select: none;
-  transition: transform 0.3s ease;
-}
-
-/* Icon inside */
-.button img {
-  width: 22px;
-  height: 22px;
-}
-
-/* YouTube */
-.button.youtube {
-  background-color: #000FFF;
-  --glow-color: #000FFF;
-
-  /* Always glowing + pulsing */
-  box-shadow: 0 0 10px var(--glow-color),
-              0 0 20px var(--glow-color),
-              0 0 40px #000FFF,
-              0 0 60px #000FFF;
-  animation: glowPulse 2.5s infinite ease-in-out;
-}
-
-/* Hover = extra pop */
-.button.youtube:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 20px var(--glow-color),
-              0 0 40px var(--glow-color),
-              0 0 80px #000FFF,
-              0 0 120px #000FFF;
-}
-
-/*support*/
-.button.support {
-    background-color: #000FFF;
-    --glow-color: #000FFF;
-    animation: glowPulse 2.5s infinite ease-in-out;
-
-}
-
-.button.support:hover {
-    background-color: #000FFF;
-    transform: scale(1.10);
-}
-
-
-
 
     .tabs {
       display: flex;
@@ -217,7 +126,6 @@
       border-radius: 16px;
       margin: 40px auto;
       max-width: 900px;
-      box-shadow: var(--glow);
     }
 
     .active-tab {
@@ -233,20 +141,7 @@
       overflow: hidden;
     }
 
-    th, td {
-      padding: 15px;
-      text-align: center;
-      border: 1px solid #444;
-    }
-
-    th {
-      background-color: var(--main-color);
-    }
-
-    td {
-      background-color: #222;
-    }
-
+   
     footer {
       text-align: center;
       padding: 20px;
@@ -255,36 +150,19 @@
       margin-top: 40px;
     }
 
-    .highlight-box {
-      padding: 25px;
-      background-color: var(--section-bg);
-      border-radius: 16px;
-      box-shadow: var(--glow);
-      margin-bottom: 20px;
-    }
+    #about.highlight-box {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
 
     .highlight-box h2 {
       color: var(--accent);
       text-shadow: 0 0 8px var(--accent);
     }
 
-    .theme-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--tab-bg);
-      color: var(--text-color);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .theme-toggle:hover {
-      background: var(--tab-hover-bg);
-    }
   </style>
   <script>
     // Theme toggle functionality
@@ -472,7 +350,7 @@
     <a href="javascript:void(0);" class="tab" onclick="switchTab('prices')">Prices</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('contact')">Contact</a>
   </div>
- <div id="about" class="tab-content active-tab highlight-box">
+ <div id="about" class="tab-content active-tab">
   <style>
     body {
       background-color: #111;
@@ -480,16 +358,17 @@
     }
 
     .about-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 40px;
-      background: linear-gradient(135deg, #111122, #1a1a2f);
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,255,0.4);
-      position: relative;
-      overflow: hidden;
-      animation: glowBox 3s ease-in-out infinite alternate;
-    }
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #111122, #1a1a2f);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,255,0.4);
+  position: relative;
+  overflow: hidden;
+  animation: glowBox 3s ease-in-out infinite alternate;
+}
+
 
     @keyframes glowBox {
       0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
@@ -647,7 +526,8 @@
     }
   </style>
 
-  <div class="about-container">
+  
+<div class="about-container">
     <h2>Welcome to R3vival</h2>
     <h2>👥 About R3vival</h2>
     <p>Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
@@ -700,7 +580,7 @@
 </div>
 
 
-<div id="socials" class="tab-content highlight-box">
+<div id="socials" class="tab-content">
   <style>
     body {
       background-color: #111;
