@@ -323,25 +323,76 @@
 
 
 <header>
-    <div class="header-text-container">
-   
-      <h1>R3vival</h1>
+  <div class="header-text-container" style="text-align:center; padding: 30px;">
+    
+    <h1 style="color:#fff; font-size:3em; text-shadow:0 0 10px #000FFF;">R3vival</h1>
+
     <a href="#home">
       <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
            alt="R3vival Logo" 
-           style="max-width:200px; filter: drop-shadow(0 0 12px #000FFF);">
+           style="max-width:300px; filter: drop-shadow(0 0 12px #000FFF); margin: 20px 0;">
+    </a>
 
-      <p></p> 
-      
-       <div class="button-group">
-  <a href="https://R3vivalapparel.myshopify.com" 
-     class="button youtube" 
-     target="_blank" 
-     rel="noopener noreferrer">
-    <span>Shop Now</span>
-  </a>
-</div>
-  </header>
+    <div class="button-group">
+      <a href="https://R3vivalapparel.myshopify.com" 
+         class="button youtube" 
+         target="_blank" 
+         rel="noopener noreferrer">
+        <span>Shop Now</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<style>
+  .button-group {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #000FFF;
+    color: #ffffff;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 12px rgba(0,0,255,0.8);
+    animation: buttonPulse 3s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes buttonPulse {
+    0% { box-shadow: 0 0 12px rgba(0,0,255,0.6); }
+    50% { box-shadow: 0 0 22px rgba(0,0,255,0.9); }
+    100% { box-shadow: 0 0 12px rgba(0,0,255,0.6); }
+  }
+
+  .button span {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    text-shadow: 0 0 4px rgba(0,0,255,0.8);
+  }
+
+  .button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0,0,255,1);
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2em; }
+    .button { width: 100%; justify-content: center; }
+  }
+</style>
+
 
   <div class="tabs">
     <a href="javascript:void(0);" class="tab active" onclick="switchTab('about')">About Us</a>
@@ -350,30 +401,33 @@
     <a href="javascript:void(0);" class="tab" onclick="switchTab('prices')">Prices</a>
     <a href="javascript:void(0);" class="tab" onclick="switchTab('contact')">Contact</a>
   </div>
- <div id="about" class="tab-content active-tab">
+
+<div id="about" class="tab-content active-tab">
   <style>
     body {
       background-color: #111;
       font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     .about-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 40px;
-  background: linear-gradient(135deg, #111122, #1a1a2f);
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0,0,255,0.4);
-  position: relative;
-  overflow: hidden;
-  animation: glowBox 3s ease-in-out infinite alternate;
-}
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 40px;
+      background: linear-gradient(135deg, #000011, #000022);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,255,0.4);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 
-
-    @keyframes glowBox {
-      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
-      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    .about-container.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Animated background lines */
@@ -401,14 +455,25 @@
 
     .about-container > * { position: relative; z-index: 1; }
 
+    /* Base animation styles */
+    .animate-item {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* Headings */
     .about-container h2 {
       text-align: center;
-      color: #000FFF;
+      color: #00f;
       font-size: 2.2em;
       margin-bottom: 20px;
       text-shadow: 0 0 8px rgba(0,0,255,0.6);
-      animation: textGlow 2.5s ease-in-out infinite alternate;
     }
 
     .about-container h3 {
@@ -417,14 +482,37 @@
       margin: 20px 0 10px;
     }
 
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 6px #000FFF; }
-      100% { text-shadow: 0 0 15px #000FFF; }
+    /* Mission highlight */
+    .mission-highlight {
+      background: rgba(0,0,255,0.1);
+      border-left: 4px solid #00f;
+      padding: 12px 16px;
+      margin: 15px 0;
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,255,0.4);
     }
 
-    /* Paragraphs and lists */
+    /* Quote glow */
+    .highlight-quote {
+      text-align: center;
+      font-style: italic;
+      font-size: 1.2em;
+      color: #fff;
+      margin: 20px 0;
+      text-shadow: 0 0 10px rgba(0,0,255,0.6);
+      animation: quoteGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes quoteGlow {
+      0% { text-shadow: 0 0 8px #00f; }
+      100% { text-shadow: 0 0 18px #00f; }
+    }
+
     .about-container p, .about-container li {
-      color: #ffffff;
+      color: #fff;
       font-size: 1.1em;
       line-height: 1.6em;
       margin-bottom: 12px;
@@ -435,16 +523,32 @@
       margin-bottom: 20px;
     }
 
-    /* Horizontal rules */
+    /* Hover glow for list items */
+    .about-container li {
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .about-container li:hover {
+      color: #00f;
+      text-shadow: 0 0 8px #00f;
+    }
+
+    /* Animated HR */
     .about-container hr {
       border: none;
-      border-top: 2px solid #000FFF;
+      border-top: 2px solid #00f;
       margin: 20px 0;
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    .about-container hr.show {
+      width: 100%;
     }
 
     /* Links */
     .about-container a {
-      color: #000FFF;
+      color: #00f;
       text-decoration: none;
       font-weight: bold;
       position: relative;
@@ -457,7 +561,7 @@
       left: 0; bottom: -3px;
       width: 100%;
       height: 2px;
-      background: #000FFF;
+      background: #00f;
       transform: scaleX(0);
       transform-origin: right;
       transition: transform 0.3s ease;
@@ -478,8 +582,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: #000FFF;
-      color: #ffffff;
+      background: #00f;
+      color: #fff;
       padding: 12px 25px;
       border-radius: 8px;
       font-weight: bold;
@@ -489,13 +593,22 @@
       box-shadow: 0 0 12px rgba(0,0,255,0.8);
       position: relative;
       overflow: hidden;
+      opacity: 0;
+      transform: scale(0.9);
+      margin: 5px 0;
+    }
+
+    .button.show {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .button span {
       position: relative;
       z-index: 1;
-      color: #ffffff;
-      text-shadow: 0 0 4px rgba(0,0,255,0.8); /* subtle neon glow */
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0,0,255,0.8);
     }
 
     .button:hover {
@@ -513,10 +626,31 @@
       transform: rotate(10deg) scale(1.1);
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 768px) {
       .about-container {
-        padding: 30px;
+        padding: 25px 20px;
+      }
+
+      .about-container h2 {
+        font-size: 1.8em;
+      }
+
+      .about-container h3 {
+        font-size: 1.4em;
+      }
+
+      .about-container p, .about-container li {
+        font-size: 1em;
+      }
+
+      .mission-highlight {
+        font-size: 1.1em;
+        padding: 10px 14px;
+      }
+
+      .highlight-quote {
+        font-size: 1em;
       }
 
       .button {
@@ -524,50 +658,84 @@
         justify-content: center;
       }
     }
+
+    @media (max-width: 480px) {
+      .about-container {
+        padding: 20px 15px;
+      }
+
+      .about-container h2 {
+        font-size: 1.6em;
+      }
+
+      .about-container h3 {
+        font-size: 1.2em;
+      }
+
+      .about-container p, .about-container li {
+        font-size: 0.95em;
+      }
+
+      .mission-highlight {
+        font-size: 1em;
+        padding: 8px 12px;
+      }
+
+      .highlight-quote {
+        font-size: 0.95em;
+      }
+    }
   </style>
 
-  
-<div class="about-container">
-    <h2>Welcome to R3vival</h2>
-    <h2>👥 About R3vival</h2>
-    <p>Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
+  <div class="about-container">
+    <h2 class="animate-item">Welcome to R3vival</h2>
+    <h2 class="animate-item">👥 About R3vival</h2>
+    <p class="animate-item">Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
 
-    <hr>
+    <!-- Mission Highlight -->
+    <div class="mission-highlight animate-item">
+      Our mission: To inspire faith through fashion and build a strong, supportive community.
+    </div>
 
-    <h3>🌐 Who We Are</h3>
-    <p>Project R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community.</p>
+    <hr class="animate-item">
+
+    <h3 class="animate-item">🌐 Who We Are</h3>
+    <p class="animate-item">Project R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community.</p>
     <ul>
-      <li>✔️ Stylish Clothing</li>
-      <li>✔️ Showcase Christian values</li>
-      <li>✔️ Focused on quality, professionalism, and personalization</li>
+      <li class="animate-item">✔️ Stylish Clothing</li>
+      <li class="animate-item">✔️ Showcase Christian values</li>
+      <li class="animate-item">✔️ Focused on quality, professionalism, and personalization</li>
     </ul>
 
-    <hr>
+    <hr class="animate-item">
 
-    <h3>Community Connection</h3>
+    <h3 class="animate-item">Community Connection</h3>
     <ul>
-      <li>The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
-      <li>The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
+      <li class="animate-item">The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
+      <li class="animate-item">The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
     </ul>
 
-    <hr>
+    <hr class="animate-item">
 
-    <h3>Why Choose R3vival?</h3>
+    <h3 class="animate-item">Why Choose R3vival?</h3>
     <ul>
-      <li>🔧 Full custom shirts/hoodies – designed from scratch</li>
-      <li>Incredibly comfortable shirts/hoodies</li>
-      <li>💬 Active support and professional service</li>
+      <li class="animate-item">🔧 Full custom shirts/hoodies – designed from scratch</li>
+      <li class="animate-item">Incredibly comfortable shirts/hoodies</li>
+      <li class="animate-item">💬 Active support and professional service</li>
     </ul>
 
-    <p>Whether you're new to a style or a growing brand, R3vival has clothes tailored to your ideas.</p>
+    <p class="animate-item">Whether you're new to a style or a growing brand, R3vival has clothes tailored to your ideas.</p>
 
-    <p><strong>📩 Questions? Need help? Contact us at 
+    <!-- Quote -->
+    <p class="highlight-quote animate-item">“Let your light shine before others.” – Matthew 5:16</p>
+
+    <p class="animate-item"><strong>📩 Questions? Need help? Contact us at 
       <a href="mailto:r3vivalapparel@gmail.com" target="_blank">r3vivalapparel@gmail.com</a>
     </strong> or message us on one of our socials.</p>
 
     <div class="button-group">
       <a href="https://R3vivalapparel.myshopify.com" 
-         class="button" 
+         class="button animate-item" 
          target="_blank" 
          rel="noopener noreferrer">
         <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" 
@@ -577,6 +745,27 @@
       </a>
     </div>
   </div>
+
+  <script>
+    const aboutSection = document.querySelector('.about-container');
+    const animateItems = document.querySelectorAll('.about-container .animate-item, .about-container .button, .about-container hr');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          aboutSection.classList.add('animate');
+          animateItems.forEach((item, index) => {
+            setTimeout(() => { item.classList.add('show'); }, index * 150);
+          });
+        } else {
+          aboutSection.classList.remove('animate');
+          animateItems.forEach(item => item.classList.remove('show'));
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(aboutSection);
+  </script>
 </div>
 
 
@@ -588,25 +777,18 @@
     }
 
     .socials-container {
+      position: relative;
       max-width: 800px;
       margin: 40px auto;
       padding: 30px;
-      background: linear-gradient(135deg, #111122, #1a1a2f);
+      background: linear-gradient(135deg, #000011, #000022); /* Matches About tab */
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,255,0.4);
-      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,255,0.4);
       overflow: hidden;
-      animation: glowBox 3s ease-in-out infinite alternate;
       text-align: center;
     }
 
-    @keyframes glowBox {
-      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
-      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-    }
-
-    /* Subtle moving background pattern */
+    /* Subtle moving background lines like About tab */
     .socials-container::after {
       content: '';
       position: absolute;
@@ -629,7 +811,10 @@
       100% { background-position: 100px 100px; }
     }
 
-    .socials-container > * { position: relative; z-index: 1; }
+    .socials-container > * {
+      position: relative;
+      z-index: 1;
+    }
 
     /* Section headings */
     .socials-container h2 {
@@ -637,12 +822,6 @@
       font-size: 2.2em;
       margin-bottom: 20px;
       text-shadow: 0 0 8px rgba(0,0,255,0.6);
-      animation: textGlow 2.5s ease-in-out infinite alternate;
-    }
-
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 6px #000FFF; }
-      100% { text-shadow: 0 0 15px #000FFF; }
     }
 
     /* Social image */
@@ -692,7 +871,6 @@
       transform-origin: left;
     }
 
-    /* Responsive tweaks */
     @media (max-width: 600px) {
       .socials-container {
         padding: 25px;
@@ -724,16 +902,15 @@
     }
 
     .products-container {
+      position: relative;
       max-width: 900px;
       margin: 40px auto;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #111122, #1a1a2f);
+      padding: 40px;
+      background: linear-gradient(135deg, #000011, #000022);
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,255,0.4);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,255,0.4);
       animation: glowBox 3s ease-in-out infinite alternate;
+      overflow: hidden;
     }
 
     @keyframes glowBox {
@@ -906,225 +1083,234 @@
   100% { box-shadow: 0 0 10px #000FFF88, 0 0 20px #000FFF44; }
 }
 </style>
+</div>
 
 <div id="prices" class="tab-content">
   <style>
     body {
-      background-color: #111; 
+      background-color: #111;
       font-family: "Segoe UI", sans-serif;
       margin: 0;
       padding: 0;
     }
 
-    /* Main section */
     .compare-section {
       position: relative;
-      max-width: 1000px;
+      max-width: 900px;
       margin: 50px auto;
       padding: 50px;
       background: linear-gradient(135deg, #000011, #000022);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0, 0, 255, 0.4);
-      animation: glowBox 3s ease-in-out infinite alternate;
+      box-shadow: 0 0 35px rgba(0, 0, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @keyframes glowBox {
-      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
-      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-    }
-
-    /* Moving subtle background pattern */
-    .compare-section::after {
+    .compare-section::before {
       content: '';
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: repeating-linear-gradient(
         45deg,
-        rgba(0,0,255,0.02),
-        rgba(0,0,255,0.02) 2px,
+        rgba(0,0,255,0.05),
+        rgba(0,0,255,0.05) 2px,
         transparent 2px,
-        transparent 10px
+        transparent 12px
       );
       z-index: 0;
       pointer-events: none;
-      animation: slideBG 10s linear infinite;
     }
 
-    @keyframes slideBG {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
+    .compare-section::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(0,0,255,0.2) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
     }
 
     .compare-section > * { position: relative; z-index: 1; }
 
-    /* Titles */
-    .compare-section h2 {
+    h2 {
       text-align: center;
-      color: #000FFF;
-      font-size: 2.5em;
-      margin-bottom: 30px;
-      text-shadow: 0 0 8px rgba(0,0,255,0.6);
+      color: #00f;
+      font-size: 3.2em;
+      margin-bottom: 50px;
+      text-shadow: 0 0 15px #00f, 0 0 30px rgba(0,0,255,0.6), 0 0 60px rgba(0,0,255,0.4);
       animation: textGlow 2.5s ease-in-out infinite alternate;
+      letter-spacing: 2px;
     }
 
     @keyframes textGlow {
-      0% { text-shadow: 0 0 6px #000FFF; }
-      100% { text-shadow: 0 0 15px #000FFF; }
+      0% { text-shadow: 0 0 6px #00f, 0 0 20px #00f, 0 0 40px rgba(0,0,255,0.3); }
+      100% { text-shadow: 0 0 25px #00f, 0 0 50px #00f, 0 0 75px rgba(0,0,255,0.3); }
     }
 
-    .compare-section h3 {
+    h3 {
       text-align: center;
-      color: #ffffff;
-      font-size: 1.6em;
-      margin: 25px 0 15px;
+      color: #fff;
+      font-size: 2em;
+      margin: 25px 0 25px;
       letter-spacing: 1px;
       text-transform: uppercase;
-    }
-
-    /* Table styling */
-    .comparison-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 35px;
-      table-layout: fixed;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 8px rgba(0,0,255,0.3);
-    }
-
-    .comparison-table th {
-      background-color: #000FFF;
-      color: #ffffff;
-      font-weight: bold;
-      padding: 14px;
-      text-align: center;
-      text-transform: uppercase;
-      border-bottom: 2px solid #ffffff;
-      box-shadow: inset 0 0 8px rgba(0,0,255,0.5);
-    }
-
-    .comparison-table td {
       position: relative;
-      padding: 12px;
-      text-align: center;
-      color: #ffffff;
-      border: 1px solid rgba(0,0,255,0.3);
-      background: rgba(0,0,255,0.05);
-      transition: all 0.3s ease;
-      overflow: hidden;
     }
 
-    .comparison-table td:first-child {
-      font-weight: 600;
-      color: #000FFF;
-    }
-
-    /* Row hover effect */
-    .comparison-table tbody tr:hover td {
-      background: rgba(0,0,255,0.15);
-      transform: scale(1.02);
-      box-shadow: 0 0 10px rgba(0,0,255,0.3);
-    }
-
-    /* Subtle gradient shimmer effect */
-    .comparison-table td::before {
+    h3::after {
       content: '';
-      position: absolute;
-      top: 0; left: -100%;
+      display: block;
+      width: 60px;
+      height: 4px;
+      margin: 10px auto 0;
+      background: #00f;
+      border-radius: 2px;
+      animation: underlineGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes underlineGlow {
+      0% { box-shadow: 0 0 5px #00f; }
+      100% { box-shadow: 0 0 20px #00f; }
+    }
+
+    .prices-grid {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shimmer 3s infinite;
     }
 
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
+    .price-card {
+      background: rgba(0,0,255,0.05);
+      border: 1px solid rgba(0,0,255,0.3);
+      border-radius: 15px;
+      width: 45%;
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(0,0,255,0.5);
+      transition: box-shadow 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 1s ease forwards;
     }
 
-    /* Responsive tweaks */
+    .price-card:hover {
+      box-shadow: 0 0 50px rgba(0,0,255,0.9), 0 0 60px rgba(0,0,255,0.4) inset;
+    }
+
+    .price-card h4 {
+      text-align: center;
+      color: #00f;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      text-shadow: 0 0 10px #00f;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 10px;
+      border-bottom: 1px solid rgba(0,0,255,0.2);
+      align-items: center;
+    }
+
+    .price-row:last-child { border-bottom: none; }
+
+    .item-name { color: #fff; font-weight: 600; }
+    .price { color: #00f; font-weight: bold; text-align: right; }
+
+    .badge {
+      display: inline-block;
+      background: #00f;
+      color: #fff;
+      font-size: 0.8em;
+      font-weight: bold;
+      padding: 3px 6px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      margin-left: 5px;
+      box-shadow: 0 0 12px #00f;
+      animation: badgeGlow 2s ease-in-out infinite alternate;
+    }
+
+    /* Glowing badge animation */
+    @keyframes badgeGlow {
+      0% { box-shadow: 0 0 6px #00f; }
+      50% { box-shadow: 0 0 20px #00f, 0 0 40px rgba(0,0,255,0.4); }
+      100% { box-shadow: 0 0 6px #00f; }
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive tweaks for mobile readability */
     @media (max-width: 768px) {
-      .comparison-table { font-size: 0.95em; }
+      .price-card { width: 100%; }
+      h2 { font-size: 2.5em; }
+      h3 { font-size: 2.2em; }
+      .price-card h4 { font-size: 2em; }
+      .badge { font-size: 0.95em; padding: 4px 8px; }
     }
 
-    @media (max-width: 600px) {
-      .compare-section { padding: 30px; }
-      .comparison-table { font-size: 0.85em; }
+    @media (max-width: 480px) {
+      h2 { font-size: 2.2em; }
+      h3 { font-size: 2em; }
+      .price-card h4 { font-size: 1.8em; }
+      .badge { font-size: 1em; padding: 5px 10px; }
     }
   </style>
 
   <div class="compare-section">
     <h2>R3vival Prices</h2>
 
-    <!-- Shirts Table -->
     <h3>Shirts</h3>
-    <table class="comparison-table">
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>R3vival</th>
-          <th>Custom</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>100% Cotton</td>
-          <td>$35.99</td>
-          <td>$50.99</td>
-        </tr>
-        <tr>
-          <td>Polyester</td>
-          <td>$45.99</td>
-          <td>$55.99</td>
-        </tr>
-        <tr>
-          <td>Cotton/Polyester Mix</td>
-          <td>$42.99</td>
-          <td>$50.99</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="prices-grid">
+      <div class="price-card">
+        <h4>R3vival</h4>
+        <div class="price-row"><span class="item-name">100% Cotton <span class="badge">Best Value</span></span> <span class="price">$35.99</span></div>
+        <div class="price-row"><span class="item-name">Polyester</span> <span class="price">$45.99</span></div>
+        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$42.99</span></div>
+      </div>
+      <div class="price-card">
+        <h4>Custom</h4>
+        <div class="price-row"><span class="item-name">100% Cotton</span> <span class="price">$50.99</span></div>
+        <div class="price-row"><span class="item-name">Polyester</span> <span class="price">$55.99</span></div>
+        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$50.99</span></div>
+      </div>
+    </div>
 
-    <!-- Hoodies Table -->
     <h3>Hoodies</h3>
-    <table class="comparison-table">
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>R3vival</th>
-          <th>Custom</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>100% Cotton</td>
-          <td>$49.99</td>
-          <td>$69.99</td>
-        </tr>
-        <tr>
-          <td>Cotton/Polyester Mix</td>
-          <td>$54.99</td>
-          <td>$69.99</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="prices-grid">
+      <div class="price-card">
+        <h4>R3vival</h4>
+        <div class="price-row"><span class="item-name">100% Cotton <span class="badge">Best Value</span></span> <span class="price">$49.99</span></div>
+        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$54.99</span></div>
+      </div>
+      <div class="price-card">
+        <h4>Custom</h4>
+        <div class="price-row"><span class="item-name">100% Cotton</span> <span class="price">$69.99</span></div>
+        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$69.99</span></div>
+      </div>
+    </div>
   </div>
 </div>
 
-
-  <div id="contact" class="tab-content highlight-box">
+<div id="contact" class="tab-content highlight-box">
   <style>
     body {
       background-color: #111;
       font-family: "Segoe UI", sans-serif;
     }
 
-    /* Contact container */
     .contact-container {
       position: relative;
       max-width: 600px;
@@ -1132,18 +1318,20 @@
       padding: 40px;
       background: linear-gradient(135deg, #000011, #000022);
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,255,0.4);
-      animation: glowBox 3s ease-in-out infinite alternate;
+      box-shadow: 0 0 25px rgba(0,0,255,0.5);
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 1s ease-in-out;
     }
 
-    @keyframes glowBox {
-      0% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
-      50% { box-shadow: 0 0 18px rgba(0,0,255,0.6); }
-      100% { box-shadow: 0 0 12px rgba(0,0,255,0.4); }
+    .contact-container.animate {
+      opacity: 1;
+      transform: translateY(0);
+      box-shadow: 0 0 35px rgba(0,0,255,0.7);
     }
 
-    /* Animated background lines */
+    /* Background diagonal lines */
     .contact-container::after {
       content: '';
       position: absolute;
@@ -1154,16 +1342,16 @@
         rgba(0,0,255,0.02),
         rgba(0,0,255,0.02) 2px,
         transparent 2px,
-        transparent 10px
+        transparent 12px
       );
       z-index: 0;
       pointer-events: none;
-      animation: slideBG 10s linear infinite;
+      animation: slideBG 15s linear infinite;
     }
 
     @keyframes slideBG {
       0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
+      100% { background-position: 150px 150px; }
     }
 
     .contact-container > * { position: relative; z-index: 1; }
@@ -1176,10 +1364,7 @@
       filter: drop-shadow(0 0 12px #000FFF);
       transition: transform 0.3s ease;
     }
-
-    .contact-header img:hover {
-      transform: scale(1.05);
-    }
+    .contact-header img:hover { transform: scale(1.05); }
 
     .contact-container h2 {
       text-align: center;
@@ -1189,37 +1374,52 @@
       text-shadow: 0 0 8px rgba(0,0,255,0.6);
       animation: textGlow 2.5s ease-in-out infinite alternate;
     }
-
     @keyframes textGlow {
       0% { text-shadow: 0 0 6px #000FFF; }
       100% { text-shadow: 0 0 15px #000FFF; }
     }
 
-    /* Form elements */
+    /* Form styling */
+    .contact-form .form-group { position: relative; margin-top: 20px; }
     .contact-form label {
       font-weight: bold;
       display: block;
-      margin-top: 15px;
-      color: #ffffff;
+      color: #fff;
+      margin-bottom: 6px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    .contact-form label.show { opacity:1; transform: translateY(0); }
+
+    .contact-form .icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #000FFF;
+      pointer-events: none;
+      font-size: 18px;
     }
 
-    .contact-form input,
-    .contact-form textarea {
+    .contact-form input, .contact-form textarea {
       width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border-radius: 8px;
+      padding: 14px 14px 14px 45px;
+      border-radius: 10px;
       border: 1px solid #000FFF;
       background: #1a1a2e;
       color: #fff;
       font-size: 16px;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease, box-shadow 0.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      box-sizing: border-box;
     }
+    .contact-form input.show, .contact-form textarea.show { opacity: 1; transform: translateY(0); }
 
-    .contact-form input:focus,
-    .contact-form textarea:focus {
+    .contact-form input:focus, .contact-form textarea:focus {
       outline: none;
-      box-shadow: 0 0 8px rgba(0,0,255,0.6);
+      box-shadow: 0 0 12px rgba(0,0,255,0.8);
       border-color: #000FFF;
     }
 
@@ -1231,44 +1431,38 @@
       border: none;
       padding: 14px;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 0 12px rgba(0,0,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,255,0.8);
       position: relative;
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
     }
+    .contact-form button.show { opacity: 1; transform: translateY(0); }
 
-    /* Button hover with subtle shimmer */
+    .contact-form button:hover { transform: scale(1.03); box-shadow: 0 0 25px rgba(0,0,255,1); }
     .contact-form button::before {
       content: '';
       position: absolute;
       top:0; left:-100%;
-      width:100%;
-      height:100%;
+      width:100%; height:100%;
       background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
       transform: skewX(-20deg);
       pointer-events: none;
       animation: shimmer 3s infinite;
     }
+    @keyframes shimmer { 0%{left:-100%;} 100%{left:100%;} }
 
-    .contact-form button:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 18px rgba(0,0,255,0.9);
-    }
-
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-
-    /* Responsive tweaks */
+    /* Responsive */
     @media (max-width: 600px) {
-      .contact-container {
-        padding: 30px;
-      }
+      .contact-container { padding: 25px 15px; }
+      .contact-container h2 { font-size: 1.8em; }
+      .contact-form input, .contact-form textarea, .contact-form button { font-size: 16px; padding:12px; }
+      .contact-form .icon { font-size:16px; left:10px; }
     }
   </style>
 
@@ -1282,22 +1476,56 @@
     <h2>Contact R3vival Support</h2>
 
     <form class="contact-form" action="https://formspree.io/f/mkgvdbwq" method="POST">
-      <label for="name">Your Name</label>
-      <input type="text" name="name" id="name" required>
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <span class="icon">👤</span>
+        <input type="text" name="name" id="name" required>
+      </div>
 
-      <label for="email">Your Email</label>
-      <input type="email" name="email" id="email" required>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <span class="icon">📧</span>
+        <input type="email" name="email" id="email" required>
+      </div>
 
-      <label for="message">Your Message</label>
-      <textarea name="message" id="message" required style="height:120px; resize:vertical;"></textarea>
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <span class="icon">💬</span>
+        <textarea name="message" id="message" required style="height:120px; resize:vertical;"></textarea>
+      </div>
 
       <button type="submit">Send Message</button>
     </form>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const contactSection = document.querySelector('.contact-container');
+      const animateItems = contactSection.querySelectorAll('h2, label, input, textarea, button');
+
+      if('IntersectionObserver' in window){
+        const observer = new IntersectionObserver(entries=>{
+          entries.forEach(entry=>{
+            if(entry.isIntersecting){
+              contactSection.classList.add('animate');
+              animateItems.forEach((item,i)=>{
+                setTimeout(()=>{ item.classList.add('show'); }, i*120);
+              });
+            } else {
+              contactSection.classList.remove('animate');
+              animateItems.forEach(item=>item.classList.remove('show'));
+            }
+          });
+        },{threshold:0.2});
+        observer.observe(contactSection);
+      } else {
+        contactSection.classList.add('animate');
+        animateItems.forEach(item=>item.classList.add('show'));
+      }
+    });
+  </script>
 </div>
 
-
-</div>
   <footer>
     © 2025 R3vival
   </footer>
