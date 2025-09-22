@@ -31,8 +31,7 @@
   font-family: var(--font-main);
 }
 
-
-    header {
+ header {
       position: relative;
       background: url('') no-repeat center center/cover;
       color: #000FFF;
@@ -92,6 +91,7 @@
       flex-wrap: wrap;
     }
 
+   
     .tabs a {
       text-decoration: none;
       padding: 15px 30px;
@@ -206,8 +206,10 @@
   </script>
 </head>
 <body>
-<!-- Countdown Banner -->
+
+<!-- Countdown Banner moving RIGHT -->
 <div id="countdown-banner">
+  <canvas id="particles-canvas"></canvas>
   <div class="scroll-track" id="scroll-track">
     <div class="countdown-item">
       <img src="https://i.postimg.cc/ZKbH32Xr/r3vival-logo-removebg-preview.png" alt="R3vival Logo">
@@ -220,20 +222,31 @@
 <style>
   #countdown-banner {
     width: 100%;
-    height: 70px;
+    height: 80px;
     overflow: hidden;
     display: flex;
     align-items: center;
+    position: relative;
+    margin-bottom: 20px;
     background: linear-gradient(270deg, #000010, #000022, #000010);
     background-size: 600% 600%;
     animation: gradientShift 15s ease infinite;
-    margin-bottom: 20px;
+  }
+
+  #particles-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
   }
 
   .scroll-track {
     display: flex;
     width: max-content;
-    animation: scroll-right 30s linear infinite;
+    animation: scroll-right 20s linear infinite;
+    position: relative;
+    z-index: 1;
   }
 
   .countdown-item {
@@ -245,30 +258,38 @@
     font-weight: bold;
     color: #00f;
     white-space: nowrap;
-    text-shadow: 0 0 4px #00f;
+    text-shadow: 0 0 6px #00f, 0 0 12px #0ff;
+    animation: itemGlow 3s ease-in-out infinite alternate;
     position: relative;
   }
 
   .countdown-item img {
-    height: 40px;
-    filter: drop-shadow(0 0 6px #00f);
+    height: 45px;
+    filter: drop-shadow(0 0 8px #00f);
     animation: logoPulse 2s infinite alternate;
   }
 
   .sparkle {
+    font-size: 1.3em;
+    position: relative;
+    display: inline-block;
     animation: sparkleAnim 1.5s infinite;
-    font-size: 1.2em;
   }
 
-  @keyframes sparkleAnim {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2) rotate(10deg); }
+  .sparkle::after {
+    content: "✨";
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0.4;
+    transform: translate(-4px, -4px) scale(0.8);
+    filter: blur(4px);
+    animation: sparkleTrail 1.5s infinite;
   }
 
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  @keyframes sparkleTrail {
+    0% { opacity: 0.4; transform: translate(-4px,-4px) scale(0.8); }
+    50% { opacity: 0; transform: translate(-10px,-10px) scale(0.6); }
+    100% { opacity: 0.4; transform: translate(-4px,-4px) scale(0.8); }
   }
 
   @keyframes scroll-right {
@@ -278,13 +299,30 @@
 
   @keyframes logoPulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
     100% { transform: scale(1); }
+  }
+
+  @keyframes itemGlow {
+    0% { text-shadow: 0 0 6px #00f; }
+    50% { text-shadow: 0 0 14px #00f, 0 0 20px #0ff; }
+    100% { text-shadow: 0 0 6px #00f; }
+  }
+
+  @keyframes sparkleAnim {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   @media (max-width: 600px) {
     .countdown-item { font-size: 1em; margin-right: 30px; }
-    .countdown-item img { height: 30px; }
+    .countdown-item img { height: 35px; }
     .sparkle { font-size: 1em; }
   }
 </style>
@@ -294,8 +332,7 @@
   const scrollTrack = document.getElementById("scroll-track");
   const firstItem = scrollTrack.children[0];
 
-  // Clone items for continuous scroll
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     scrollTrack.appendChild(firstItem.cloneNode(true));
   }
 
@@ -319,6 +356,54 @@
 
   setInterval(updateCountdown, 1000);
   updateCountdown();
+
+  // Particle background
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = canvas.offsetWidth;
+  let height = canvas.height = canvas.offsetHeight;
+
+  const particles = [];
+  const particleCount = 60;
+
+  class Particle {
+    constructor(){
+      this.x = Math.random()*width;
+      this.y = Math.random()*height;
+      this.size = Math.random()*3 + 1;
+      this.speed = Math.random()*0.5 + 0.2;
+      this.alpha = Math.random()*0.5 + 0.3;
+    }
+    update(){
+      this.x += this.speed; // now moves right
+      if(this.x > width) this.x = 0;
+    }
+    draw(){
+      ctx.fillStyle = `rgba(0, 0, 255, ${this.alpha})`;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  for(let i=0;i<particleCount;i++){
+    particles.push(new Particle());
+  }
+
+  function animateParticles(){
+    ctx.clearRect(0,0,width,height);
+    particles.forEach(p=>{
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  window.addEventListener('resize', ()=>{
+    width = canvas.width = canvas.offsetWidth;
+    height = canvas.height = canvas.offsetHeight;
+  });
 </script>
 
 
