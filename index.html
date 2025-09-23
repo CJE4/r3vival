@@ -206,7 +206,7 @@
   </script>
 </head>
 <body>
-
+</header>
 <!-- Countdown Banner moving RIGHT -->
 <div id="countdown-banner">
   <canvas id="particles-canvas"></canvas>
@@ -406,6 +406,172 @@
   });
 </script>
 
+<!-- Preorder Banner (Standalone) -->
+<div id="preorder-banner-unique">
+  <canvas id="preorder-canvas-unique"></canvas>
+  <div class="preorder-scroll-track-unique" id="preorder-scroll-unique">
+    <div class="preorder-item-unique">
+      🔥 Preorder Now on Cash App! Secure your R3vival gear before the drop on September 27th! 🔥
+      <span class="sparkle-unique"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #preorder-banner-unique {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+    background: linear-gradient(270deg, #001100, #003300, #001100);
+    background-size: 600% 600%;
+    animation: gradientShiftUnique 15s ease infinite;
+  }
+
+  #preorder-canvas-unique {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .preorder-scroll-track-unique {
+    display: flex;
+    width: max-content;
+    animation: scrollRightUnique 20s linear infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  .preorder-item-unique {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 60px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #00FF00;
+    white-space: nowrap;
+    text-shadow: 0 0 6px #00FF00, 0 0 12px #88FF88;
+    animation: itemGlowUnique 3s ease-in-out infinite alternate;
+    position: relative;
+  }
+
+  .sparkle-unique {
+    font-size: 1.3em;
+    position: relative;
+    display: inline-block;
+    animation: sparkleAnimUnique 1.5s infinite;
+  }
+
+  .sparkle-unique::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0.4;
+    transform: translate(-4px, -4px) scale(0.8);
+    filter: blur(4px);
+    animation: sparkleTrailUnique 1.5s infinite;
+  }
+
+  @keyframes sparkleTrailUnique {
+    0% { opacity: 0.4; transform: translate(-4px,-4px) scale(0.8); }
+    50% { opacity: 0; transform: translate(-10px,-10px) scale(0.6); }
+    100% { opacity: 0.4; transform: translate(-4px,-4px) scale(0.8); }
+  }
+
+  @keyframes scrollRightUnique {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes itemGlowUnique {
+    0% { text-shadow: 0 0 6px #00FF00; }
+    50% { text-shadow: 0 0 14px #00FF00, 0 0 20px #88FF88; }
+    100% { text-shadow: 0 0 6px #00FF00; }
+  }
+
+  @keyframes sparkleAnimUnique {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+  }
+
+  @keyframes gradientShiftUnique {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @media (max-width: 600px) {
+    .preorder-item-unique { font-size: 1em; margin-right: 30px; }
+    .sparkle-unique { font-size: 1em; }
+  }
+</style>
+
+<script>
+  const scrollTrackUnique = document.getElementById("preorder-scroll-unique");
+  const firstItemUnique = scrollTrackUnique.children[0];
+
+  for (let i = 0; i < 6; i++) {
+    scrollTrackUnique.appendChild(firstItemUnique.cloneNode(true));
+  }
+
+  // Glowing green streaks for background
+  const canvasUnique = document.getElementById('preorder-canvas-unique');
+  const ctxUnique = canvasUnique.getContext('2d');
+  let widthUnique = canvasUnique.width = canvasUnique.offsetWidth;
+  let heightUnique = canvasUnique.height = canvasUnique.offsetHeight;
+
+  const streaksUnique = [];
+  const streakCountUnique = 60;
+
+  class StreakUnique {
+    constructor(){
+      this.x = Math.random()*widthUnique;
+      this.y = Math.random()*heightUnique;
+      this.length = Math.random()*30 + 10;
+      this.speed = 0.5;
+      this.alpha = Math.random()*0.4 + 0.2;
+    }
+    update(){
+      this.x += this.speed;
+      if(this.x > widthUnique) this.x = -this.length;
+    }
+    draw(){
+      ctxUnique.strokeStyle = `rgba(0,255,0,${this.alpha})`;
+      ctxUnique.lineWidth = 2;
+      ctxUnique.beginPath();
+      ctxUnique.moveTo(this.x, this.y);
+      ctxUnique.lineTo(this.x + this.length, this.y);
+      ctxUnique.stroke();
+    }
+  }
+
+  for(let i=0;i<streakCountUnique;i++){
+    streaksUnique.push(new StreakUnique());
+  }
+
+  function animateStreaksUnique(){
+    ctxUnique.clearRect(0,0,widthUnique,heightUnique);
+    streaksUnique.forEach(s=>{
+      s.update();
+      s.draw();
+    });
+    requestAnimationFrame(animateStreaksUnique);
+  }
+  animateStreaksUnique();
+
+  window.addEventListener('resize', ()=>{
+    widthUnique = canvasUnique.width = canvasUnique.offsetWidth;
+    heightUnique = canvasUnique.height = canvasUnique.offsetHeight;
+  });
+</script>
+
+ 
 
 <header>
   <div class="header-text-container" style="text-align:center; padding: 30px;">
@@ -417,18 +583,16 @@
            alt="R3vival Logo" 
            style="max-width:300px; filter: drop-shadow(0 0 12px #000FFF); margin: 20px 0;">
     </a>
-
-    <div class="button-group">
-      <a href="https://R3vivalapparel.myshopify.com" 
-         class="button youtube" 
-         target="_blank" 
-         rel="noopener noreferrer">
-        <span>Shop Now</span>
-      </a>
-    </div>
-
-  </div>
-</header>
+  </p>
+  <a href="https://cash.app/$riccowalkswithgod" target="_blank"
+     style="display:inline-block; margin-top:15px; padding:12px 30px;
+            font-size:1.3em; color:#000; background: #00ffff;
+            border-radius:10px; text-decoration:none; font-weight:bold;
+            box-shadow:0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 45px #00ffff;
+            transition: all 0.3s ease;">
+    Preorder Now
+  </a>
+</section>
 
 <style>
   .button-group {
