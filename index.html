@@ -207,6 +207,119 @@
   </script>
 </head>
 <body>
+      <!-- Overlay Countdown Container -->
+<div id="countdownOverlay">
+  <div class="overlayContent">
+    <h1>R3vival Merch Drop</h1>
+    <div class="under-construction">🚧 Coming Soon 🚧</div>
+
+    <div class="countdown">
+      <div id="days">0<span>DAYS</span></div>
+      <div id="hours">0<span>HOURS</span></div>
+      <div id="minutes">0<span>MINUTES</span></div>
+      <div id="seconds">0<span>SECONDS</span></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Fullscreen overlay */
+  #countdownOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,34,0.95); /* semi-transparent dark blue */
+    backdrop-filter: blur(1px); /* blur the site behind */
+    z-index: 9999; /* in front of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Content inside overlay */
+  .overlayContent {
+    text-align: center;
+    color: #fff;
+    animation: fadeIn 1s ease;
+  }
+
+  h1 {
+    font-size: 3em;
+    color: #000fff;
+    text-shadow: 0 0 10px #000fff, 0 0 20px #000fff, 0 0 40px #000fff;
+    margin-bottom: 20px;
+    animation: glowPulse 2s infinite alternate;
+  }
+
+  .under-construction {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    text-shadow: 0 0 8px #000fff, 0 0 15px #000fff;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 2em;
+    flex-wrap: wrap;
+  }
+
+  .countdown div {
+    background: rgba(0,0,255,0.2);
+    padding: 20px 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #000fff, 0 0 30px #000fff inset;
+    min-width: 70px;
+  }
+
+  .countdown span {
+    display: block;
+    font-size: 0.5em;
+    margin-top: 5px;
+    color: #00f;
+  }
+
+  @keyframes glowPulse {
+    0% { text-shadow: 0 0 10px #000fff, 0 0 20px #000fff, 0 0 40px #000fff; }
+    100% { text-shadow: 0 0 20px #00f, 0 0 40px #00f, 0 0 60px #00f; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>
+
+<script>
+  // Countdown target date: Sept 27th 2025 12:00 PM
+  const dropDate = new Date("September 27, 2025 12:00:00").getTime();
+
+  const countdown = () => {
+    const now = new Date().getTime();
+    const distance = dropDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days + "<span>DAYS</span>";
+    document.getElementById("hours").innerHTML = hours + "<span>HOURS</span>";
+    document.getElementById("minutes").innerHTML = minutes + "<span>MINUTES</span>";
+    document.getElementById("seconds").innerHTML = seconds + "<span>SECONDS</span>";
+
+    // Hide overlay and show site when countdown ends
+    if(distance <= 0){
+      clearInterval(timerInterval);
+      document.getElementById("countdownOverlay").style.display = "none";
+    }
+  };
+
+  const timerInterval = setInterval(countdown, 1000);
+  countdown();
+</script>
 </header>
 <!-- Countdown Banner moving RIGHT -->
 <div id="countdown-banner">
