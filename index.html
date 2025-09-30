@@ -1,349 +1,123 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>WEIRD — press things, type t</title>
-<style>
-  /* Weird, loud styling */
-  :root{
-    --bg1: #04111f; --bg2:#12002b; --accent1:#00ffea; --accent2:#ff00c8;
-  }
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:
-    radial-gradient(1200px 800px at 10% 10%, rgba(0,255,234,0.08), transparent),
-    radial-gradient(700px 500px at 90% 90%, rgba(255,0,200,0.06), transparent),
-    linear-gradient(120deg,var(--bg1),var(--bg2));
-    overflow:hidden;color:#e7fbff}
-  /* Title block */
-  header{padding:30px;text-align:center}
-  h1{
-    margin:0;font-size:3rem;letter-spacing:2px;
-    background:linear-gradient(90deg,var(--accent1),var(--accent2));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 6px 10px rgba(0,0,0,0.6));
-    transform:skewX(-6deg);
-  }
-  p.sub{opacity:0.9;margin-top:6px;font-size:0.95rem;color:#cce}
-  /* floating weird panel */
-  .panel{
-    position:relative;margin:26px auto;max-width:1100px;padding:18px;border-radius:18px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);
-    display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;
-  }
-  .left{flex:1;min-width:280px}
-  .right{width:360px;min-width:240px}
-  /* weird buttons */
-  .btn{
-    display:inline-block;padding:12px 14px;border-radius:12px;border:0;
-    background:linear-gradient(90deg,#0ff,#f0f);color:#001;font-weight:800;cursor:pointer;
-    box-shadow:0 8px 24px rgba(0,0,0,0.5), inset 0 -3px 10px rgba(0,0,0,0.15);
-    transform:translateY(0);transition:transform .12s ease, box-shadow .12s;
-    user-select:none;
-  }
-  .btn:active{transform:translateY(2px) rotate(-1deg);box-shadow:0 4px 12px rgba(0,0,0,0.6)}
-  .controls{display:flex;gap:10px;flex-wrap:wrap}
-  .muted{color:rgba(220,240,255,0.6);font-size:0.9rem}
-  /* weird background shapes */
-  .blob{
-    position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;
-    background:conic-gradient(from 120deg, rgba(0,255,234,0.15), rgba(255,0,200,0.08));
-    filter:blur(28px);transform:rotate(12deg);pointer-events:none;mix-blend-mode:screen;
-  }
-  .blob2{left:-80px;bottom:-80px;width:420px;height:420px;border-radius:50%;
-    background:conic-gradient(from 90deg, rgba(255,0,200,0.12), rgba(0,255,234,0.06));
-    filter:blur(36px);transform:rotate(-8deg);pointer-events:none;mix-blend-mode:screen;
-  }
-
-  /* glitchy instructions */
-  .glitch{
-    font-weight:900;font-size:1.1rem;letter-spacing:0.6px;
-    background:repeating-linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 10px);
-    padding:10px;border-radius:10px;display:inline-block;position:relative;
-    overflow:hidden;
-  }
-  .glitch::before,.glitch::after{
-    content:attr(data-text);position:absolute;left:0;top:0;width:100%;
-    height:100%;mix-blend-mode:screen;opacity:0.6;
-    transform:translate(0,0);
-    clip-path:polygon(0 0,100% 0,100% 33%,0 33%);
-  }
-  .glitch::before{transform:translate(-6px,-2px);color:var(--accent1)}
-  .glitch::after{transform:translate(6px,2px);color:var(--accent2);clip-path:polygon(0 66%,100% 66%,100% 100%,0 100%)}
-
-  /* popup styles */
-  .popup{
-    position:fixed;padding:12px 14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-    color:#081019;font-weight:800;border:2px solid rgba(0,0,0,0.12);
-    box-shadow:0 20px 60px rgba(0,0,0,0.55);z-index:9999;min-width:120px;max-width:320px;
-    transform-origin:center center;pointer-events:auto;cursor:grab;
-  }
-  .popup .x{position:absolute;right:8px;top:6px;background:transparent;border:0;color:rgba(0,0,0,0.6);font-weight:900;cursor:pointer}
-  /* wobble/float animations */
-  @keyframes floaty {
-    0%{transform:translateY(0) rotate(-1deg)}
-    50%{transform:translateY(-8px) rotate(2deg)}
-    100%{transform:translateY(0) rotate(-1deg)}
-  }
-  .popup{animation:floaty 3s ease-in-out infinite}
-  /* pop-in */
-  .pop-in{animation:popIn .24s cubic-bezier(.2,.9,.2,1)}
-  @keyframes popIn{0%{transform:scale(.2) rotate(-15deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
-
-  /* tiny spinny icon */
-  .spin{display:inline-block;margin-right:8px;transform-origin:center;animation:spin 4s linear infinite}
-  @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-
-  /* footer */
-  footer{position:fixed;left:12px;bottom:12px;color:rgba(200,240,255,0.6);font-size:0.85rem}
-  /* mobile */
-  @media (max-width:720px){
-    h1{font-size:2.2rem} .right{width:100%}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #111;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      flex-direction: column;
+    }
+    canvas {
+      background: #222;
+      border: 3px solid #0f0;
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #0f0;
+      text-shadow: 0 0 10px #0f0;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>WEIRD</h1>
-  <div class="sub">Make things pop. Type <strong>t</strong> repeatedly. Click buttons. Chaos occurs.</div>
-</header>
+  <h1>Snake Game 🐍</h1>
+  <canvas id="game" width="400" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
 
-<div class="panel">
-  <div class="left">
-    <div class="glitch" data-text="PRESS STUFF">PRESS STUFF</div>
-    <p class="muted" style="margin-top:8px">
-      Buttons spawn popups that appear in random places. Each popup is draggable, quirky, and can spawn more popups when clicked.
-    </p>
+    const box = 20;
+    let snake = [{ x: 9 * box, y: 10 * box }];
+    let direction;
+    let food = {
+      x: Math.floor(Math.random() * 19) * box,
+      y: Math.floor(Math.random() * 19) * box
+    };
+    let score = 0;
 
-    <div style="margin-top:16px" class="controls">
-      <button class="btn" id="btnPop">POP</button>
-      <button class="btn" id="btnShower">SHOWER</button>
-      <button class="btn" id="btnRave">RAVE</button>
-      <button class="btn" id="btnWeird">WEIRD MODE</button>
-    </div>
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
+      else if (e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
+      else if (e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
+      else if (e.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
+    });
 
-    <div style="margin-top:18px">
-      <label class="muted">Custom popup text</label>
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <input id="customText" placeholder="say something weird..." style="flex:1;padding:10px;border-radius:10px;border:none" />
-        <button class="btn" id="btnCustom">SEND</button>
-      </div>
-    </div>
-  </div>
+    function draw() {
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  <div class="right">
-    <div style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px">
-      <strong>HOW TO</strong>
-      <p class="muted" style="margin-top:8px">Type <strong>t</strong> anywhere — every press spawns a popup. Hold for lots. Click any popup to cascade more.</p>
-      <p class="muted" style="margin-top:6px">Tip: toggle "WEIRD MODE" to invert colors and speed things up.</p>
-    </div>
-    <div style="height:18px"></div>
-    <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.02)">
-      <strong>Popup log</strong>
-      <div id="log" class="muted" style="margin-top:8px;height:140px;overflow:auto;font-size:0.9rem"></div>
-    </div>
-  </div>
+      // Draw snake
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? "#0f0" : "#fff";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        ctx.strokeStyle = "#111";
+        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+      }
 
-  <div class="blob"></div>
-  <div class="blob2"></div>
-</div>
+      // Draw food
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, box, box);
 
-<footer>Made to be silly — refresh to clear</footer>
+      // Snake movement
+      let snakeX = snake[0].x;
+      let snakeY = snake[0].y;
 
-<script>
-/* ---------- behavior: spawn popups ---------- */
-const logEl = document.getElementById('log');
-let weirdMode = false;
+      if (direction === "UP") snakeY -= box;
+      if (direction === "DOWN") snakeY += box;
+      if (direction === "LEFT") snakeX -= box;
+      if (direction === "RIGHT") snakeX += box;
 
-/* utility: random number in range */
-const rnd = (min,max)=> Math.floor(Math.random()*(max-min+1))+min;
+      // Eat food
+      if (snakeX === food.x && snakeY === food.y) {
+        score++;
+        food = {
+          x: Math.floor(Math.random() * 19) * box,
+          y: Math.floor(Math.random() * 19) * box
+        };
+      } else {
+        snake.pop();
+      }
 
-/* Random fun messages */
-const messages = [
-  "YOU POPPED ME!", "✨ ooh ✨", "glitch in the matrix", "do a barrel roll",
-  "why are you like this?", "pop pop", "this is a popup", "i enjoy chaos",
-  "👀", "not a cookie", "press harder", "boop", "nope", "maybe?", "try again"
-];
+      const newHead = { x: snakeX, y: snakeY };
 
-/* spawn popup at random location with content */
-function spawnPopup(content, opts = {}) {
-  const popup = document.createElement('div');
-  popup.className = 'popup pop-in';
-  // choose content
-  const html = `
-    <button class="x" title="close">✕</button>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="spin">🔮</div>
-      <div style="flex:1">${content || messages[rnd(0,messages.length-1)]}</div>
-    </div>
-    <div style="margin-top:8px;font-size:0.85rem;color:rgba(0,0,0,0.55)">
-      <small>click to cascade</small>
-    </div>
-  `;
-  popup.innerHTML = html;
+      // Game over conditions
+      if (
+        snakeX < 0 ||
+        snakeY < 0 ||
+        snakeX >= canvas.width ||
+        snakeY >= canvas.height ||
+        collision(newHead, snake)
+      ) {
+        clearInterval(game);
+        alert("Game Over! Final Score: " + score);
+      }
 
-  // random position: within viewport, but not fully offscreen
-  const vw = window.innerWidth, vh = window.innerHeight;
-  const w = rnd(140, 300), h = rnd(80, 180);
-  const left = rnd(8, Math.max(8, vw - w - 8));
-  const top = rnd(8, Math.max(8, vh - h - 8));
-  popup.style.left = left + 'px';
-  popup.style.top = top + 'px';
-  popup.style.width = w + 'px';
-  popup.style.pointerEvents = 'auto';
+      snake.unshift(newHead);
 
-  // weird style shake speeds if weirdMode
-  if (weirdMode) {
-    popup.style.animationDuration = (1 + Math.random()*2) + 's';
-    popup.style.filter = 'hue-rotate(' + rnd(0,360) + 'deg) saturate(140%)';
-  } else {
-    popup.style.animationDuration = (2 + Math.random()*1.5) + 's';
-  }
-
-  document.body.appendChild(popup);
-  log(`spawned: "${(content||'auto')}"`);
-
-  // close button
-  popup.querySelector('.x').addEventListener('click', e => {
-    e.stopPropagation();
-    popup.remove();
-  });
-
-  // click popup to cascade spawn a few more
-  popup.addEventListener('click', (e) => {
-    e.stopPropagation();
-    cascadeFrom(popup);
-  });
-
-  // make draggable
-  makeDraggable(popup);
-
-  // auto-remove after some time (longer in weird mode)
-  const ttl = weirdMode ? rnd(7000,14000) : rnd(4500,9000);
-  setTimeout(()=>{ try{ popup.remove(); }catch(e){} }, ttl);
-
-  return popup;
-}
-
-/* when a popup is clicked: spawn multiple smaller popups around it */
-function cascadeFrom(parent){
-  const amount = rnd(3,7);
-  for(let i=0;i<amount;i++){
-    // slight offset from parent
-    const rect = parent.getBoundingClientRect();
-    const x = Math.min(window.innerWidth - 120, Math.max(6, rect.left + rnd(-120, 120)));
-    const y = Math.min(window.innerHeight - 80, Math.max(6, rect.top + rnd(-120, 120)));
-    const p = spawnPopup(messages[rnd(0,messages.length-1)]);
-    p.style.left = x + 'px';
-    p.style.top = y + 'px';
-    p.style.transform = 'scale(' + (0.7 + Math.random()*0.6) + ')';
-  }
-  log(`cascade x${amount}`);
-}
-
-/* small draggable helper */
-function makeDraggable(el){
-  let dragging=false, ox=0, oy=0;
-  el.addEventListener('pointerdown', e=>{
-    dragging = true;
-    el.setPointerCapture(e.pointerId);
-    ox = e.clientX - el.offsetLeft;
-    oy = e.clientY - el.offsetTop;
-    el.style.cursor = 'grabbing';
-  });
-  window.addEventListener('pointermove', e=>{
-    if(!dragging) return;
-    el.style.left = Math.max(4, Math.min(window.innerWidth - el.offsetWidth - 4, e.clientX - ox)) + 'px';
-    el.style.top  = Math.max(4, Math.min(window.innerHeight - el.offsetHeight - 4, e.clientY - oy)) + 'px';
-  });
-  window.addEventListener('pointerup', e=>{
-    if(dragging) {
-      dragging=false;
-      el.style.cursor='grab';
-      try{ el.releasePointerCapture(e.pointerId); }catch(e){}
+      // Score
+      ctx.fillStyle = "#0f0";
+      ctx.font = "20px Arial";
+      ctx.fillText("Score: " + score, 10, 20);
     }
-  });
-}
 
-/* log messages to the panel */
-function log(text){
-  const time = new Date().toLocaleTimeString();
-  logEl.innerHTML = `<div>[${time}] ${text}</div>` + logEl.innerHTML;
-}
+    function collision(head, array) {
+      for (let i = 0; i < array.length; i++) {
+        if (head.x === array[i].x && head.y === array[i].y) {
+          return true;
+        }
+      }
+      return false;
+    }
 
-/* Buttons: different behaviors */
-document.getElementById('btnPop').addEventListener('click', ()=> {
-  spawnPopup("POP!"); 
-});
-document.getElementById('btnShower').addEventListener('click', ()=> {
-  // spawn a shower across the screen
-  for(let i=0;i<18;i++){
-    setTimeout(()=> spawnPopup(), i*80);
-  }
-});
-document.getElementById('btnRave').addEventListener('click', ()=> {
-  // spawn many colorful popups and flash bg
-  const prev = document.body.style.transition;
-  document.body.style.transition = 'filter 200ms';
-  document.body.style.filter = 'hue-rotate(' + rnd(0,360) + 'deg) saturate(140%)';
-  for(let i=0;i<30;i++) setTimeout(()=> spawnPopup(), i*40);
-  setTimeout(()=> { document.body.style.filter=''; document.body.style.transition = prev; }, 1600);
-});
-document.getElementById('btnWeird').addEventListener('click', ()=> {
-  weirdMode = !weirdMode;
-  document.getElementById('btnWeird').textContent = weirdMode ? 'WEIRD MODE ✅' : 'WEIRD MODE';
-  log('weird mode ' + (weirdMode ? 'on' : 'off'));
-});
-document.getElementById('btnCustom').addEventListener('click', ()=> {
-  const t = document.getElementById('customText').value.trim();
-  if(!t) return spawnPopup();
-  // spawn one popup with custom text and a few small ones
-  const p = spawnPopup(t);
-  setTimeout(()=> cascadeFrom(p), 250);
-});
-
-/* Typing behavior: each 't' keypress spawns a popup.
-   Holding 't' will naturally cause many keydown events -> many popups. */
-window.addEventListener('keydown', (e) => {
-  // ignore if typing into input and user is actively writing? user wanted typing to cause popups generally
-  // We'll still allow it (so typing 't' into fields triggers popups) — that's the fun.
-  if (e.key.toLowerCase() === 't') {
-    // spawn a popup near the center quickly
-    const p = spawnPopup("t");
-    // slight chance to cascade immediately
-    if(Math.random() < 0.25) setTimeout(()=> cascadeFrom(p), 120);
-  }
-});
-
-/* also support clicking anywhere to spawn small pop */
-document.body.addEventListener('click', (e)=>{
-  // avoid clicks on buttons/inputs (those have their own handlers)
-  const tag = e.target.tagName;
-  if(['BUTTON','INPUT','TEXTAREA'].includes(tag)) return;
-  // spawn small playful popup at click
-  const x = Math.min(window.innerWidth - 160, Math.max(6, e.clientX + rnd(-40,40)));
-  const y = Math.min(window.innerHeight - 100, Math.max(6, e.clientY + rnd(-40,40)));
-  const p = spawnPopup(messages[rnd(0,messages.length-1)]);
-  p.style.left = x + 'px'; p.style.top = y + 'px';
-});
-
-/* small cleanup if many popups — if > 90 remove oldest */
-setInterval(()=>{
-  const pops = document.querySelectorAll('.popup');
-  if(pops.length > 90){
-    // remove half oldest
-    const arr = Array.from(pops).slice(0, Math.floor(pops.length/2));
-    arr.forEach(n => n.remove());
-    log('auto-cleaned popups');
-  }
-}, 1500);
-
-/* ensure viewport changes adjust nothing weird */
-window.addEventListener('resize', ()=>{ /* noop */ });
-
-/* initial teaser */
-setTimeout(()=> spawnPopup("hello?"), 1200);
-
-</script>
+    const game = setInterval(draw, 100);
+  </script>
 </body>
 </html>
