@@ -3,417 +3,347 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Totally-Serious-Website™</title>
+<title>WEIRD — press things, type t</title>
 <style>
+  /* Weird, loud styling */
   :root{
-    --bg:#0b0f1a;
-    --accent:#ff0077;
-    --muted:#99a;
+    --bg1: #04111f; --bg2:#12002b; --accent1:#00ffea; --accent2:#ff00c8;
   }
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(135deg,var(--bg) 0%, #0f1630 100%);color:#fff}
-  header{padding:28px;text-align:center}
-  h1{font-size:2.4rem;letter-spacing:1px;margin:0}
-  .container{max-width:1100px;margin:28px auto;padding:20px;background:rgba(255,255,255,0.02);border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.6)}
-  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-  .card{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
-  .btn{display:inline-block;padding:10px 14px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;cursor:pointer;border:0;font-weight:600;box-shadow:0 6px 20px rgba(255,0,119,0.12)}
-  .muted{color:var(--muted);font-size:0.9rem}
-  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  input[type="text"], textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);color:#fff}
-  .meme-preview{height:200px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-  .meme-preview img{max-width:100%;max-height:100%}
-  .meme-text{position:absolute;left:50%;transform:translateX(-50%);font-weight:900;text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.7);padding:8px 10px}
-  .top{top:8px;font-size:28px}
-  .bottom{bottom:8px;font-size:28px}
-  .dancing{font-size:28px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-  .dancing span{display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03);animation:boop 800ms infinite;transform-origin:center}
-  .dancing span:nth-child(2){animation-delay:100ms}
-  .dancing span:nth-child(3){animation-delay:200ms}
-  @keyframes boop{0%{transform:translateY(0)}50%{transform:translateY(-12px) rotate(-6deg)}100%{transform:translateY(0)}}
-  footer{padding:12px;text-align:center;color:var(--muted);font-size:0.9rem}
-  /* small helpers */
-  .row{display:flex;gap:8px;align-items:center}
-  .danger{background:#ff3b3b}
-  /* cursor prank class */
-  .cursorsmall{cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><text y="20" font-size="18">💩</text></svg>') 8 8, auto;}
-  /* flashy background */
-  .flash{
-    animation:flashBG 600ms infinite;
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(0,255,234,0.08), transparent),
+    radial-gradient(700px 500px at 90% 90%, rgba(255,0,200,0.06), transparent),
+    linear-gradient(120deg,var(--bg1),var(--bg2));
+    overflow:hidden;color:#e7fbff}
+  /* Title block */
+  header{padding:30px;text-align:center}
+  h1{
+    margin:0;font-size:3rem;letter-spacing:2px;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,0.6));
+    transform:skewX(-6deg);
   }
-  @keyframes flashBG{
-    0%{box-shadow:0 0 0 0 rgba(255,0,119,0.08)}
-    50%{box-shadow:0 0 80px 20px rgba(255,0,119,0.06)}
-    100%{box-shadow:0 0 0 0 rgba(255,0,119,0.02)}
+  p.sub{opacity:0.9;margin-top:6px;font-size:0.95rem;color:#cce}
+  /* floating weird panel */
+  .panel{
+    position:relative;margin:26px auto;max-width:1100px;padding:18px;border-radius:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6);
+    display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;justify-content:space-between;
   }
-  /* small modal */
-  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999}
-  .modal{background:#071027;padding:22px;border-radius:12px;max-width:520px;width:90%;border:1px solid rgba(255,255,255,0.06)}
-  .close{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:inherit;cursor:pointer}
-  /* small responsive */
-  @media (max-width:880px){.grid{grid-template-columns:1fr}}
+  .left{flex:1;min-width:280px}
+  .right{width:360px;min-width:240px}
+  /* weird buttons */
+  .btn{
+    display:inline-block;padding:12px 14px;border-radius:12px;border:0;
+    background:linear-gradient(90deg,#0ff,#f0f);color:#001;font-weight:800;cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,0.5), inset 0 -3px 10px rgba(0,0,0,0.15);
+    transform:translateY(0);transition:transform .12s ease, box-shadow .12s;
+    user-select:none;
+  }
+  .btn:active{transform:translateY(2px) rotate(-1deg);box-shadow:0 4px 12px rgba(0,0,0,0.6)}
+  .controls{display:flex;gap:10px;flex-wrap:wrap}
+  .muted{color:rgba(220,240,255,0.6);font-size:0.9rem}
+  /* weird background shapes */
+  .blob{
+    position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;
+    background:conic-gradient(from 120deg, rgba(0,255,234,0.15), rgba(255,0,200,0.08));
+    filter:blur(28px);transform:rotate(12deg);pointer-events:none;mix-blend-mode:screen;
+  }
+  .blob2{left:-80px;bottom:-80px;width:420px;height:420px;border-radius:50%;
+    background:conic-gradient(from 90deg, rgba(255,0,200,0.12), rgba(0,255,234,0.06));
+    filter:blur(36px);transform:rotate(-8deg);pointer-events:none;mix-blend-mode:screen;
+  }
+
+  /* glitchy instructions */
+  .glitch{
+    font-weight:900;font-size:1.1rem;letter-spacing:0.6px;
+    background:repeating-linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 10px);
+    padding:10px;border-radius:10px;display:inline-block;position:relative;
+    overflow:hidden;
+  }
+  .glitch::before,.glitch::after{
+    content:attr(data-text);position:absolute;left:0;top:0;width:100%;
+    height:100%;mix-blend-mode:screen;opacity:0.6;
+    transform:translate(0,0);
+    clip-path:polygon(0 0,100% 0,100% 33%,0 33%);
+  }
+  .glitch::before{transform:translate(-6px,-2px);color:var(--accent1)}
+  .glitch::after{transform:translate(6px,2px);color:var(--accent2);clip-path:polygon(0 66%,100% 66%,100% 100%,0 100%)}
+
+  /* popup styles */
+  .popup{
+    position:fixed;padding:12px 14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
+    color:#081019;font-weight:800;border:2px solid rgba(0,0,0,0.12);
+    box-shadow:0 20px 60px rgba(0,0,0,0.55);z-index:9999;min-width:120px;max-width:320px;
+    transform-origin:center center;pointer-events:auto;cursor:grab;
+  }
+  .popup .x{position:absolute;right:8px;top:6px;background:transparent;border:0;color:rgba(0,0,0,0.6);font-weight:900;cursor:pointer}
+  /* wobble/float animations */
+  @keyframes floaty {
+    0%{transform:translateY(0) rotate(-1deg)}
+    50%{transform:translateY(-8px) rotate(2deg)}
+    100%{transform:translateY(0) rotate(-1deg)}
+  }
+  .popup{animation:floaty 3s ease-in-out infinite}
+  /* pop-in */
+  .pop-in{animation:popIn .24s cubic-bezier(.2,.9,.2,1)}
+  @keyframes popIn{0%{transform:scale(.2) rotate(-15deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+
+  /* tiny spinny icon */
+  .spin{display:inline-block;margin-right:8px;transform-origin:center;animation:spin 4s linear infinite}
+  @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+  /* footer */
+  footer{position:fixed;left:12px;bottom:12px;color:rgba(200,240,255,0.6);font-size:0.85rem}
+  /* mobile */
+  @media (max-width:720px){
+    h1{font-size:2.2rem} .right{width:100%}
+  }
 </style>
 </head>
 <body>
 <header>
-  <h1>Totally-Serious-Website™</h1>
-  <div class="muted">A friendly place for practical jokes, memes, and mild chaos.</div>
+  <h1>WEIRD</h1>
+  <div class="sub">Make things pop. Type <strong>t</strong> repeatedly. Click buttons. Chaos occurs.</div>
 </header>
 
-<div class="container">
-  <div class="grid">
-    <div class="card">
-      <h2>Welcome — main prank hub</h2>
-      <p class="muted">Click the buttons below for a variety of harmless pranks. Customize text/images in the code.</p>
+<div class="panel">
+  <div class="left">
+    <div class="glitch" data-text="PRESS STUFF">PRESS STUFF</div>
+    <p class="muted" style="margin-top:8px">
+      Buttons spawn popups that appear in random places. Each popup is draggable, quirky, and can spawn more popups when clicked.
+    </p>
 
-      <div style="margin-top:12px" class="controls">
-        <button class="btn" id="surpriseBtn">SURPRISE (do not press)</button>
-        <button class="btn" id="rickBtn">Play "Totally Sincere Song"</button>
-        <button class="btn" id="cursorBtn">Toggle Poop Cursor</button>
-        <button class="btn danger" id="fakeErrorBtn">Show "System Error"</button>
-        <button class="btn" id="flashBtn">Flash Mode</button>
-      </div>
-
-      <hr style="margin:16px 0;border-color:rgba(255,255,255,0.03)">
-
-      <h3>Meme Generator</h3>
-      <div style="display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:start">
-        <div>
-          <label class="muted">Top text</label>
-          <input type="text" id="topText" placeholder="TOP TEXT" value="WHEN YOU PRESS THE BUTTON">
-          <label class="muted" style="margin-top:8px;display:block">Bottom text</label>
-          <input type="text" id="bottomText" placeholder="BOTTOM TEXT" value="AND IT ACTUALLY WORKS">
-          <label class="muted" style="margin-top:8px;display:block">Image URL</label>
-          <input type="text" id="imageUrl" placeholder="https://..." value="https://i.imgur.com/Zx0k3kT.jpg">
-          <div style="margin-top:8px" class="controls">
-            <button class="btn" id="renderMeme">Render</button>
-            <button class="btn" id="downloadMeme">Download</button>
-          </div>
-        </div>
-
-        <div>
-          <div class="meme-preview card" id="memePreview">
-            <img id="memeImg" src="https://i.imgur.com/Zx0k3kT.jpg" alt="meme">
-            <div class="meme-text top" id="memeTop">WHEN YOU PRESS THE BUTTON</div>
-            <div class="meme-text bottom" id="memeBottom">AND IT ACTUALLY WORKS</div>
-          </div>
-        </div>
-      </div>
-
-      <hr style="margin:16px 0;border-color:rgba(255,255,255,0.03)">
-
-      <h3>Classic prank console</h3>
-      <p class="muted">Try typing something in the console or press <kbd>F12</kbd> — there's a playful message waiting.</p>
-
+    <div style="margin-top:16px" class="controls">
+      <button class="btn" id="btnPop">POP</button>
+      <button class="btn" id="btnShower">SHOWER</button>
+      <button class="btn" id="btnRave">RAVE</button>
+      <button class="btn" id="btnWeird">WEIRD MODE</button>
     </div>
 
-    <aside class="card">
-      <h3>Side Pranks</h3>
-      <div class="dancing" id="dancingText">
-        <span>💥</span><span>🎉</span><span>🤡</span><span>😈</span><span>😹</span>
+    <div style="margin-top:18px">
+      <label class="muted">Custom popup text</label>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <input id="customText" placeholder="say something weird..." style="flex:1;padding:10px;border-radius:10px;border:none" />
+        <button class="btn" id="btnCustom">SEND</button>
       </div>
-
-      <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
-
-      <div style="margin-top:8px">
-        <strong>Quick toggles</strong>
-        <div style="margin-top:8px" class="controls">
-          <button class="btn" id="confettiBtn">Confetti</button>
-          <button class="btn" id="shakeBtn">Shake Screen</button>
-          <button class="btn" id="typeBtn">Typing Prank</button>
-        </div>
-      </div>
-
-      <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)">
-
-      <div>
-        <strong>Share</strong>
-        <p class="muted">Send the link to a friend (make sure they have a good sense of humor!).</p>
-        <div class="row">
-          <button class="btn" id="copyLink">Copy Link</button>
-          <button class="btn" id="hintBtn">Reveal hint</button>
-        </div>
-      </div>
-    </aside>
+    </div>
   </div>
+
+  <div class="right">
+    <div style="background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px">
+      <strong>HOW TO</strong>
+      <p class="muted" style="margin-top:8px">Type <strong>t</strong> anywhere — every press spawns a popup. Hold for lots. Click any popup to cascade more.</p>
+      <p class="muted" style="margin-top:6px">Tip: toggle "WEIRD MODE" to invert colors and speed things up.</p>
+    </div>
+    <div style="height:18px"></div>
+    <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.02)">
+      <strong>Popup log</strong>
+      <div id="log" class="muted" style="margin-top:8px;height:140px;overflow:auto;font-size:0.9rem"></div>
+    </div>
+  </div>
+
+  <div class="blob"></div>
+  <div class="blob2"></div>
 </div>
 
-<footer>
-  Built for tame mischief. Code is fully editable — change images, text, or the "surprise" payload to your heart's content.
-</footer>
-
-<!-- modal template -->
-<div id="modalRoot" style="display:none"></div>
-
-<!-- confetti canvas -->
-<canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:9998"></canvas>
+<footer>Made to be silly — refresh to clear</footer>
 
 <script>
-/* ---------- basic helpers ---------- */
-const $ = id => document.getElementById(id);
+/* ---------- behavior: spawn popups ---------- */
+const logEl = document.getElementById('log');
+let weirdMode = false;
 
-/* Surprise button: gentle prank (plays short melody + confetti) */
-$('surpriseBtn').addEventListener('click', ()=> {
-  playBeepMelody();
-  fireConfetti(120);
-  showTinyModal("Surprise! 🎉", "You have been lightly trolled. All is well.").then(()=>{/*noop*/});
-});
+/* utility: random number in range */
+const rnd = (min,max)=> Math.floor(Math.random()*(max-min+1))+min;
 
-/* Rickroll button - opens YouTube rickroll in new tab (you can change link if you like) */
-$('rickBtn').addEventListener('click', ()=> {
-  // open in new tab so it's reversible
-  window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ','_blank');
-});
+/* Random fun messages */
+const messages = [
+  "YOU POPPED ME!", "✨ ooh ✨", "glitch in the matrix", "do a barrel roll",
+  "why are you like this?", "pop pop", "this is a popup", "i enjoy chaos",
+  "👀", "not a cookie", "press harder", "boop", "nope", "maybe?", "try again"
+];
 
-/* Cursor toggle */
-let cursorOn=false;
-$('cursorBtn').addEventListener('click', ()=> {
-  cursorOn = !cursorOn;
-  document.body.classList.toggle('cursorsmall', cursorOn);
-  $('cursorBtn').textContent = cursorOn ? 'Disable Poop Cursor' : 'Toggle Poop Cursor';
-});
+/* spawn popup at random location with content */
+function spawnPopup(content, opts = {}) {
+  const popup = document.createElement('div');
+  popup.className = 'popup pop-in';
+  // choose content
+  const html = `
+    <button class="x" title="close">✕</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="spin">🔮</div>
+      <div style="flex:1">${content || messages[rnd(0,messages.length-1)]}</div>
+    </div>
+    <div style="margin-top:8px;font-size:0.85rem;color:rgba(0,0,0,0.55)">
+      <small>click to cascade</small>
+    </div>
+  `;
+  popup.innerHTML = html;
 
-/* Fake system error modal */
-$('fakeErrorBtn').addEventListener('click', ()=> {
-  showModal('<strong>System Failure</strong>',
-            `<p>Critical process <code>memes.exe</code> has stopped responding.<br>Attempting automatic recovery...</p>
-             <p class="muted">No real damage done — it is a joke.</p>`,
-            [{text:'Reboot (lol)', cls:'btn', cb:()=>{playErrorTone(); closeModal();}},
-             {text:'Close', cls:'close', cb:()=> closeModal()}]);
-});
+  // random position: within viewport, but not fully offscreen
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const w = rnd(140, 300), h = rnd(80, 180);
+  const left = rnd(8, Math.max(8, vw - w - 8));
+  const top = rnd(8, Math.max(8, vh - h - 8));
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+  popup.style.width = w + 'px';
+  popup.style.pointerEvents = 'auto';
 
-/* Flash mode toggle */
-let flash=false;
-$('flashBtn').addEventListener('click', ()=> {
-  flash = !flash;
-  document.querySelectorAll('.card').forEach(el => el.classList.toggle('flash', flash));
-  $('flashBtn').textContent = flash ? 'Flash Off' : 'Flash Mode';
-});
-
-/* meme render & download */
-$('renderMeme').addEventListener('click', renderMeme);
-$('downloadMeme').addEventListener('click', downloadMeme);
-
-function renderMeme(){
-  const top = $('topText').value;
-  const bottom = $('bottomText').value;
-  const url = $('imageUrl').value;
-  const img = $('memeImg');
-  img.src = url || img.src;
-  $('memeTop').textContent = top.toUpperCase();
-  $('memeBottom').textContent = bottom.toUpperCase();
-}
-
-function downloadMeme(){
-  // render in canvas and download
-  const canvas = document.createElement('canvas');
-  const img = $('memeImg');
-  const width = 1000;
-  canvas.width = width;
-  canvas.height = 600;
-  const ctx = canvas.getContext('2d');
-  const image = new Image();
-  image.crossOrigin = "anonymous";
-  image.onload = ()=> {
-    // draw image to cover
-    const h = canvas.height;
-    const w = canvas.width;
-    // fill background black
-    ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h);
-    // draw image scaled
-    const ar = image.width / image.height;
-    let nw = w, nh = w / ar;
-    if(nh < h){ nh = h; nw = h * ar; }
-    ctx.drawImage(image, (w-nw)/2, (h-nh)/2, nw, nh);
-    // text
-    ctx.font = "bold 48px Impact, Arial";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#fff";
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 6;
-    ctx.fillText($('topText').value.toUpperCase(), w/2, 60);
-    ctx.strokeText($('topText').value.toUpperCase(), w/2, 60);
-    ctx.fillText($('bottomText').value.toUpperCase(), w/2, h-30);
-    ctx.strokeText($('bottomText').value.toUpperCase(), w/2, h-30);
-    const url = canvas.toDataURL("image/png");
-    const a = document.createElement('a'); a.href = url; a.download = "meme.png"; a.click();
-  };
-  image.onerror = ()=> alert('Unable to load image for download (CORS or invalid URL). Try a different URL.');
-  image.src = $('memeImg').src;
-}
-
-/* confetti impl (simple) */
-const confettiCanvas = $('confettiCanvas');
-const cctx = confettiCanvas.getContext('2d');
-function resizeCanvas(){
-  confettiCanvas.width = innerWidth;
-  confettiCanvas.height = innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-function fireConfetti(count=80){
-  const pieces = [];
-  for(let i=0;i<count;i++){
-    pieces.push({
-      x: Math.random()*confettiCanvas.width,
-      y: -20 - Math.random()*confettiCanvas.height*0.3,
-      r: 6 + Math.random()*8,
-      d: 2+Math.random()*4,
-      color: `hsl(${Math.floor(Math.random()*360)},80%,60%)`,
-      tilt: Math.random()*10,
-      tiltSpeed: 0.02 + Math.random()*0.05
-    });
-  }
-  let t=0;
-  function frame(){
-    t+=1;
-    cctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-    for(const p of pieces){
-      p.y += 2 + Math.sin(t*p.d*0.01);
-      p.x += Math.sin(t*p.d*0.01)*0.6;
-      p.tilt += p.tiltSpeed;
-      cctx.save();
-      cctx.translate(p.x,p.y);
-      cctx.rotate(p.tilt);
-      cctx.fillStyle = p.color;
-      cctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
-      cctx.restore();
-    }
-    // remove offscreen
-    if(pieces.some(px=>px.y < confettiCanvas.height + 50)){
-      requestAnimationFrame(frame);
-    } else {
-      cctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-    }
-  }
-  frame();
-}
-
-/* shake screen */
-$('shakeBtn').addEventListener('click', ()=> {
-  document.body.style.transition = 'transform 60ms';
-  let ct = 0;
-  const iv = setInterval(()=> {
-    ct++;
-    document.body.style.transform = `translate(${(Math.random()-0.5)*16}px, ${(Math.random()-0.5)*12}px) rotate(${(Math.random()-0.5)*2}deg)`;
-    if(ct>20){ clearInterval(iv); document.body.style.transform=''; document.body.style.transition=''; }
-  }, 60);
-});
-
-/* typing prank: auto-type into focused input (harmless) */
-let typerOn=false;
-$('typeBtn').addEventListener('click', ()=> {
-  typerOn = !typerOn;
-  $('typeBtn').textContent = typerOn ? 'Typing On (click an input)' : 'Typing Prank';
-  if(typerOn){
-    window.addEventListener('focusin', autoTypeHandler);
+  // weird style shake speeds if weirdMode
+  if (weirdMode) {
+    popup.style.animationDuration = (1 + Math.random()*2) + 's';
+    popup.style.filter = 'hue-rotate(' + rnd(0,360) + 'deg) saturate(140%)';
   } else {
-    window.removeEventListener('focusin', autoTypeHandler);
+    popup.style.animationDuration = (2 + Math.random()*1.5) + 's';
   }
-});
 
-function autoTypeHandler(e){
-  const targ = e.target;
-  if(targ.tagName==='INPUT' || targ.tagName==='TEXTAREA'){
-    const text = "you've been trolled ✨";
-    let i=0;
-    const iv = setInterval(()=> {
-      if(i>=text.length){ clearInterval(iv); return; }
-      targ.value = targ.value + text[i++];
-    }, 120);
-  }
-}
+  document.body.appendChild(popup);
+  log(`spawned: "${(content||'auto')}"`);
 
-/* copy link & hint */
-$('copyLink').addEventListener('click', async ()=> {
-  try{
-    await navigator.clipboard.writeText(location.href);
-    showTinyModal("Copied!", "Share it wisely.");
-  }catch(e){
-    alert('Unable to copy — permission denied.');
-  }
-});
-$('hintBtn').addEventListener('click', ()=> {
-  showTinyModal("Hint", "Open your console (F12) for a friendly message.");
-});
-
-/* console message */
-console.log('%cHey friend — this page is a prank. Keep it playful!','background:#111;color:#fff;padding:8px;border-radius:6px;font-size:14px');
-
-/* small modal helpers */
-let modalRoot = $('modalRoot');
-function showModal(title, htmlBody, actions=[]){
-  modalRoot.innerHTML = '';
-  const b = document.createElement('div');
-  b.className='modal-back';
-  b.innerHTML = `<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><strong>${title}</strong></div><div><button class="close" id="modalClose">✕</button></div></div><div id="modalBody">${htmlBody}</div><div id="modalActions" style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"></div></div>`;
-  modalRoot.appendChild(b);
-  modalRoot.style.display = 'block';
-  const ma = b.querySelector('#modalActions');
-  actions.forEach(a=>{
-    const btn = document.createElement('button');
-    btn.textContent = a.text;
-    btn.className = a.cls || 'btn';
-    btn.addEventListener('click', ()=> a.cb && a.cb());
-    ma.appendChild(btn);
+  // close button
+  popup.querySelector('.x').addEventListener('click', e => {
+    e.stopPropagation();
+    popup.remove();
   });
-  b.querySelector('#modalClose').addEventListener('click', closeModal);
+
+  // click popup to cascade spawn a few more
+  popup.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cascadeFrom(popup);
+  });
+
+  // make draggable
+  makeDraggable(popup);
+
+  // auto-remove after some time (longer in weird mode)
+  const ttl = weirdMode ? rnd(7000,14000) : rnd(4500,9000);
+  setTimeout(()=>{ try{ popup.remove(); }catch(e){} }, ttl);
+
+  return popup;
 }
-function closeModal(){ modalRoot.style.display='none'; modalRoot.innerHTML=''; }
-function showTinyModal(title, body){
-  return new Promise(res=>{
-    showModal(title, `<p>${body}</p>`, [{text:'OK', cls:'btn', cb:()=>{ closeModal(); res(); }}]);
+
+/* when a popup is clicked: spawn multiple smaller popups around it */
+function cascadeFrom(parent){
+  const amount = rnd(3,7);
+  for(let i=0;i<amount;i++){
+    // slight offset from parent
+    const rect = parent.getBoundingClientRect();
+    const x = Math.min(window.innerWidth - 120, Math.max(6, rect.left + rnd(-120, 120)));
+    const y = Math.min(window.innerHeight - 80, Math.max(6, rect.top + rnd(-120, 120)));
+    const p = spawnPopup(messages[rnd(0,messages.length-1)]);
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.transform = 'scale(' + (0.7 + Math.random()*0.6) + ')';
+  }
+  log(`cascade x${amount}`);
+}
+
+/* small draggable helper */
+function makeDraggable(el){
+  let dragging=false, ox=0, oy=0;
+  el.addEventListener('pointerdown', e=>{
+    dragging = true;
+    el.setPointerCapture(e.pointerId);
+    ox = e.clientX - el.offsetLeft;
+    oy = e.clientY - el.offsetTop;
+    el.style.cursor = 'grabbing';
+  });
+  window.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    el.style.left = Math.max(4, Math.min(window.innerWidth - el.offsetWidth - 4, e.clientX - ox)) + 'px';
+    el.style.top  = Math.max(4, Math.min(window.innerHeight - el.offsetHeight - 4, e.clientY - oy)) + 'px';
+  });
+  window.addEventListener('pointerup', e=>{
+    if(dragging) {
+      dragging=false;
+      el.style.cursor='grab';
+      try{ el.releasePointerCapture(e.pointerId); }catch(e){}
+    }
   });
 }
 
-/* small sound / beep melody without external files */
-function playBeepMelody(){
-  try{
-    const ctx = new(window.AudioContext || window.webkitAudioContext)();
-    const notes = [523.25,659.25,783.99,987.77]; // C5,E5,G5,B5
-    let t = ctx.currentTime;
-    notes.forEach((n,i)=>{
-      const o = ctx.createOscillator(); const g = ctx.createGain();
-      o.type='sine'; o.frequency.value = n;
-      g.gain.value = 0.03;
-      o.connect(g); g.connect(ctx.destination);
-      o.start(t + i*0.12); o.stop(t + i*0.12 + 0.1);
-    });
-  }catch(e){ /* audio blocked or unsupported */ }
-}
-function playErrorTone(){
-  try{
-    const ctx = new(window.AudioContext || window.webkitAudioContext)();
-    const o = ctx.createOscillator(); const g = ctx.createGain();
-    o.type='sawtooth'; o.frequency.value = 120;
-    g.gain.value = 0.06;
-    o.connect(g); g.connect(ctx.destination);
-    o.start();
-    setTimeout(()=>{ o.frequency.value = 60; g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4); }, 150);
-    setTimeout(()=> o.stop(), 600);
-  }catch(e){}
+/* log messages to the panel */
+function log(text){
+  const time = new Date().toLocaleTimeString();
+  logEl.innerHTML = `<div>[${time}] ${text}</div>` + logEl.innerHTML;
 }
 
-/* small rick hint in console (for friends who open devtools) */
-console.log('%cPS: if you clicked "Play Totally Sincere Song", you might have been rickrolled. 🙂','color:#ff8fb1;font-weight:700');
+/* Buttons: different behaviors */
+document.getElementById('btnPop').addEventListener('click', ()=> {
+  spawnPopup("POP!"); 
+});
+document.getElementById('btnShower').addEventListener('click', ()=> {
+  // spawn a shower across the screen
+  for(let i=0;i<18;i++){
+    setTimeout(()=> spawnPopup(), i*80);
+  }
+});
+document.getElementById('btnRave').addEventListener('click', ()=> {
+  // spawn many colorful popups and flash bg
+  const prev = document.body.style.transition;
+  document.body.style.transition = 'filter 200ms';
+  document.body.style.filter = 'hue-rotate(' + rnd(0,360) + 'deg) saturate(140%)';
+  for(let i=0;i<30;i++) setTimeout(()=> spawnPopup(), i*40);
+  setTimeout(()=> { document.body.style.filter=''; document.body.style.transition = prev; }, 1600);
+});
+document.getElementById('btnWeird').addEventListener('click', ()=> {
+  weirdMode = !weirdMode;
+  document.getElementById('btnWeird').textContent = weirdMode ? 'WEIRD MODE ✅' : 'WEIRD MODE';
+  log('weird mode ' + (weirdMode ? 'on' : 'off'));
+});
+document.getElementById('btnCustom').addEventListener('click', ()=> {
+  const t = document.getElementById('customText').value.trim();
+  if(!t) return spawnPopup();
+  // spawn one popup with custom text and a few small ones
+  const p = spawnPopup(t);
+  setTimeout(()=> cascadeFrom(p), 250);
+});
 
-/* small dancing animation tweak */
-setInterval(()=> {
-  const spans = document.querySelectorAll('#dancingText span');
-  spans.forEach((s,i)=> s.style.transform = `translateY(${Math.sin((Date.now()/180)+i)*8}px) rotate(${Math.sin((Date.now()/300)+i)*8}deg)`);
-}, 80);
-
-/* optional fun: keyboard shortcut (T) toggles confetti */
-window.addEventListener('keydown',(e)=> {
-  if(e.key.toLowerCase()==='t'){
-    fireConfetti(80);
+/* Typing behavior: each 't' keypress spawns a popup.
+   Holding 't' will naturally cause many keydown events -> many popups. */
+window.addEventListener('keydown', (e) => {
+  // ignore if typing into input and user is actively writing? user wanted typing to cause popups generally
+  // We'll still allow it (so typing 't' into fields triggers popups) — that's the fun.
+  if (e.key.toLowerCase() === 't') {
+    // spawn a popup near the center quickly
+    const p = spawnPopup("t");
+    // slight chance to cascade immediately
+    if(Math.random() < 0.25) setTimeout(()=> cascadeFrom(p), 120);
   }
 });
 
-/* small accessibility: allow modal close with ESC */
-window.addEventListener('keydown', (e)=> {
-  if(e.key==='Escape') closeModal();
+/* also support clicking anywhere to spawn small pop */
+document.body.addEventListener('click', (e)=>{
+  // avoid clicks on buttons/inputs (those have their own handlers)
+  const tag = e.target.tagName;
+  if(['BUTTON','INPUT','TEXTAREA'].includes(tag)) return;
+  // spawn small playful popup at click
+  const x = Math.min(window.innerWidth - 160, Math.max(6, e.clientX + rnd(-40,40)));
+  const y = Math.min(window.innerHeight - 100, Math.max(6, e.clientY + rnd(-40,40)));
+  const p = spawnPopup(messages[rnd(0,messages.length-1)]);
+  p.style.left = x + 'px'; p.style.top = y + 'px';
 });
+
+/* small cleanup if many popups — if > 90 remove oldest */
+setInterval(()=>{
+  const pops = document.querySelectorAll('.popup');
+  if(pops.length > 90){
+    // remove half oldest
+    const arr = Array.from(pops).slice(0, Math.floor(pops.length/2));
+    arr.forEach(n => n.remove());
+    log('auto-cleaned popups');
+  }
+}, 1500);
+
+/* ensure viewport changes adjust nothing weird */
+window.addEventListener('resize', ()=>{ /* noop */ });
+
+/* initial teaser */
+setTimeout(()=> spawnPopup("hello?"), 1200);
+
 </script>
 </body>
 </html>
