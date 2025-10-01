@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f7f7f7;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+#game {
+  width: 800px;
+  height: 200px;
+  background: #fff;
+  border: 2px solid #333;
+  position: relative;
+  overflow: hidden;
+}
+
+#dino {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  border-radius: 5px;
+}
+
+.obstacle {
+  width: 20px;
+  height: 40px;
+  background: green;
+  position: absolute;
+  bottom: 0;
+  right: -20px;
+}
+
+.cloud {
+  width: 40px;
+  height: 20px;
+  background: lightgray;
+  position: absolute;
+  border-radius: 10px;
+}
+
+#score {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  display: none;
+}
