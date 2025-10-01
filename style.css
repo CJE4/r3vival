@@ -1,65 +1,45 @@
 body {
   margin: 0;
+  font-family: "Poppins", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #f7f7f7;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+  background: linear-gradient(135deg, #ff7eb3, #65c7f7, #0052d4);
+  background-size: 300% 300%;
+  animation: bgmove 12s ease infinite;
+  color: white;
+  text-align: center;
 }
 
-#game {
-  width: 800px;
-  height: 200px;
-  background: #fff;
-  border: 2px solid #333;
-  position: relative;
-  overflow: hidden;
+@keyframes bgmove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-#dino {
-  width: 40px;
-  height: 40px;
-  background: #333;
-  position: absolute;
-  bottom: 0;
-  left: 50px;
-  border-radius: 5px;
+#game-container {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
 }
 
-.obstacle {
-  width: 20px;
-  height: 40px;
-  background: green;
-  position: absolute;
-  bottom: 0;
-  right: -20px;
-}
-
-.cloud {
-  width: 40px;
-  height: 20px;
-  background: lightgray;
-  position: absolute;
+canvas {
+  border: 2px solid #fff;
+  background: #111;
+  margin: 10px 0;
   border-radius: 10px;
 }
 
-#score {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
-  font-weight: bold;
+#info {
+  font-size: 16px;
 }
 
 #game-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  font-weight: bold;
-  color: red;
   display: none;
+  font-size: 20px;
+  margin-top: 10px;
+  color: yellow;
+  font-weight: bold;
 }
