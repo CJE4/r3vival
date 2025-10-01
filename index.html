@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dino Game 🦖</title>
+  <title>Snake Game 🐍</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game">
-    <div id="dino"></div>
-    <div id="score">0</div>
-    <div id="game-over">Game Over! Press Space to Restart</div>
+  <div id="game-container">
+    <h1>🐍 Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="info">
+      <p>Score: <span id="score">0</span></p>
+      <p>High Score: <span id="highScore">0</span></p>
+      <p>Controls: Arrow Keys / WASD</p>
+    </div>
+    <div id="game-over">Game Over! Press Enter to Restart</div>
   </div>
   <script src="script.js"></script>
 </body>
