@@ -13,6 +13,7 @@
       height: 100vh;
       background: #f7f7f7;
       font-family: Arial, sans-serif;
+      overflow: hidden;
     }
     #game {
       width: 800px;
@@ -29,14 +30,24 @@
       position: absolute;
       bottom: 0;
       left: 50px;
+      border-radius: 5px;
     }
-    #cactus {
+    .obstacle {
       width: 20px;
       height: 40px;
       background: green;
       position: absolute;
       bottom: 0;
       right: -20px;
+    }
+    .cloud {
+      width: 40px;
+      height: 20px;
+      background: lightgray;
+      position: absolute;
+      top: 20px;
+      right: -60px;
+      border-radius: 10px;
     }
     #score {
       position: absolute;
@@ -50,78 +61,109 @@
 <body>
   <div id="game">
     <div id="dino"></div>
-    <div id="cactus"></div>
     <div id="score">0</div>
   </div>
 
   <script>
+    const game = document.getElementById("game");
     const dino = document.getElementById("dino");
-    const cactus = document.getElementById("cactus");
     const scoreDisplay = document.getElementById("score");
+
     let isJumping = false;
+    let gravity = 0.9;
+    let position = 0;
     let score = 0;
+    let gameSpeed = 5;
     let gameOver = false;
 
     function jump() {
       if (isJumping) return;
       isJumping = true;
-      let position = 0;
+      let velocity = 15;
 
-      const upInterval = setInterval(() => {
-        if (position >= 80) {
-          clearInterval(upInterval);
-          // fall down
-          const downInterval = setInterval(() => {
-            if (position <= 0) {
-              clearInterval(downInterval);
-              isJumping = false;
-            } else {
-              position -= 5;
-              dino.style.bottom = position + "px";
-            }
-          }, 20);
-        } else {
-          position += 5;
+      const jumpInterval = setInterval(() => {
+        if (velocity <= 0 && position <= 0) {
+          clearInterval(jumpInterval);
+          isJumping = false;
+          position = 0;
           dino.style.bottom = position + "px";
+          return;
         }
+        position += velocity;
+        velocity -= gravity;
+        if (position < 0) position = 0;
+        dino.style.bottom = position + "px";
       }, 20);
     }
 
-    function moveCactus() {
-      let cactusPosition = 800;
-      cactus.style.right = "-20px";
+    function createObstacle() {
+      const obstacle = document.createElement("div");
+      obstacle.classList.add("obstacle");
+      let obstaclePosition = 800;
+      game.appendChild(obstacle);
+      obstacle.style.right = "-20px";
 
       const moveInterval = setInterval(() => {
         if (gameOver) {
           clearInterval(moveInterval);
+          obstacle.remove();
           return;
         }
-        cactusPosition -= 5;
-        cactus.style.right = cactusPosition + "px";
-
-        if (cactusPosition < -20) {
-          cactusPosition = 800;
-          score++;
-          scoreDisplay.textContent = score;
-        }
+        obstaclePosition -= gameSpeed;
+        obstacle.style.right = obstaclePosition + "px";
 
         // collision detection
-        const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
-        if (cactusPosition < 100 && cactusPosition > 50 && dinoBottom < 40) {
+        let dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+        if (obstaclePosition < 100 && obstaclePosition > 40 && dinoBottom < 40) {
           gameOver = true;
           alert("Game Over! Final Score: " + score);
           location.reload();
         }
+
+        if (obstaclePosition < -20) {
+          clearInterval(moveInterval);
+          obstacle.remove();
+          score++;
+          scoreDisplay.textContent = score;
+          if (score % 5 === 0) gameSpeed += 0.5; // increase speed every 5 points
+        }
       }, 20);
+
+      setTimeout(createObstacle, Math.random() * 2000 + 1000);
     }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space" || e.code === "ArrowUp") {
-        jump();
-      }
+    function createCloud() {
+      const cloud = document.createElement("div");
+      cloud.classList.add("cloud");
+      let cloudPosition = 800;
+      cloud.style.top = Math.random() * 80 + 20 + "px";
+      game.appendChild(cloud);
+
+      const cloudInterval = setInterval(() => {
+        if (gameOver) {
+          clearInterval(cloudInterval);
+          cloud.remove();
+          return;
+        }
+        cloudPosition -= 2;
+        cloud.style.right = cloudPosition + "px";
+
+        if (cloudPosition < -60) {
+          clearInterval(cloudInterval);
+          cloud.remove();
+        }
+      }, 40);
+
+      setTimeout(createCloud, Math.random() * 5000 + 2000);
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.code === "Space" || e.code === "ArrowUp") jump();
     });
 
-    moveCactus();
+    // Start game
+    createObstacle();
+    createCloud();
   </script>
 </body>
 </html>
