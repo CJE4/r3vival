@@ -5,15 +5,16 @@ const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("highScore");
 const gameOverText = document.getElementById("game-over");
 
-let box = 20; 
+let box = 20;
 let snake = [{ x: 9 * box, y: 10 * box }];
 let direction;
-let food = spawnFood();
+let foods = [spawnFood()]; // multiple apples
 let score = 0;
 let highScore = localStorage.getItem("snakeHighScore") || 0;
 highScoreDisplay.textContent = highScore;
 let gameLoop;
 let speed = 120;
+let applesEaten = 0;
 
 document.addEventListener("keydown", setDirection);
 
@@ -41,6 +42,13 @@ function flashBackground() {
   }, 150);
 }
 
+function shakeScreen() {
+  document.body.classList.add("shake");
+  setTimeout(() => {
+    document.body.classList.remove("shake");
+  }, 300);
+}
+
 function draw() {
   ctx.fillStyle = "#111";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -53,11 +61,13 @@ function draw() {
     ctx.strokeRect(snake[i].x, snake[i].y, box, box);
   }
 
-  // Draw food
-  ctx.fillStyle = "red";
-  ctx.beginPath();
-  ctx.arc(food.x + box/2, food.y + box/2, box/2, 0, Math.PI * 2);
-  ctx.fill();
+  // Draw foods
+  for (let f of foods) {
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(f.x + box/2, f.y + box/2, box/2, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
@@ -67,19 +77,37 @@ function draw() {
   if (direction === "RIGHT") snakeX += box;
   if (direction === "DOWN") snakeY += box;
 
-  // Eat food
-  if (snakeX === food.x && snakeY === food.y) {
-    score += 10; // +10 each food
-    scoreDisplay.textContent = score;
-    food = spawnFood();
-    flashBackground();
+  // Check each food
+  let ateFood = false;
+  for (let i = 0; i < foods.length; i++) {
+    if (snakeX === foods[i].x && snakeY === foods[i].y) {
+      score += 10;
+      applesEaten++;
+      scoreDisplay.textContent = score;
+      flashBackground();
+      shakeScreen();
+      foods.splice(i, 1); 
+      ateFood = true;
 
-    if (score % 50 === 0 && speed > 50) {
-      clearInterval(gameLoop);
-      speed -= 10;
-      gameLoop = setInterval(draw, speed);
+      // Chaos mode: every 4 apples, add 3 new ones
+      if (applesEaten % 4 === 0) {
+        for (let j = 0; j < 3; j++) {
+          foods.push(spawnFood());
+        }
+      } else {
+        foods.push(spawnFood());
+      }
+
+      if (score % 50 === 0 && speed > 50) {
+        clearInterval(gameLoop);
+        speed -= 10;
+        gameLoop = setInterval(draw, speed);
+      }
+      break;
     }
-  } else {
+  }
+
+  if (!ateFood) {
     snake.pop();
   }
 
@@ -116,8 +144,9 @@ function endGame() {
 function restartGame() {
   snake = [{ x: 9 * box, y: 10 * box }];
   direction = null;
-  food = spawnFood();
+  foods = [spawnFood()];
   score = 0;
+  applesEaten = 0;
   scoreDisplay.textContent = score;
   speed = 120;
   gameOverText.style.display = "none";
