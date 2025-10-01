@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: "Comic Sans MS", cursive, sans-serif;
@@ -8,7 +9,8 @@ body {
   background: black;
   color: white;
   text-align: center;
-  transition: background 0.2s;
+  transition: background 0.15s;
+  overflow: hidden;
 }
 
 #game-container {
@@ -16,6 +18,7 @@ body {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(255,255,255,0.7);
+  position: relative;
 }
 
 canvas {
@@ -37,4 +40,17 @@ canvas {
   color: yellow;
   font-weight: bold;
   text-shadow: 2px 2px red;
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translate(5px, 5px) rotate(0deg); }
+  20% { transform: translate(-5px, -5px) rotate(-5deg); }
+  40% { transform: translate(-5px, 5px) rotate(5deg); }
+  60% { transform: translate(5px, -5px) rotate(-5deg); }
+  80% { transform: translate(-5px, 5px) rotate(5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
