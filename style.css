@@ -1,45 +1,40 @@
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #ff7eb3, #65c7f7, #0052d4);
-  background-size: 300% 300%;
-  animation: bgmove 12s ease infinite;
+  background: black;
   color: white;
   text-align: center;
-}
-
-@keyframes bgmove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  transition: background 0.2s;
 }
 
 #game-container {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  box-shadow: 0 0 20px rgba(255,255,255,0.7);
 }
 
 canvas {
-  border: 2px solid #fff;
+  border: 3px dashed #fff;
   background: #111;
   margin: 10px 0;
   border-radius: 10px;
 }
 
 #info {
-  font-size: 16px;
+  font-size: 18px;
+  margin-top: 5px;
 }
 
 #game-over {
   display: none;
-  font-size: 20px;
-  margin-top: 10px;
+  font-size: 22px;
+  margin-top: 12px;
   color: yellow;
   font-weight: bold;
+  text-shadow: 2px 2px red;
 }
