@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Neon Snake — Futuristic Chaos</title>
+<style>
+  :root{
+    --bg:#05060a;
+    --panel: rgba(255,255,255,0.03);
+    --neon: #39ffb8;       /* neon green */
+    --neon-2:#00ffd5;
+    --muted: rgba(230,247,239,0.65);
+    --glass: rgba(255,255,255,0.04);
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#010105);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--muted);display:flex;align-items:center;justify-content:center}
+  .shell{width:980px;max-width:98vw;padding:18px;display:grid;grid-template-columns:1fr 360px;gap:18px}
+  .card{background:var(--panel);border:1px solid rgba(255,255,255,0.03);border-radius:14px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+  header{display:flex;align-items:center;gap:14px}
+  .logo{
+    width:56px;height:56px;border-radius:10px;
+    background:linear-gradient(180deg,var(--neon),var(--neon-2));
+    box-shadow:0 8px 30px rgba(0,255,200,0.08),0 0 18px rgba(57,255,184,0.2) inset;
+    display:flex;align-items:center;justify-content:center;font-weight:900;color:#012;letter-spacing:1px;font-size:20px;
+  }
+  h1{margin:0;font-size:20px;color:var(--neon);text-shadow:0 6px 30px rgba(0,255,180,0.06)}
+  .muted{color:var(--muted);font-size:13px}
+  /* canvas area */
+  .play-area{display:flex;flex-direction:column;align-items:center;gap:10px}
+  canvas{background:linear-gradient(180deg,rgba(0,0,0,0.55),rgba(0,0,0,0.7));border-radius:10px;width:640px;height:640px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 40px rgba(0,255,180,0.03) inset}
+  .controls{display:flex;gap:8px}
+  .btn{background:linear-gradient(180deg,#052,#024);color:var(--neon);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+  .btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+  .hud{display:flex;gap:12px;align-items:center;justify-content:space-between;width:100%;margin-top:6px}
+  .tile{background:var(--glass);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);font-weight:700;color:var(--neon)}
+  .small{font-size:13px;color:var(--muted)}
+  /* right column */
+  .side{display:flex;flex-direction:column;gap:10px}
+  label.small{font-size:13px;color:var(--muted)}
+  input[type="text"].code{background:transparent;border:1px dashed rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--neon);outline:none;width:100%;font-weight:700;display:none}
+  .footer{font-size:12px;color:var(--muted);margin-top:8px}
+  /* shake */
+  .shake{animation:shake 260ms}
+  @keyframes shake{
+    0%{transform:translate(2px,2px)}
+    20%{transform:translate(-2px,-2px)}
+    40%{transform:translate(2px,-2px)}
+    60%{transform:translate(-2px,2px)}
+    100%{transform:translate(0,0)}
+  }
+  /* responsive */
+  @media (max-width:980px){.shell{grid-template-columns:1fr;gap:12px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="card">
+    <header>
+      <div class="logo">NS</div>
+      <div>
+        <h1>Neon Snake</h1>
+        <div class="muted">Futuristic neon visuals • smooth motion • autoplay & hidden cheat</div>
+      </div>
+    </header>
+
+    <div class="play-area" style="margin-top:10px">
+      <canvas id="game" width="640" height="640"></canvas>
+
+      <div class="hud">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="tile">Score: <span id="score">0</span></div>
+          <div class="tile">High: <span id="hscore">0</span></div>
+          <div class="tile">Apples: <span id="appleCount">1</span></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="small" id="status">Status: waiting</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="start" class="btn">Start</button>
+        <button id="pause" class="btn secondary">Pause</button>
+        <button id="restart" class="btn secondary">Restart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card side">
+    <div>
+      <label class="small">Hidden code (press <strong>~</strong> to show)</label>
+      <input id="code" class="code" placeholder="enter code and press Enter">
+    </div>
+
+    <div>
+      <label class="small">Speed (ms per step)</label>
+      <input id="speed" type="range" min="50" max="200" value="100" />
+    </div>
+
+    <div>
+      <label class="small">Toggles</label>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button id="flashes" class="btn secondary">Flashes ON</button>
+        <button id="shake" class="btn secondary">Shake ON</button>
+      </div>
+    </div>
+
+    <div style="margin-top:8px">
+      <div class="small"><strong>Apple types</strong></div>
+      <div class="muted small" style="margin-top:6px">
+        Red = +10 • Gold = speed up • Blue = slow • Green = grow extra.
+        Every 4 apples: +3 apples spawn (chaos).
+      </div>
+    </div>
+
+    <div class="footer">Autoplay engages after 3 apples. For the secret cheat type <strong>snakegod</strong> after pressing <strong>~</strong>.</div>
+  </div>
+</div>
+
+<script>
+/* ---------- CONFIG ---------- */
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const cellCount = 20;                     // 20x20 grid
+const cellSize = canvas.width / cellCount;
+let tickMs = parseInt(document.getElementById('speed').value,10) || 100;
+let allowFlashes = true, allowShake = true;
+
+/* UI elements */
+const startBtn = document.getElementById('start');
+const pauseBtn = document.getElementById('pause');
+const restartBtn = document.getElementById('restart');
+const scoreEl = document.getElementById('score');
+const hscoreEl = document.getElementById('hscore');
+const appleCountEl = document.getElementById('appleCount');
+const statusEl = document.getElementById('status');
+const codeEl = document.getElementById('code');
+const speedInput = document.getElementById('speed');
+const flashesBtn = document.getElementById('flashes');
+const shakeBtn = document.getElementById('shake');
+
+speedInput.addEventListener('input', ()=>{ tickMs = parseInt(speedInput.value,10); });
+flashesBtn.addEventListener('click', ()=>{ allowFlashes = !allowFlashes; flashesBtn.textContent = allowFlashes? 'Flashes ON' : 'Flashes OFF'; });
+shakeBtn.addEventListener('click', ()=>{ allowShake = !allowShake; shakeBtn.textContent = allowShake? 'Shake ON' : 'Shake OFF'; });
+
+let highScore = parseInt(localStorage.getItem('neon_snake_high')||'0',10);
+hscoreEl.textContent = highScore;
+
+/* ---------- STATE ---------- */
+let snake = [];            // cells {x,y}
+let dir = {x:1,y:0};
+let queueDir = null;
+let apples = [];           // {x,y,type}
+let score = 0;
+let applesEaten = 0;
+let running = false;
+let paused = false;
+let autoplay = false;
+let winMode = false;
+
+/* smoothing */
+let animStart = performance.now();
+let animProgress = 0;
+
+/* colors */
+const NEON = {bg:'#020305', head: '#7effc9', body:'#34e3a6', appleRed:'#ff6b6b', appleGold:'#ffd66b', appleBlue:'#64b5ff', appleGreen:'#9cff9c'};
+
+/* utilities */
+function cellKey(x,y){ return `${x},${y}`; }
+function inside(x,y){ return x>=0 && y>=0 && x<cellCount && y<cellCount; }
+function randCell(){ return {x: Math.floor(Math.random()*cellCount), y: Math.floor(Math.random()*cellCount)}; }
+
+/* ---------- INIT / RESET ---------- */
+function reset(){
+  snake = [];
+  const cx = Math.floor(cellCount/2);
+  const cy = Math.floor(cellCount/2);
+  snake.push({x:cx-1,y:cy},{x:cx-2,y:cy},{x:cx-3,y:cy});
+  dir = {x:1,y:0};
+  queueDir = null;
+  apples = [];
+  spawnApple();
+  score = 0;
+  applesEaten = 0;
+  running = false; paused = false; autoplay = false; winMode = false;
+  scoreEl.textContent = score;
+  appleCountEl.textContent = apples.length;
+  statusEl.textContent = 'waiting';
+  animStart = performance.now();
+}
+reset();
+
+/* spawn apple: random type distribution */
+function spawnApple(type){
+  const occ = new Set(snake.map(s=>cellKey(s.x,s.y)).concat(apples.map(a=>cellKey(a.x,a.y))));
+  for(let tries=0; tries<2000; tries++){
+    const c = randCell();
+    const k = cellKey(c.x,c.y);
+    if(occ.has(k)) continue;
+    let t = type || 'normal';
+    if(!type){
+      const r = Math.random();
+      if(r < 0.08) t = 'speed';
+      else if(r < 0.14) t = 'slow';
+      else if(r < 0.2) t = 'double';
+    }
+    apples.push({x:c.x,y:c.y,type:t});
+    appleCountEl.textContent = apples.length;
+    return;
+  }
+}
+
+/* ---------- DRAW / RENDER ---------- */
+function drawRounded(x,y,w,h,r,fillStyle){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+}
+
+/* draw shiny apple */
+function drawApple(a){
+  const px = a.x*cellSize, py = a.y*cellSize;
+  const cx = px + cellSize/2, cy = py + cellSize/2;
+  const r = cellSize*0.36;
+
+  // gradient base
+  let grad = ctx.createRadialGradient(cx - r*0.2, cy - r*0.3, r*0.1, cx, cy, r*1.1);
+  if(a.type==='speed') grad.addColorStop(0, NEON.appleGold); else if(a.type==='slow') grad.addColorStop(0, NEON.appleBlue); else if(a.type==='double') grad.addColorStop(0, NEON.appleGreen); else grad.addColorStop(0, NEON.appleRed);
+  grad.addColorStop(1, 'rgba(0,0,0,0.12)');
+  ctx.beginPath();
+  ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // highlight
+  ctx.globalAlpha = 0.22;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(cx - r*0.35, cy - r*0.55, r*0.45, r*0.3, -0.6, 0, Math.PI*2);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // stem
+  ctx.beginPath();
+  ctx.strokeStyle = '#3b2b12';
+  ctx.lineWidth = Math.max(1, cellSize*0.06);
+  ctx.moveTo(cx + r*0.18, cy - r*0.78);
+  ctx.quadraticCurveTo(cx + r*0.2, cy - r*0.95, cx + r*0.05, cy - r*1.02);
+  ctx.stroke();
+}
+
+/* draw glow snake with trail */
+function drawSnakeInterpolated(progress){
+  // head moves from previous to current for smoothness: we assume snake[0] is current
+  for(let i = snake.length - 1; i >= 0; i--){
+    // compute pixel pos
+    let seg = snake[i];
+    let px = seg.x * cellSize, py = seg.y * cellSize;
+
+    // for head, get previous cell (if exists) to interpolate
+    if(i === 0 && snake.length > 1){
+      const next = snake[1]; // previous head position
+      const fromX = next.x * cellSize, fromY = next.y * cellSize;
+      px = fromX + (seg.x*cellSize - fromX) * progress;
+      py = fromY + (seg.y*cellSize - fromY) * progress;
+    } else if(i > 0){
+      // slight smoothing with adjacent segment to create curved trail
+      const prev = snake[i];
+      const nxt = snake[i-1] || prev;
+      const fromX = prev.x * cellSize, fromY = prev.y * cellSize;
+      const toX = nxt.x * cellSize, toY = nxt.y * cellSize;
+      px = fromX + (toX - fromX) * Math.min(progress,0.6);
+      py = fromY + (toY - fromY) * Math.min(progress,0.6);
+    }
+
+    // gradient glow
+    const hue = (i*10 + performance.now()/12) % 360;
+    const alpha = 0.95 - Math.min(0.75, i / (snake.length+4));
+    ctx.fillStyle = `hsla(${hue}deg, 85%, 60%, ${alpha})`;
+
+    // rounded rect body
+    drawRounded(px + 2, py + 2, cellSize - 4, cellSize - 4, Math.max(4, cellSize*0.12), ctx.fillStyle);
+
+    // outer glow (soft)
+    ctx.shadowBlur = 16;
+    ctx.shadowColor = `hsla(${hue}deg, 80%, 60%, ${alpha*0.7})`;
+    ctx.fillStyle = `hsla(${hue}deg, 85%, 48%, ${alpha*0.15})`;
+    ctx.fillRect(px + cellSize*0.1, py + cellSize*0.1, cellSize*0.8, cellSize*0.8);
+    ctx.shadowBlur = 0;
+  }
+}
+
+/* main render */
+function render(progress=1){
+  // bg
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = NEON.bg || '#000';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // subtle grid glow
+  for(let gx=0; gx<cellCount; gx++){
+    for(let gy=0; gy<cellCount; gy++){
+      const x = gx*cellSize, y = gy*cellSize;
+      const dist = Math.hypot(gx - (cellCount/2), gy - (cellCount/2)) / (cellCount/2);
+      ctx.globalAlpha = 0.012 * (1 - dist);
+      ctx.fillStyle = '#0ff';
+      ctx.fillRect(x,y,cellSize,cellSize);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  // apples
+  for(const a of apples) drawApple(a);
+
+  // snake
+  drawSnakeInterpolated(progress);
+}
+
+/* ---------- LOGIC / MOVEMENT ---------- */
+
+/* move (commit a tick) */
+function tick(){
+  if(!running || paused) return;
+
+  // apply queued dir (prevent opposite)
+  if(queueDir && !(queueDir.x === -dir.x && queueDir.y === -dir.y)){
+    dir = queueDir;
+  }
+  queueDir = null;
+
+  // if autoplay (and not win) compute dir via BFS
+  if(autoplay && !winMode){
+    const move = findPathToApple();
+    if(move) dir = move;
+    else {
+      const alt = safeTurn();
+      if(alt) dir = alt;
+    }
+  }
+
+  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+
+  // collision
+  if(!winMode && (!inside(head.x, head.y) || snake.some((s,i)=> i>0 && s.x===head.x && s.y===head.y))){
+    // game over
+    running = false;
+    statusEl.textContent = 'game over';
+    onEatEffects(); // quick flash
+    setTimeout(()=> {
+      if(score > highScore){ highScore = score; localStorage.setItem('neon_snake_high', highScore); hscoreEl.textContent = highScore; }
+      alert('Game Over — Score: ' + score);
+    }, 120);
+    return;
+  }
+
+  snake.unshift(head);
+
+  // check apples
+  let ate = false;
+  for(let i=apples.length-1;i>=0;i--){
+    const a = apples[i];
+    if(a.x===head.x && a.y===head.y){
+      ate = true;
+      apples.splice(i,1);
+      applesEaten++;
+      score += 10;
+      scoreEl.textContent = score;
+      appleCountEl.textContent = apples.length;
+      onEatEffects(); // flash & shake & particles
+      // apple effect
+      if(a.type === 'speed'){ tickMs = Math.max(40, tickMs - 12); speed.value = tickMs; }
+      else if(a.type === 'slow'){ tickMs = tickMs + 30; speed.value = tickMs; }
+      else if(a.type === 'double'){ const tail = snake[snake.length-1]; snake.push({x:tail.x,y:tail.y}); }
+
+      // chaos: every 4 apples spawn 3 extras
+      if(applesEaten % 4 === 0) for(let k=0;k<3;k++) spawnApple();
+      spawnApple();
+      break;
+    }
+  }
+
+  if(!ate){
+    snake.pop();
+  } else {
+    // autoplay triggers after 3 apples
+    if(applesEaten >= 3) { autoplay = true; statusEl.textContent = 'autoplay'; }
+  }
+
+  // victory
+  if(snake.length >= Math.floor(cellCount*cellCount*0.7) && !winMode){
+    winMode = true;
+    running = false;
+    statusEl.textContent = 'victory';
+    launchVictory();
+    return;
+  }
+
+  // prepare animation interpolation
+  animStart = performance.now();
+}
+
+/* small flash/shake/particle on eat */
+let particles = [];
+function onEatEffects(){
+  if(allowFlashes) {
+    document.body.style.transition = 'background 0.12s';
+    document.body.style.background = `hsl(${Math.random()*360} 80% 45%)`;
+    setTimeout(()=>document.body.style.background = '', 160);
+  }
+  if(allowShake){
+    document.body.classList.add('shake');
+    setTimeout(()=>document.body.classList.remove('shake'), 220);
+  }
+  // spawn particles
+  for(let i=0;i<14;i++){
+    particles.push({
+      x: (snake[0].x + 0.5)*cellSize,
+      y: (snake[0].y + 0.5)*cellSize,
+      vx: (Math.random()-0.5)*4,
+      vy: (Math.random()-1)*3,
+      life: Math.random()*50+30,
+      color: `hsl(${Math.random()*360} 85% 60%)`
+    });
+  }
+}
+
+/* draw particles */
+function drawParticles(){
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+    ctx.globalAlpha = Math.max(0, p.life/80);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 2 + Math.random()*2, 0, Math.PI*2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    if(p.life <= 0) particles.splice(i,1);
+  }
+}
+
+/* ---------- PATHFINDING: BFS to nearest apple ---------- */
+function findPathToApple(){
+  if(apples.length === 0) return null;
+  const head = snake[0];
+  // blocked includes snake body except tail (tail will move)
+  const blocked = new Set(snake.map((s,i)=> cellKey(s.x,s.y)));
+  const tail = snake[snake.length-1];
+  blocked.delete(cellKey(tail.x, tail.y));
+  const visited = new Set();
+  const q = [{x: head.x, y: head.y, path: []}];
+  visited.add(cellKey(head.x, head.y));
+  const dirs = [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+
+  while(q.length){
+    const cur = q.shift();
+    // if an apple is here
+    if(apples.some(a=>a.x===cur.x && a.y===cur.y) && cur.path.length > 0){
+      return cur.path[0];
+    }
+    for(const d of dirs){
+      const nx = cur.x + d.x, ny = cur.y + d.y;
+      const k = cellKey(nx,ny);
+      if(!inside(nx,ny) || visited.has(k) || blocked.has(k)) continue;
+      visited.add(k);
+      const newPath = cur.path.concat([{x:d.x,y:d.y}]);
+      // if apple found on neighbor
+      if(apples.some(a=>a.x===nx && a.y===ny)) return newPath[0];
+      q.push({x:nx,y:ny,path:newPath});
+    }
+  }
+  return null;
+}
+
+/* fallback: try to find any safe direction (forward,left,right) */
+function safeTurn(){
+  const head = snake[0];
+  const tries = [dir, rotate(dir, -1), rotate(dir, 1)];
+  for(const d of tries){
+    const nx = head.x + d.x, ny = head.y + d.y;
+    if(!inside(nx,ny)) continue;
+    if(snake.some((s,i)=>i>0 && s.x===nx && s.y===ny)) continue;
+    return d;
+  }
+  return {x:-dir.x,y:-dir.y}; // as last resort
+}
+function rotate(d, side){ // side -1 left, 1 right
+  if(d.x===1 && d.y===0) return side===1? {x:0,y:1}:{x:0,y:-1};
+  if(d.x===-1 && d.y===0) return side===1? {x:0,y:-1}:{x:0,y:1};
+  if(d.x===0 && d.y===1) return side===1? {x:-1,y:0}:{x:1,y:0};
+  if(d.x===0 && d.y===-1) return side===1? {x:1,y:0}:{x:-1,y:0};
+  return {x:1,y:0};
+}
+
+/* ---------- VICTORY ---------- */
+let fireworks = [];
+function launchVictory(){
+  // freeze and show fireworks, then reset
+  winMode = true;
+  fireworks = [];
+  for(let i=0;i<60;i++) fireworks.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height*0.6, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.6)*6, life:Math.random()*80+40, color:`hsl(${Math.random()*360} 80% 60%)`});
+  let t = 0;
+  const fin = setInterval(()=>{
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(const f of fireworks){
+      ctx.beginPath();
+      ctx.fillStyle = f.color;
+      ctx.arc(f.x, f.y, 3 + Math.random()*4, 0, Math.PI*2);
+      ctx.fill();
+      f.x += f.vx; f.y += f.vy; f.vy += 0.12; f.life--;
+      if(f.life<0){ f.x = Math.random()*canvas.width; f.y = Math.random()*canvas.height*0.4; f.life = Math.random()*80+40; f.vx=(Math.random()-0.5)*6; f.vy=(Math.random()-1.5)*6; }
+    }
+    t++;
+    if(t>160){ clearInterval(fin); alert('VICTORY!'); running=false; winMode=false; reset(); }
+  },40);
+}
+
+/* ---------- INPUT (keyboard) ---------- */
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='~'){ // toggle hidden code input visibility
+    codeEl.style.display = (codeEl.style.display === 'block') ? 'none' : 'block';
+    if(codeEl.style.display==='block') codeEl.focus();
+    return;
+  }
+  if(!running || paused || autoplay) {
+    // allow pause toggle keys
+    if(e.key===' '){ /* ignore space if not running */ }
+  }
+  if(!autoplay && running && !paused){
+    if(e.key==='ArrowLeft' || e.key==='a'){ queueDir = {x:-1,y:0}; }
+    if(e.key==='ArrowRight' || e.key==='d'){ queueDir = {x:1,y:0}; }
+    if(e.key==='ArrowUp' || e.key==='w'){ queueDir = {x:0,y:-1}; }
+    if(e.key==='ArrowDown' || e.key==='s'){ queueDir = {x:0,y:1}; }
+  }
+});
+
+/* code input handling (hidden) */
+codeEl.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){
+    const v = codeEl.value.trim().toLowerCase();
+    codeEl.value = '';
+    codeEl.style.display = 'none';
+    if(v === 'snakegod'){
+      // secret auto-win: fill visually then victory
+      autoplay = true; winMode = true; statusEl.textContent = 'god mode';
+      fillAndWin();
+    } else {
+      alert('Invalid code');
+    }
+  }
+});
+
+/* fill board dramatically then fire victory */
+function fillAndWin(){
+  running = false;
+  const occ = new Set(snake.map(s=>cellKey(s.x,s.y)));
+  const cells = [];
+  for(let y=0;y<cellCount;y++) for(let x=0;x<cellCount;x++){
+    const k = cellKey(x,y);
+    if(!occ.has(k)) cells.push({x,y});
+  }
+  let i = 0;
+  const iv = setInterval(()=>{
+    if(i>=cells.length) { clearInterval(iv); launchVictory(); return; }
+    snake.push(cells[i++]);
+    render(1);
+  }, 6);
+}
+
+/* ---------- PARTICLE DRAW LOOP & ANIM ---------- */
+function frame(now){
+  // compute anim progress
+  const elapsed = now - animStart;
+  animProgress = Math.min(1, elapsed / tickMs);
+  // render everything interpolated by animProgress
+  render(animProgress);
+  // draw particles
+  drawParticles();
+  requestAnimationFrame(frame);
+}
+
+/* draw particles (already defined above) */
+
+/* ---------- MAIN TICK SCHEDULER ---------- */
+let lastTick = performance.now();
+function scheduleTicks(){
+  setInterval(()=>{
+    if(running && !paused && !winMode) tick();
+  }, tickMs);
+}
+
+/* ---------- HELPERS ---------- */
+function drawParticles(){ /* placeholder actual implementation earlier used; duplicate intentionally for scoping */
+  // actual particles are drawn in main render; keep no-op here because we call drawParticles() in frame
+  // but earlier particles defined and updated in drawParticles during render path; to ensure it's called, keep empty.
+}
+
+/* but we need the actual drawParticles defined earlier; create it here to update particles array */
+(function(){
+  // We've already pushed particle objects to 'particles' in onEatEffects, so implement drawParticles now
+  window.particles = window.particles || [];
+  window.drawParticles = function(){
+    for(let i=window.particles.length-1;i>=0;i--){
+      const p = window.particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+      ctx.globalAlpha = Math.max(0, p.life / 80);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2 + Math.random()*2, 0, Math.PI*2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      if(p.life <= 0) window.particles.splice(i,1);
+    }
+  };
+})();
+
+/* make sure particle references match */
+let particles = window.particles = window.particles || [];
+
+/* ---------- START/PAUSE/RESTART UI ---------- */
+startBtn.addEventListener('click', ()=>{
+  if(!running){
+    running = true; paused = false; statusEl.textContent = 'playing';
+    animStart = performance.now();
+  }
+});
+pauseBtn.addEventListener('click', ()=>{
+  if(!running) return;
+  paused = !paused;
+  pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+  statusEl.textContent = paused ? 'paused' : 'playing';
+});
+restartBtn.addEventListener('click', ()=>{
+  reset();
+  running = true;
+  statusEl.textContent = 'playing';
+});
+
+/* ---------- BOOT ---------- */
+render(1);
+requestAnimationFrame(frame);
+scheduleTicks();
+</script>
+</body>
+</html>
