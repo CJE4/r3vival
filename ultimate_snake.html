@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ultimate Snake — Chaos & Polished Mode</title>
+<style>
+  :root{
+    --bg:#050606;
+    --panel: rgba(255,255,255,0.04);
+    --accent: #29d391;
+  }
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e6f7ef;display:flex;align-items:center;justify-content:center}
+  .wrap{display:grid;grid-template-columns:420px 320px;gap:18px;align-items:start;padding:20px}
+  .panel{background:var(--panel);border:1px solid rgba(255,255,255,0.03);padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .left{display:flex;flex-direction:column;align-items:center;gap:10px}
+  canvas{background:#0f1112;border-radius:10px;display:block}
+  h1{margin:0;font-size:20px;color:var(--accent);text-align:center}
+  .controls{display:flex;gap:8px;margin-top:6px}
+  button{background:linear-gradient(180deg,#0f9,#06b);border:0;padding:10px 14px;border-radius:10px;font-weight:700;color:#002;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+  button.secondary{background:linear-gradient(180deg,#333,#111);color:#fff;border:1px solid rgba(255,255,255,0.04)}
+  .info{font-size:14px;margin-top:6px}
+  .stat{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:6px 0}
+  input#code{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:#0b0b0c;color:#e6f7ef}
+  .small{font-size:13px;color:rgba(230,247,239,0.8)}
+  .muted{color:rgba(230,247,239,0.55)}
+  .footer{font-size:12px;color:rgba(230,247,239,0.55);margin-top:8px}
+  /* shake */
+  .shake{animation:shake 260ms}
+  @keyframes shake{
+    0%{transform:translate(2px,2px)}
+    20%{transform:translate(-2px,-2px)}
+    40%{transform:translate(2px,-2px)}
+    60%{transform:translate(-2px,2px)}
+    100%{transform:translate(0,0)}
+  }
+  /* responsive */
+  @media (max-width:880px){.wrap{grid-template-columns:1fr;gap:12px;padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel left">
+    <h1>Ultimate Snake — Chaos & Polished Mode</h1>
+    <canvas id="c" width="400" height="400" style="width:400px;height:400px"></canvas>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="startBtn">Start Game</button>
+      <button id="pauseBtn" class="secondary">Pause</button>
+      <button id="restartBtn" class="secondary">Restart</button>
+    </div>
+
+    <div class="info">
+      <div class="stat"><div class="small">Score:</div><div id="score" class="small">0</div></div>
+      <div class="stat"><div class="small">High Score:</div><div id="hscore" class="small">0</div></div>
+      <div class="stat"><div class="small">Apples eaten:</div><div id="applesEaten" class="small">0</div></div>
+      <div class="stat"><div class="small">Mode:</div><div id="mode" class="small muted">waiting</div></div>
+    </div>
+
+    <div class="footer">Controls: Arrow keys or WASD. After 3 apples, autoplay engages. Type code <strong>snakegod</strong> below to auto-win.</div>
+  </div>
+
+  <div class="panel">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div><label class="small">Enter cheat code (press Enter)</label><input id="code" placeholder="Type code and press Enter (eg. snakegod)" /></div>
+      <div><label class="small">Game speed (ms per cell):</label>
+        <input id="speedRange" type="range" min="60" max="200" value="100" />
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button id="toggleFlashes" class="secondary">Toggle Flashes</button>
+        <button id="toggleShake" class="secondary">Toggle Shake</button>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="small"><strong>Apple types</strong></div>
+        <div class="muted small" style="margin-top:6px">
+          Normal (red) = +10. <br>
+          Speed (gold) = speed up. <br>
+          Slow (blue) = slow down. <br>
+          Double (green apple) = grow extra immediately.
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="small"><strong>Notes</strong></div>
+        <div class="muted small" style="margin-top:6px">
+          Every 4 apples, 3 extra apples spawn (chaos). Autoplay uses pathfinding (BFS) to avoid collisions when possible. If no safe path, it falls back to the best available move.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* GAME CONFIG */
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const cellCount = 20;                // 20x20 grid
+const cellSize = canvas.width / cellCount;
+let tickMs = 100;                    // movement tick (smooth animation will lerp)
+let allowFlashes = true;
+let allowShake = true;
+
+/* UI */
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const restartBtn = document.getElementById('restartBtn');
+const scoreEl = document.getElementById('score');
+const hscoreEl = document.getElementById('hscore');
+const applesEatenEl = document.getElementById('applesEaten');
+const modeEl = document.getElementById('mode');
+const codeInput = document.getElementById('code');
+const speedRange = document.getElementById('speedRange');
+const toggleFlashes = document.getElementById('toggleFlashes');
+const toggleShake = document.getElementById('toggleShake');
+
+speedRange.addEventListener('input', ()=>{ tickMs = parseInt(speedRange.value); });
+toggleFlashes.addEventListener('click', ()=>{ allowFlashes = !allowFlashes; toggleFlashes.textContent = allowFlashes? 'Toggle Flashes' : 'Flashes OFF'; });
+toggleShake.addEventListener('click', ()=>{ allowShake = !allowShake; toggleShake.textContent = allowShake? 'Toggle Shake' : 'Shake OFF'; });
+
+/* GAME STATE */
+let snake = [];                   // array of {x,y} cells
+let dir = {x:1,y:0};              // direction in cells
+let nextDir = null;               // queued direction
+let apples = [];                  // array of {x,y,type}
+let score = 0;
+let applesEaten = 0;
+let highScore = parseInt(localStorage.getItem('snake_high')||'0',10);
+hscoreEl.textContent = highScore;
+let running = false;
+let paused = false;
+let autoPlay = false;
+let winMode = false;
+
+/* smoothing */
+let animProgress = 0;            // 0..1 progress between cells
+let lastTickTime = 0;
+
+/* init */
+const COLORS = { bg:'#0f1112', snakeHead:'#86ff9f', snakeBody:'#2ce6a4', appleRed:'#ff4b4b', appleGold:'#ffd24d', appleBlue:'#4da6ff', appleGreen:'#7bff7b' };
+const appleTypes = ['normal','speed','slow','double'];
+
+/* grid helpers */
+function cellKey(x,y){ return x+','+y; }
+function inside(x,y){ return x>=0 && y>=0 && x<cellCount && y<cellCount; }
+
+/* start/reset helpers */
+function resetGame(){
+  snake = [];
+  // start snake length 4 centered
+  const cx = Math.floor(cellCount/2);
+  const cy = Math.floor(cellCount/2);
+  snake.push({x:cx-1,y:cy},{x:cx-2,y:cy},{x:cx-3,y:cy});
+  dir = {x:1,y:0};
+  nextDir = null;
+  apples = [];
+  spawnApple();
+  score = 0;
+  applesEaten = 0;
+  scoreEl.textContent = score;
+  applesEatenEl.textContent = applesEaten;
+  modeEl.textContent = 'waiting';
+  animProgress = 0;
+  lastTickTime = performance.now();
+  autoPlay = false;
+  winMode = false;
+}
+
+/* spawn an apple with a chance for special types */
+function spawnApple(type){
+  // choose empty cell
+  const occupied = new Set(snake.map(s=>cellKey(s.x,s.y)).concat(apples.map(a=>cellKey(a.x,a.y))));
+  let tries=0;
+  while(tries<1000){
+    const x = Math.floor(Math.random()*cellCount);
+    const y = Math.floor(Math.random()*cellCount);
+    if(!occupied.has(cellKey(x,y))){
+      let t = type || 'normal';
+      if(!type){
+        const r = Math.random();
+        if(r<0.08) t='speed';
+        else if(r<0.14) t='slow';
+        else if(r<0.2) t='double';
+      }
+      apples.push({x,y,type:t});
+      return;
+    }
+    tries++;
+  }
+}
+
+/* apple artwork drawing */
+function drawApple(x,y,type){
+  // center coords in pixels
+  const px = x*cellSize, py = y*cellSize;
+  const cx = px + cellSize/2, cy = py + cellSize/2;
+  const r = cellSize*0.36;
+
+  // base color
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx,cy,r,0,Math.PI*2);
+  if(type==='speed') ctx.fillStyle = COLORS.appleGold;
+  else if(type==='slow') ctx.fillStyle = COLORS.appleBlue;
+  else if(type==='double') ctx.fillStyle = COLORS.appleGreen;
+  else ctx.fillStyle = COLORS.appleRed;
+  ctx.fill();
+
+  // highlight
+  ctx.globalAlpha = 0.18;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(cx - r*0.35, cy - r*0.5, r*0.5, r*0.35, -0.6, 0, Math.PI*2);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // small shine
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.beginPath();
+  ctx.ellipse(cx - r*0.4, cy - r*0.6, r*0.12, r*0.08, -0.6, 0, Math.PI*2);
+  ctx.fill();
+
+  // stem
+  ctx.beginPath();
+  ctx.strokeStyle = '#3b2b12';
+  ctx.lineWidth = Math.max(1, cellSize*0.06);
+  ctx.moveTo(cx + r*0.18, cy - r*0.78);
+  ctx.quadraticCurveTo(cx + r*0.2, cy - r*0.95, cx + r*0.05, cy - r*1.02);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+/* draw grid, snake, apples with smoothing */
+function render(){
+  // background
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // apples
+  for(const a of apples) drawApple(a.x,a.y,a.type);
+
+  // snake interpolated drawing
+  for(let i=snake.length-1;i>=0;i--){
+    // determine pixel position: if head or moving segment, interpolate with animProgress
+    let seg = snake[i];
+    let px = seg.x * cellSize;
+    let py = seg.y * cellSize;
+
+    // for head, we draw between previous cell and current if animProgress in motion
+    if(i===0 && animProgress>0 && snake.length>1){
+      const prev = snake[1];
+      // head is moving from prev to seg (we inserted head already)
+      const fromX = prev.x*cellSize, fromY = prev.y*cellSize;
+      px = fromX + (seg.x*cellSize - fromX)*animProgress;
+      py = fromY + (seg.y*cellSize - fromY)*animProgress;
+    } else if(i>0 && animProgress>0){
+      // intermediate smoothing between this seg and its predecessor if exists
+      const nextSeg = snake[i-1] || seg;
+      const fromX = seg.x*cellSize, fromY = seg.y*cellSize;
+      const toX = nextSeg.x*cellSize, toY = nextSeg.y*cellSize;
+      // blend a little to smooth visual collisions
+      px = fromX + (toX-fromX)*Math.min(animProgress,0.6);
+      py = fromY + (toY-fromY)*Math.min(animProgress,0.6);
+    }
+
+    // color head differently
+    if(i===0){
+      // rainbow effect if autoplay
+      if(autoPlay || winMode){
+        const hue = (performance.now()/10 + i*20) % 360;
+        ctx.fillStyle = `hsl(${hue} 85% 60%)`;
+      } else ctx.fillStyle = COLORS.snakeHead;
+    } else {
+      ctx.fillStyle = COLORS.snakeBody;
+    }
+    roundRect(ctx, px+2, py+2, cellSize-4, cellSize-4, Math.max(4,cellSize*0.12), true, false);
+  }
+}
+
+/* utility rounded rect */
+function roundRect(ctx,x,y,w,h,r,fill,stroke){
+  if(typeof r==='undefined') r=5;
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+/* game tick: move snake one cell (instant in state; rendering smooths) */
+function tick(){
+  if(!running || paused) return;
+
+  // apply queued direction
+  if(nextDir){
+    // prevent reversing
+    if(!(nextDir.x===-dir.x && nextDir.y===-dir.y)) dir = nextDir;
+    nextDir = null;
+  }
+
+  // if autoplay, compute dir via pathfinding
+  if(autoPlay && !winMode){
+    const move = findPathToClosestApple();
+    if(move) dir = move; // move is {x,y} cell delta
+    else {
+      // fallback: try any safe turn to avoid immediate collision
+      const safe = firstSafeDir();
+      if(safe) dir = safe;
+    }
+  }
+
+  // compute new head
+  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+
+  // if winMode auto-complete prohibits death; else if collides => game over
+  if(!winMode && (!inside(head.x, head.y) || snake.some((s,i)=>i>0 && s.x===head.x && s.y===head.y))){
+    // game over
+    running = false;
+    modeEl.textContent = 'game over';
+    flashAndShake(180);
+    setTimeout(()=>{ if(score>highScore){ localStorage.setItem('snake_high',score); hscoreEl.textContent = score; } alert('Game Over! Score: '+score); }, 120);
+    return;
+  }
+
+  // insert head
+  snake.unshift(head);
+
+  // eat apples?
+  let ate = false;
+  for(let i=apples.length-1;i>=0;i--){
+    const a = apples[i];
+    if(a.x===head.x && a.y===head.y){
+      ate = true;
+      apples.splice(i,1);
+      applesEaten++;
+      score += 10;
+      applesEatenEl.textContent = applesEaten;
+      scoreEl.textContent = score;
+      flashAndShake(140);
+      // apply apple effect
+      if(a.type==='speed'){ tickMs = Math.max(40, tickMs-12); speedRange.value = tickMs; }
+      else if(a.type==='slow'){ tickMs += 30; speedRange.value = tickMs; }
+      else if(a.type==='double'){ // give extra growth pieces
+        const tail = snake[snake.length-1];
+        snake.push({x:tail.x,y:tail.y});
+      }
+      // chaos multiplier every 4 apples
+      if(applesEaten % 4 === 0){
+        for(let j=0;j<3;j++) spawnApple();
+      }
+      spawnApple(); // always spawn at least one replacement
+      break;
+    }
+  }
+
+  if(!ate){
+    // remove tail
+    snake.pop();
+  }
+
+  // check victory condition
+  if(snake.length >= Math.floor(cellCount*cellCount*0.7) && !winMode){
+    winMode = true;
+    running = false;
+    modeEl.textContent = 'victory';
+    setTimeout(()=> startVictorySequence(), 200);
+    return;
+  }
+
+  // prepare smooth animation
+  animProgress = 0;
+  lastTickTime = performance.now();
+}
+
+/* smooth update loop */
+function loop(now){
+  // interpolation progress
+  if(!running){
+    // still render in paused/waiting states
+    render();
+    requestAnimationFrame(loop);
+    return;
+  }
+
+  // progress increases based on time and tickMs
+  const elapsed = now - lastTickTime;
+  // animProgress goes from 0 to 1 across tickMs ms
+  animProgress = Math.min(1, elapsed / tickMs);
+  render();
+
+  // when animProgress reaches 1, we commit the tick and schedule next
+  if(animProgress >= 1 - 1e-6){
+    // advance tick
+    lastTickTime = now;
+    tick(); // tick will set animProgress = 0 and update snake state
+  }
+
+  requestAnimationFrame(loop);
+}
+
+/* input handlers for player */
+document.addEventListener('keydown', e=>{
+  if(!running) return;
+  if(e.key==='ArrowLeft' || e.key==='a'){ queueDir({x:-1,y:0}); }
+  if(e.key==='ArrowRight' || e.key==='d'){ queueDir({x:1,y:0}); }
+  if(e.key==='ArrowUp' || e.key==='w'){ queueDir({x:0,y:-1}); }
+  if(e.key==='ArrowDown' || e.key==='s'){ queueDir({x:0,y:1}); }
+});
+
+/* queue a direction, will be applied on next tick */
+function queueDir(d){ nextDir = d; }
+
+/* simple flood-fill BFS pathfinding (avoids snake cells) to nearest apple */
+function findPathToClosestApple(){
+  if(apples.length===0) return null;
+  const head = snake[0];
+  // grid blocked map
+  const blocked = new Set(snake.map(s=>cellKey(s.x,s.y)));
+  // allow tail cell as target because it will move
+  const tail = snake[snake.length-1];
+  blocked.delete(cellKey(tail.x,tail.y));
+
+  const q = [];
+  const seen = new Set();
+  q.push({x:head.x,y:head.y,path:[]});
+  seen.add(cellKey(head.x,head.y));
+  const deltas = [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+
+  while(q.length){
+    const cur = q.shift();
+    // check if apple on this cell (rare for head, but check)
+    if(apples.some(a=>a.x===cur.x && a.y===cur.y) && cur.path.length>0){
+      const move = cur.path[0];
+      return move;
+    }
+    for(const d of deltas){
+      const nx = cur.x + d.x, ny = cur.y + d.y;
+      if(!inside(nx,ny)) continue;
+      const k = cellKey(nx,ny);
+      if(seen.has(k)) continue;
+      if(blocked.has(k)) continue;
+      seen.add(k);
+      const newPath = cur.path.concat([{x:d.x,y:d.y}]);
+      // if any apple at nx,ny -> return first step
+      if(apples.some(a=>a.x===nx && a.y===ny)){
+        return newPath[0];
+      }
+      q.push({x:nx,y:ny,path:newPath});
+    }
+  }
+  return null; // no safe path
+}
+
+/* fallback first safe dir: try forward, left, right, back */
+function firstSafeDir(){
+  const head = snake[0];
+  const tries = [
+    dir,
+    rotate(dir, -1),
+    rotate(dir, 1),
+    {x:-dir.x,y:-dir.y}
+  ];
+  for(const d of tries){
+    const nx = head.x + d.x, ny = head.y + d.y;
+    if(!inside(nx,ny)) continue;
+    if(snake.some((s,i)=>i>0 && s.x===nx && s.y===ny)) continue;
+    return d;
+  }
+  return null;
+}
+function rotate(d, dir){
+  // dir = -1 left, 1 right
+  if(d.x===1 && d.y===0) return dir===1? {x:0,y:1}:{x:0,y:-1};
+  if(d.x===-1 && d.y===0) return dir===1? {x:0,y:-1}:{x:0,y:1};
+  if(d.x===0 && d.y===1) return dir===1? {x:-1,y:0}:{x:1,y:0};
+  if(d.x===0 && d.y===-1) return dir===1? {x:1,y:0}:{x:-1,y:0};
+  return {x:0,y:0};
+}
+
+/* small UI / effects */
+function flashAndShake(ms){
+  if(allowFlashes){
+    document.body.style.transition = 'background 0.12s';
+    document.body.style.background = `hsl(${Math.random()*360} 80% 45%)`;
+    setTimeout(()=>{ document.body.style.background = ''; }, ms);
+  }
+  if(allowShake){
+    document.body.classList.add('shake');
+    setTimeout(()=>document.body.classList.remove('shake'), ms);
+  }
+}
+
+/* victory/fireworks */
+let fireworks = [];
+function startVictorySequence(){
+  // spawn colorful fireworks and fill screen visually
+  winMode = true;
+  fireworks = [];
+  for(let i=0;i<60;i++){
+    fireworks.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.5)*6, life:Math.random()*80+40, color: `hsl(${Math.random()*360} 80% 60%)`});
+  }
+  animateFireworks();
+}
+function animateFireworks(){
+  const finterval = setInterval(()=>{
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(const f of fireworks){
+      // small explosion particles
+      ctx.beginPath();
+      ctx.fillStyle = f.color;
+      ctx.arc(f.x, f.y, 3 + Math.random()*3, 0, Math.PI*2);
+      ctx.fill();
+      f.x += f.vx;
+      f.y += f.vy;
+      f.vy += 0.12;
+      f.life--;
+      if(f.life < 0){
+        // respawn
+        f.x = Math.random()*canvas.width;
+        f.y = Math.random()*canvas.height*0.5;
+        f.vx = (Math.random()-0.5)*6;
+        f.vy = (Math.random()-1.5)*6;
+        f.life = Math.random()*80+40;
+        f.color = `hsl(${Math.random()*360} 80% 60%)`;
+      }
+    }
+  }, 40);
+
+  setTimeout(()=>{ clearInterval(finterval); alert('VICTORY!'); }, 7000);
+}
+
+/* code input handling */
+codeInput.addEventListener('keydown', e=>{
+  if(e.key==='Enter'){
+    const v = codeInput.value.trim();
+    if(v.toLowerCase() === 'snakegod'){
+      // trigger auto-win
+      autoPlay = true;
+      winMode = true;
+      modeEl.textContent = 'god mode';
+      // fill snake slowly to create dramatic effect
+      fillBoardAndWin();
+    }
+    codeInput.value = '';
+  }
+});
+
+/* dramatic fill & win */
+function fillBoardAndWin(){
+  running = false;
+  let fillInterval = setInterval(()=>{
+    // find an empty cell and add to snake (visual fill)
+    const occ = new Set(snake.map(s=>cellKey(s.x,s.y)));
+    for(let y=0;y<cellCount;y++){
+      for(let x=0;x<cellCount;x++){
+        if(!occ.has(cellKey(x,y))){
+          snake.push({x,y});
+          // visually stage it
+          render();
+          return; // one cell per interval
+        }
+      }
+    }
+    // if filled:
+    clearInterval(fillInterval);
+    startVictorySequence();
+  }, 6); // super fast fill
+}
+
+/* helper: unique key for coordinates */
+function cellKey(x,y){ return `${x},${y}`; }
+
+/* Start / Pause / Restart controls */
+startBtn.addEventListener('click', ()=>{
+  if(!running){
+    running = true;
+    paused = false;
+    modeEl.textContent = 'playing';
+    lastTickTime = performance.now();
+  }
+});
+pauseBtn.addEventListener('click', ()=>{
+  paused = !paused;
+  pauseBtn.textContent = paused? 'Resume' : 'Pause';
+  modeEl.textContent = paused? 'paused' : 'playing';
+});
+restartBtn.addEventListener('click', ()=>{
+  resetGame();
+  running = true;
+  paused = false;
+  modeEl.textContent = 'playing';
+});
+
+/* helper safe start */
+resetGame();
+render();
+requestAnimationFrame(loop);
+
+/* movement tick schedule using performance time */
+(function startTickTimer(){
+  setInterval(()=>{ if(running && !paused){ /* nothing, ticks are handled by animProgress/time */ } }, 50);
+})();
+
+/* spawn initial apples */
+function spawnApple(type){ /* shadowed earlier: keep this to ensure multiple apples spawn on chaos */
+  // choose empty cell
+  const occupied = new Set(snake.map(s=>cellKey(s.x,s.y)).concat(apples.map(a=>cellKey(a.x,a.y))));
+  let tries=0;
+  while(tries<5000){
+    const x = Math.floor(Math.random()*cellCount);
+    const y = Math.floor(Math.random()*cellCount);
+    if(!occupied.has(cellKey(x,y))){
+      let t = type || 'normal';
+      if(!type){
+        const r = Math.random();
+        if(r<0.07) t='speed';
+        else if(r<0.13) t='slow';
+        else if(r<0.19) t='double';
+      }
+      apples.push({x,y,type:t});
+      return;
+    }
+    tries++;
+  }
+}
+
+/* NO-OP for safety: user rotation not allowed on opposite axis directly in same tick */
+/* initialize display to show before start */
+render();
+
+/* utility: expose firstSafeDir & others for debug if needed (not required) */
+</script>
+</body>
+</html>
