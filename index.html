@@ -1,2130 +1,2285 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" href="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" type="image/png">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>R3vival</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --accent: #ffffff;
-      --font-main: 'Poppins', sans-serif;
-      --glow: 0 0 15px #FF69B4aa;
-    }
-
-    [data-theme="dark"] {
-      --text-color: #ffffff;
-      --link-color: #ffffff;
-      --tab-bg: #1a1a1d;
-      --tab-hover-bg: #1a1a1a;
-      --tab-active-bg: #FF69B4;
-      --tab-active-color: #000000;
-    }
-
-
-    body {
-  margin: 0;
-  background: radial-gradient(circle at top left, #0a0a12, #000000 70%),
-              linear-gradient(135deg, #000000 0%, #000214 100%);
-  background-blend-mode: screen;
-  color: var(--text-color);
-  font-family: var(--font-main);
-}
-
- header {
-      position: relative;
-      background: url('') no-repeat center center/cover;
-      color: #FF69B4;
-      text-align: center;
-      padding: 80px 20px 120px;
-    }
-
-    header img.logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 80px;
-      height: auto;
-      border-radius: 10px;
-      user-select: none;
-    }
-
-    .header-text-container {
-      display: inline-block;
-      padding: 25px 45px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 16px;
-      box-shadow: 0 0 20px #FF69B4aa;
-      user-select: none;
-      max-width: 800px;
-    }
-
-    header h1 {
-      font-size: 4.2em;
-      margin: 0;
-      font-weight: 800;
-      letter-spacing: 3px;
-      color: var(--accent);
-      text-shadow:
-        0 0 8px #FF69B4,
-        0 0 20px #FF69B4,
-        0 0 40px #FF69B4,
-        0 0 60px #FF69B4;
-    }
-
-    header p {
-      font-size: 1.8em;
-      margin-top: 12px;
-      margin-bottom: 30px;
-      font-weight: 600;
-      color: #d0ffd0;
-      text-shadow:
-        0 0 10px #7CED4A99,
-        0 0 25px #7CED4Aaa;
-    }
-
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-   
-    .tabs a {
-      text-decoration: none;
-      padding: 15px 30px;
-      background-color: var(--tab-bg);
-      color: var(--text-color);
-      border-radius: 5px;
-      margin: 0 10px;
-      font-weight: bold;
-      transition: background 0.3s, color 0.3s;
-      margin-top: 20px;
-      transition: background 0.3s, color 0.3s, transform 0.3s;
-    }
-
-    .tabs a:hover {
-  background-color: var(--tab-hover-bg);
-  color: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-  transform: scale(1.05);
-}
-
-
-    .tabs a.active {
-      background-color: var(--tab-active-bg);
-      color: var(--tab-active-color);
-      box-shadow: 0 0 10px var(--accent), 0 0 25px var(--accent);
-    }
-
-    .tab-content {
-      display: none;
-      padding: 40px;
-      background-color: var(--section-bg);
-      border-radius: 16px;
-      margin: 40px auto;
-      max-width: 900px;
-    }
-
-    .active-tab {
-      display: block;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      color: var(--text-color);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-   
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #aaa;
-      margin-top: 40px;
-    }
-
-    #about.highlight-box {
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-
-
-    .highlight-box h2 {
-      color: var(--accent);
-      text-shadow: 0 0 8px var(--accent);
-    }
-
-  </style>
-  <script>
-    // Theme toggle functionality
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    }
-
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      setTheme(newTheme);
-    }
-
-    // Tab switching functionality
-    function switchTab(tabId) {
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => tab.classList.remove('active-tab'));
-
-      const activeTab = document.getElementById(tabId);
-      if (activeTab) activeTab.classList.add('active-tab');
-
-      const tabButtons = document.querySelectorAll('.tabs a');
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-
-      const clickedButton = Array.from(tabButtons).find(btn => btn.getAttribute('onclick')?.includes(tabId));
-      if (clickedButton) clickedButton.classList.add('active');
-    }
-
-    // Initialize theme and default tab on page load
-    window.onload = () => {
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      setTheme(savedTheme);
-
-      document.getElementById('about').classList.add('active-tab');
-      const aboutTab = document.querySelector('.tabs a[onclick*="about"]');
-      if (aboutTab) {
-        aboutTab.classList.add('active');
-      }
-    };
-  </script>
-</head>
-
-<!-- Overlay Countdown Container -->
-<div id="countdownOverlay">
-  <div class="overlayContent">
-    <h1 class="countdown-glow">R3vival Merch Drop</h1>
-
-    <div class="under-construction">🚧 Coming Soon 🚧</div>
-
-    <div class="countdown">
-      <div id="days">0<span>DAYS</span></div>
-      <div id="hours">0<span>HOURS</span></div>
-      <div id="minutes">0<span>MINUTES</span></div>
-      <div id="seconds">0<span>SECONDS</span></div>
-    </div>
-  </div>
-</div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>564 RoboLions Programming Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
 <style>
-/* Fullscreen overlay */
-#countdownOverlay {
-  position: fixed;
-  top:0; left:0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,34,0.9);
-  backdrop-filter: blur(10px);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.overlayContent {
-  text-align: center;
-  color: #fff;
-  animation: fadeIn 1s ease;
-}
-
-h1.countdown-glow {
-  color: #00f !important; /* text color */
-  text-shadow: 0 0 1px #00f, 0 0 1px #00f, 0 0 3px #00f !important; /* neon blue glow */
-  animation: glowPulse 2s infinite alternate !important;
-}
-
-
-  @keyframes glowPulse {
-  0% { text-shadow: 0 0 8px #00f, 0 0 17px #00f, 0 0 24px #00f; }
-  100% { text-shadow: 0 0 2[]x #00f, 0 0 17px #00f, 0 0 24px #00f; }
-}
-
-.under-construction {
-  font-size: 1.5em;
-  margin-bottom: 40px;
-  text-shadow: 0 0 7px #00f, 0 0 12px #00f;
-}
-
-.countdown {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 2em;
-  flex-wrap: wrap;
-}
-
-.countdown div {
-  background: rgba(0,0,255,0.15);
-  padding: 20px 15px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px #00f, 0 0 15px #00f inset;
-  min-width: 70px;
-}
-
-.countdown span {
-  display: block;
-  font-size: 0.5em;
-  margin-top: 5px;
-  color: #00f;
-}
-
-@keyframes fadeIn { from {opacity:0; transform:scale(0.95);} to{opacity:1; transform:scale(1);} }
-
-/* Dramatic Overlay Burst */
-@keyframes overlayBurst {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.8; }
-  100% { transform: scale(3); opacity: 0; }
-}
-
-/* Particle effect container */
-.particle {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background: #ff69b4;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 1;
-  z-index: 10000;
-}
-</style>
-
-<script>
-const dropDate = new Date("September 29, 2025 11:22:00").getTime();
-
-// Countdown function
-const countdown = () => {
-  const now = new Date().getTime();
-  const distance = dropDate - now;
-
-  const days = Math.floor(distance / (1000*60*60*24));
-  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-  const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-  document.getElementById("days").innerHTML = days + "<span>DAYS</span>";
-  document.getElementById("hours").innerHTML = hours + "<span>HOURS</span>";
-  document.getElementById("minutes").innerHTML = minutes + "<span>MINUTES</span>";
-  document.getElementById("seconds").innerHTML = seconds + "<span>SECONDS</span>";
-
-  if(distance <= 0){
-    clearInterval(timerInterval);
-    triggerCountdownEnd();
-  }
-};
-
-const timerInterval = setInterval(countdown, 1000);
-countdown();
-
-// Function for dramatic countdown end
-function triggerCountdownEnd(){
-  const overlay = document.getElementById("countdownOverlay");
-  overlay.style.transition = "transform 2s ease, opacity 2s ease";
-  overlay.style.transform = "scale(3)";
-  overlay.style.opacity = "0";
-
-  // Particle burst effect
-  for(let i=0; i<50; i++){
-    const particle = document.createElement("div");
-    particle.classList.add("particle");
-    document.body.appendChild(particle);
-    particle.style.left = (window.innerWidth/2) + "px";
-    particle.style.top = (window.innerHeight/2) + "px";
-
-    const angle = Math.random()*2*Math.PI;
-    const distance = 100 + Math.random()*200;
-    const x = Math.cos(angle)*distance;
-    const y = Math.sin(angle)*distance;
-
-    particle.animate([
-      { transform: 'translate(0,0)', opacity:1 },
-      { transform: `translate(${x}px,${y}px)`, opacity:0 }
-    ],{
-      duration: 2000 + Math.random()*1000,
-      easing: "ease-out",
-      fill:"forwards"
-    });
-
-    setTimeout(()=>{ particle.remove(); }, 3000);
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #00ff88;
+    --accent2: #ff6b00;
+    --accent3: #00aaff;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --danger: #ff4466;
   }
 
-  // Remove overlay after animation
-  setTimeout(()=>{ overlay.style.display="none"; }, 2200);
-}
-</script>
-<!-- Dropped Banner -->
-<div id="countdown-banner">
-  <canvas id="particles-canvas"></canvas>
-  <div class="scroll-track" id="scroll-track">
-    <div class="countdown-item">
-      <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" alt="R3vival Logo">
-      <span class="countdown-text">🔥 DROPPED! The collection is live 🔥</span>
-      <a href="https://www.projectr3vival.com" class="drop-btn">Shop Now</a>
-      <span class="sparkle">✨</span>
-    </div>
-  </div>
-</div>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<style>
-  #countdown-banner {
-    width: 100%;
-    height: 90px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 20px;
-    background: linear-gradient(270deg, #1a001a, #330033, #1a001a);
-    background-size: 600% 600%;
-    animation: gradientShift 15s ease infinite;
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
   }
 
-  #particles-canvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
   }
 
-  .scroll-track {
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
     display: flex;
-    width: max-content;
-    animation: scroll-right 20s linear infinite;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  section {
     position: relative;
     z-index: 1;
   }
 
-  .countdown-item {
+  /* HERO */
+  #hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-right: 80px;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #fff;
-    white-space: nowrap;
-    text-shadow: 0 0 6px #ff69b4, 0 0 12px #ff69b4;
-    animation: itemGlow 3s ease-in-out infinite alternate;
-    position: relative;
-    padding: 6px 16px;
-    border-radius: 12px;
-    backdrop-filter: blur(6px);
-  }
-
-  .countdown-item img {
-    height: 50px;
-    filter: drop-shadow(0 0 8px #ff69b4);
-    animation: logoPulse 2s infinite alternate;
-  }
-
-  .drop-btn {
-    background: #ff69b4;
-    color: #fff;
-    font-size: 0.8em;
-    padding: 6px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-    transition: 0.2s ease;
-  }
-
-  .drop-btn:hover {
-    background: #ff69b4;
-    color: #fff;
-    box-shadow: 0 0 14px #ff69b4, 0 0 30px #ff69b4;
-  }
-
-  .sparkle {
-    font-size: 1.3em;
-    animation: sparkleAnim 1.5s infinite;
-  }
-
-  /* --- Animations --- */
-  @keyframes scroll-right {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
-  }
-
-  @keyframes logoPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes itemGlow {
-    0% { text-shadow: 0 0 6px #ff69b4; }
-    50% { text-shadow: 0 0 16px #ff69b4, 0 0 28px #ff69b4; }
-    100% { text-shadow: 0 0 6px #ff69b4; }
-  }
-
-  @keyframes sparkleAnim {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
-  }
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  @media (max-width: 600px) {
-    .countdown-item { font-size: 1em; margin-right: 30px; }
-    .countdown-item img { height: 35px; }
-    .drop-btn { font-size: 0.7em; padding: 4px 10px; }
-    .sparkle { font-size: 1em; }
-  }
-</style>
-
-<script>
-  // Duplicate the banner items so it loops smoothly
-  const scrollTrack = document.getElementById("scroll-track");
-  const firstItem = scrollTrack.children[0];
-  for (let i = 0; i < 6; i++) {
-    scrollTrack.appendChild(firstItem.cloneNode(true));
-  }
-
-  // Particle background
-  const canvas = document.getElementById('particles-canvas');
-  const ctx = canvas.getContext('2d');
-  let width = canvas.width = canvas.offsetWidth;
-  let height = canvas.height = canvas.offsetHeight;
-
-  const particles = [];
-  const particleCount = 60;
-
-  class Particle {
-    constructor(){
-      this.x = Math.random()*width;
-      this.y = Math.random()*height;
-      this.size = Math.random()*3 + 1;
-      this.speed = Math.random()*0.5 + 0.2;
-      this.alpha = Math.random()*0.5 + 0.3;
-    }
-    update(){
-      this.x += this.speed; // moves right
-      if(this.x > width) this.x = 0;
-    }
-    draw(){
-      ctx.fillStyle = `rgba(255,105,180, ${this.alpha})`; // stays in #ff69b4 blue
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-      ctx.fill();
-    }
-  }
-
-  for(let i=0;i<particleCount;i++){
-    particles.push(new Particle());
-  }
-
-  function animateParticles(){
-    ctx.clearRect(0,0,width,height);
-    particles.forEach(p=>{
-      p.update();
-      p.draw();
-    });
-    requestAnimationFrame(animateParticles);
-  }
-  animateParticles();
-
-  window.addEventListener('resize', ()=> {
-    width = canvas.width = canvas.offsetWidth;
-    height = canvas.height = canvas.offsetHeight;
-  });
-</script>
-
-<!-- Header Section -->
-<header>
-  <div class="header-text-container" style="text-align:center; padding: 30px;">
-    
-    <h1 style="color:#fff; font-size:4em; text-shadow:0 0 30px #FF69B4;">R3vival</h1>
-
-    <a href="#home">
-      <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" 
-           alt="R3vival Logo" 
-           style="max-width:300px; filter: drop-shadow(0 0 12px #FF69B4); margin: 20px 0;">
-    </a>
-  </p>
-  <a href="https://www.projectr3vival.com" target="_blank"
-     style="display:inline-block; margin-top:15px; padding:12px 30px;
-            font-size:1.3em; color:#000; background: #FF69B4;
-            border-radius:10px; text-decoration:none; font-weight:bold;
-            box-shadow:0 0 15px #FF69B4, 0 0 30px #FF69B4, 0 0 45px #FF69B4;
-            transition: all 0.3s ease;">
-    Order Now
-  </a>
-</section>
-
-<style>
-  #preorder-countdown a:hover {
-    box-shadow: 0 0 25px #FF69B4, 0 0 50px #FF69B4, 0 0 75px #FF69B4;
-    transform: scale(1.05);
-  }
-</style>
-
-
-  </div>
- 
-</header>
-
-<style>
-  .button-group {
-    text-align: center;
-    margin-top: 15px;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    background: #FF69B4;
-    color: #ffffff;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.2em;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 800px;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero-title span {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-title span::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 3px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
     text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 12px rgba(255,105,180,1.4);
-    animation: buttonPulse 3s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border: 2px solid var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,255,136,0.2);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* LESSONS */
+  #lessons {
+    padding: 0 2rem 5rem;
+  }
+
+  .lessons-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .lesson-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
     position: relative;
     overflow: hidden;
   }
 
-  @keyframes buttonPulse {
-    0% { box-shadow: 0 0 12px rgba(255,105,180,.9); }
-    50% { box-shadow: 0 0 22px rgba(255,105,180,1.5); }
-    100% { box-shadow: 0 0 12px rgba(255,105,180,.9); }
+  .lesson-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.2s;
+    transform-origin: bottom;
   }
 
-  .button span {
+  .lesson-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,255,136,0.1);
+  }
+
+  .lesson-card:hover::before {
+    transform: scaleY(1);
+  }
+
+  .lesson-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+  }
+
+  .lesson-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .lesson-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .lesson-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-y: auto;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover { color: var(--text); }
+
+  .modal-body {
+    padding: 2rem;
+  }
+
+  .modal-body h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 1.5rem 0 0.75rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .modal-body h3:first-child { margin-top: 0; }
+
+  .modal-body p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .modal-body p strong {
+    color: var(--text);
+  }
+
+  .modal-body ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  .modal-body ul li {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.3rem;
+  }
+
+  .modal-body ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  .warning-box {
+    background: rgba(255,68,102,0.08);
+    border: 1px solid rgba(255,68,102,0.3);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  .warning-box p {
+    color: #ff8899;
+    margin: 0;
+    font-size: 0.88rem;
+  }
+
+  .warning-box strong { color: var(--danger); }
+
+  .tip-box {
+    background: rgba(0,255,136,0.05);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  .tip-box p {
+    color: #88ffcc;
+    margin: 0;
+    font-size: 0.88rem;
+  }
+
+  /* CODE BLOCKS */
+  .code-wrap {
+    position: relative;
+    margin: 1rem 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .code-label {
+    background: var(--surface2);
+    padding: 0.4rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.2rem 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .code-wrap pre {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .code-wrap code {
+    font-family: 'Space Mono', monospace !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* QUIZ */
+  .quiz-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .quiz-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-q {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    text-align: left;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+  }
+
+  .quiz-opt:hover { border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.correct { border-color: var(--accent); background: rgba(0,255,136,0.1); color: var(--accent); }
+  .quiz-opt.wrong { border-color: var(--danger); background: rgba(255,68,102,0.1); color: var(--danger); }
+
+  .quiz-feedback {
+    font-size: 0.88rem;
+    padding: 0.75rem 1rem;
+    border-radius: 3px;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(0,255,136,0.08); color: #88ffcc; border: 1px solid rgba(0,255,136,0.2); }
+  .quiz-feedback.wrong { background: rgba(255,68,102,0.08); color: #ff8899; border: 1px solid rgba(255,68,102,0.2); }
+
+  /* AI TUTOR */
+  #tutor {
+    padding: 0 2rem 5rem;
+  }
+
+  .tutor-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .tutor-header {
+    padding: 1.25rem 1.5rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .tutor-status {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .tutor-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .tutor-subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .chat-messages {
+    height: 420px;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    gap: 0.75rem;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .msg-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .msg.user .msg-avatar { background: var(--accent2); color: white; }
+  .msg.ai .msg-avatar { background: var(--accent); color: var(--bg); }
+
+  .msg-content {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    max-width: calc(100% - 40px);
+    color: var(--text);
+  }
+
+  .msg.user .msg-content {
+    background: rgba(255,107,0,0.08);
+    border-color: rgba(255,107,0,0.2);
+  }
+
+  .msg-content code {
+    font-family: 'Space Mono', monospace;
+    background: var(--bg);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+
+  .msg-content pre {
+    background: var(--bg) !important;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.75rem !important;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+  }
+
+  .msg-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.8rem;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+
+  .typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  .chat-input-area {
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+    height: 44px;
+    line-height: 1.4;
+  }
+
+  .chat-input:focus { border-color: var(--accent); }
+
+  .chat-input::placeholder { color: var(--muted); }
+
+  .send-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 3px;
+    padding: 0 1.25rem;
+    color: var(--bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .send-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .suggested-qs {
+    padding: 0 1.5rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .suggest-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .suggest-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* API KEY */
+  .api-key-banner {
+    background: rgba(255,107,0,0.08);
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .api-key-banner p {
+    color: #ffaa66;
+    font-size: 0.85rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .api-key-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.5rem 0.75rem;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    width: 280px;
+    transition: border-color 0.2s;
+  }
+
+  .api-key-input:focus { border-color: var(--accent2); }
+
+  .api-key-save {
+    background: var(--accent2);
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .api-key-save:hover { opacity: 0.85; }
+
+  /* EXAMPLES */
+  #examples {
+    padding: 0 2rem 5rem;
+  }
+
+  .examples-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .example-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .example-card:hover { border-color: var(--accent3); }
+
+  .example-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .example-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+
+  .example-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'Space Mono', monospace;
     position: relative;
     z-index: 1;
-    color: #ffffff;
-    text-shadow: 0 0 4px rgba(255,105,180,1.4);
   }
 
-  .button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(255,105,180,.1.5);
-  }
+  footer a { color: var(--accent); text-decoration: none; }
 
+  /* MOBILE */
   @media (max-width: 600px) {
-    h1 { font-size: 2em; }
-    .button { width: 100%; justify-content: center; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 2.8rem; }
+    .stats-bar { gap: 1.5rem; }
+    .chat-messages { height: 300px; }
+    .api-key-input { width: 100%; }
   }
 </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">564_ROBOLIONS</div>
+  <ul class="nav-links">
+    <li><a href="#pathway">Roadmap</a></li><li><a href="#lessons">Lessons</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    
+<div class="hero-tag">// TEAM 564 ROBOLIONS</div>
+<div style="margin-bottom:2rem;">
+
+    <h1 class="hero-title">Learn To Build & <span>Program Robots</span><br></h1>
+    <p class="hero-sub">A complete beginner-to-advanced programming course based on FIRST Robotics Competition concepts and WPILib documentation. Learn Java, problem solving, subsystems, commands, sensors, autonomous, debugging, and everything needed to code your first real robot.</p>
+    <div class="hero-btns">
+      <a href="#lessons" class="btn btn-primary">START LEARNING</a>
 
-
-  <div class="tabs">
-    <a href="javascript:void(0);" class="tab active" onclick="switchTab('about')">About Us</a>
-    <a href="javascript:void(0);" class="tab" onclick="switchTab('socials')">Socials</a>
-    <a href="javascript:void(0);" class="tab" onclick="switchTab('shop')">Shop</a>
-    <a href="javascript:void(0);" class="tab" onclick="switchTab('prices')">Prices</a>
-    <a href="javascript:void(0);" class="tab" onclick="switchTab('contact')">Contact</a>
-  </div>
-
-<div id="about" class="tab-content active-tab">
-  <style>
-    body {
-      background-color: #111;
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .about-container {
-      position: relative;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 40px;
-      background: linear-gradient(135deg, #000011, #000022);
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255,105,180,.9);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .about-container.animate {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Animated background lines */
-    .about-container::after {
-      content: '';
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255,105,180,.08),
-        rgba(255,105,180,.08) 2px,
-        transparent 2px,
-        transparent 10px
-      );
-      z-index: 0;
-      pointer-events: none;
-      animation: slideBG 10s linear infinite;
-    }
-
-    @keyframes slideBG {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
-    }
-
-    .about-container > * { position: relative; z-index: 1; }
-
-    /* Base animation styles */
-    .animate-item {
-      opacity: 0;
-      transform: translateY(25px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .animate-item.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Headings */
-    .about-container h2 {
-      text-align: center;
-      color: #F6B;
-      font-size: 2.2em;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px rgba(255,105,180,.9);
-    }
-
-    .about-container h3 {
-      color: #ffffff;
-      font-size: 1.6em;
-      margin: 20px 0 10px;
-    }
-
-    /* Mission highlight */
-    .mission-highlight {
-      background: rgba(255,105,180,0.5);
-      border-left: 4px solid #F6B;
-      padding: 12px 16px;
-      margin: 15px 0;
-      color: #fff;
-      font-size: 1.2em;
-      font-weight: bold;
-      text-align: center;
-      box-shadow: 0 0 12px rgba(255,105,180,.9);
-    }
-
-    /* Quote glow */
-    .highlight-quote {
-      text-align: center;
-      font-style: italic;
-      font-size: 1.2em;
-      color: #fff;
-      margin: 20px 0;
-      text-shadow: 0 0 10px rgba(255,105,180,.9);
-      animation: quoteGlow 2.5s ease-in-out infinite alternate;
-    }
-
-    @keyframes quoteGlow {
-      0% { text-shadow: 0 0 8px #F6B; }
-      100% { text-shadow: 0 0 18px #F6B; }
-    }
-
-    .about-container p, .about-container li {
-      color: #fff;
-      font-size: 1.1em;
-      line-height: 1.6em;
-      margin-bottom: 12px;
-    }
-
-    .about-container ul {
-      padding-left: 20px;
-      margin-bottom: 20px;
-    }
-
-    /* Hover glow for list items */
-    .about-container li {
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
-
-    .about-container li:hover {
-      color: #F6B;
-      text-shadow: 0 0 8px #F6B;
-    }
-
-    /* Animated HR */
-    .about-container hr {
-      border: none;
-      border-top: 2px solid #F6B;
-      margin: 20px 0;
-      width: 0;
-      transition: width 1s ease;
-    }
-
-    .about-container hr.show {
-      width: 100%;
-    }
-
-    /* Links */
-    .about-container a {
-      color: #F6B;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    .about-container a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -3px;
-      width: 100%;
-      height: 2px;
-      background: #F6B;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
-    }
-
-    .about-container a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Button */
-    .button-group {
-      text-align: center;
-      margin-top: 25px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #F6B;
-      color: #fff;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1.1em;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 12px rgba(255,105,180,1.4);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: scale(0.9);
-      margin: 5px 0;
-    }
-
-    .button.show {
-      opacity: 1;
-      transform: scale(1);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .button span {
-      position: relative;
-      z-index: 1;
-      color: #fff;
-      text-shadow: 0 0 4px rgba(255,105,180,1.4);
-    }
-
-    .button:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 18px rgba(255,105,180,1.5);
-    }
-
-    .button img.button-logo {
-      max-width: 40px;
-      margin-right: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .button:hover img.button-logo {
-      transform: rotate(10deg) scale(1.1);
-    }
-
-    /* MOBILE RESPONSIVE */
-    @media (max-width: 768px) {
-      .about-container {
-        padding: 25px 20px;
-      }
-
-      .about-container h2 {
-        font-size: 1.8em;
-      }
-
-      .about-container h3 {
-        font-size: 1.4em;
-      }
-
-      .about-container p, .about-container li {
-        font-size: 1em;
-      }
-
-      .mission-highlight {
-        font-size: 1.1em;
-        padding: 10px 14px;
-      }
-
-      .highlight-quote {
-        font-size: 1em;
-      }
-
-      .button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .about-container {
-        padding: 20px 15px;
-      }
-
-      .about-container h2 {
-        font-size: 1.6em;
-      }
-
-      .about-container h3 {
-        font-size: 1.2em;
-      }
-
-      .about-container p, .about-container li {
-        font-size: 0.95em;
-      }
-
-      .mission-highlight {
-        font-size: 1em;
-        padding: 8px 12px;
-      }
-
-      .highlight-quote {
-        font-size: 0.95em;
-      }
-    }
-  </style>
-
-  <div class="about-container">
-    <h2 class="animate-item">Welcome to R3vival</h2>
-    <h2 class="animate-item">👥 About R3vival</h2>
-    <p class="animate-item">Project <strong>R3vival</strong>: Faith, Community, and Quality Apparel</p>
-
-    <!-- Mission Highlight -->
-    <div class="mission-highlight animate-item">
-      Our mission: To inspire faith through fashion and build a strong, supportive community.
-    </div>
-
-    <hr class="animate-item">
-
-    <h3 class="animate-item">🌐 Who We Are</h3>
-    <p class="animate-item">Project R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community.</p>
-    <ul>
-      <li class="animate-item">✔️ Stylish Clothing</li>
-      <li class="animate-item">✔️ Showcase Christian values</li>
-      <li class="animate-item">✔️ Focused on quality, professionalism, and personalization</li>
-    </ul>
-
-    <hr class="animate-item">
-
-    <h3 class="animate-item">Community Connection</h3>
-    <ul>
-      <li class="animate-item">The brand aims to build a community where individuals can connect, share their faith journeys, and find encouragement.</li>
-      <li class="animate-item">The clothing combines purposeful messages with modern fashion, blending scripture and Christian principles without being overly loud. Wearing Project R3vival apparel can spark conversations about faith and empower individuals to live out their beliefs boldly.</li>
-    </ul>
-
-    <hr class="animate-item">
-
-    <h3 class="animate-item">Why Choose R3vival?</h3>
-    <ul>
-      <li class="animate-item">🔧 Full custom shirts/hoodies – designed from scratch</li>
-      <li class="animate-item">Incredibly comfortable shirts/hoodies</li>
-      <li class="animate-item">💬 Active support and professional service</li>
-    </ul>
-
-    <p class="animate-item">Whether you're new to a style or a growing brand, R3vival has clothes tailored to your ideas.</p>
-
-    <!-- Quote -->
-    <p class="highlight-quote animate-item">“Let your light shine before others.” – Matthew 5:16</p>
-
-    <p class="animate-item"><strong>📩 Questions? Need help? Contact us at 
-      <a href="mailto:r3vivalapparel@gmail.com" target="_blank">r3vivalapparel@gmail.com</a>
-    </strong> or message us on one of our socials.</p>
-
-    <div class="button-group">
-      <a href="https://www.projectr3vival.com" 
-         class="button animate-item" 
-         target="_blank" 
-         rel="noopener noreferrer">
-        <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" 
-             alt="Logo" 
-             class="button-logo" />
-        <span>Shop Here</span>
-      </a>
-    </div>
-  </div>
-
-  <script>
-    const aboutSection = document.querySelector('.about-container');
-    const animateItems = document.querySelectorAll('.about-container .animate-item, .about-container .button, .about-container hr');
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          aboutSection.classList.add('animate');
-          animateItems.forEach((item, index) => {
-            setTimeout(() => { item.classList.add('show'); }, index * 150);
-          });
-        } else {
-          aboutSection.classList.remove('animate');
-          animateItems.forEach(item => item.classList.remove('show'));
-        }
-      });
-    }, { threshold: 0.2 });
-
-    observer.observe(aboutSection);
-  </script>
-</div>
-
-
-<div id="socials" class="tab-content">
-  <style>
-    body {
-      background-color: #111;
-      font-family: "Segoe UI", sans-serif;
-    }
-
-    .socials-container {
-      position: relative;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 30px;
-      background: linear-gradient(135deg, #000011, #000022); /* Matches About tab */
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255,105,180,.9);
-      overflow: hidden;
-      text-align: center;
-    }
-
-    /* Subtle moving background lines like About tab */
-    .socials-container::after {
-      content: '';
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255,105,180,.08),
-        rgba(255,105,180,.08) 2px,
-        transparent 2px,
-        transparent 10px
-      );
-      z-index: 0;
-      pointer-events: none;
-      animation: slideBG 10s linear infinite;
-    }
-
-    @keyframes slideBG {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
-    }
-
-    .socials-container > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Section headings */
-    .socials-container h2 {
-      color: #FF69B4;
-      font-size: 2.2em;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px rgba(255,105,180,.9);
-    }
-
-    /* Social image */
-    .socials-container img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      border: 3px solid #FF69B4;
-      box-shadow: 0 0 20px #FF69B4;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .socials-container img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 25px #FF69B4;
-    }
-
-    /* Social links */
-    .socials-container p {
-      color: #ffffff;
-      font-size: 1.1em;
-      margin: 15px 0;
-    }
-
-    .socials-container a {
-      color: #FF69B4;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    .socials-container a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -3px;
-      width: 100%;
-      height: 2px;
-      background: #FF69B4;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
-    }
-
-    .socials-container a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    @media (max-width: 600px) {
-      .socials-container {
-        padding: 25px;
-      }
-    }
-  </style>
-
-  <div class="socials-container">
-    <h2>👥 Follow Our Socials</h2>
-
-    <img src="https://i.postimg.cc/T1HcqppY/Chat-GPT-Image-Sep-27-2025-08-50-40-AM.png"
-         alt="Socials Image" />
-
-    <p>📩 Follow our TikTok page! 
-      <a href="https://www.tiktok.com/@projectr3vival" target="_blank">@projectr3vival</a>
-    </p>
-
-    <p>📩 Follow our Instagram page! 
-      <a href="https://www.instagram.com/r3vivalapparel?igsh=aGJucWkzYXlveGl5" target="_blank">@r3vivalapparel</a>
-    </p>
-    <p>📩 Join our Discord! 
-      <a href="https://discord.gg/keq3hJbtJB" target="_blank">@R3vival Discord</a>
-    </p>
-  </div>
-</div>
-
-<div id="shop" class="tab-content highlight-box">
-<h1 class="shop-title">Shop</h1>
-
-<!-- NOTIFY ME SECTION -->
-  <div class="notify-section" style="text-align:center; margin-bottom:30px; position: relative; z-index:1;">
-    <p style="margin-top: 20px; font-size: 1.2em; font-weight: 500; color: #fff; text-shadow: 0 0 5px #ff69b4;">
-      🔥 Don't miss the next drop! Enter your email for early access.
-    </p>
-
-    <form id="notifyFormProducts" class="notify-form" action="https://formspree.io/f/xandrjkk" method="POST" style="margin-top:10px;">
-      <input type="email" name="email" id="notifyEmailProducts" placeholder="Enter your email" required
-             style="padding:10px 15px; border-radius:8px; border:2px solid #ff69b4; width:250px; max-width:80%; font-size:1em;">
-      <button type="submit" class="notify-button"
-              style="padding:10px 20px; margin-left:10px; border-radius:8px; border:none; font-weight:bold; color:#000; background: linear-gradient(90deg,#ff69b4,#ff69b4); box-shadow:0 0 5px #ff69b4; cursor:pointer; transition:box-shadow 0.3s ease, transform 0.3s ease;">
-        Notify Me
-      </button>
-    </form>
-    <p id="notifyMessageProducts" style="margin-top:10px; color:#fff; font-weight:500;"></p>
-  </div>
-
-   <!-- ===== SEARCH BAR ===== -->
-  <input type="text" id="searchBar" placeholder="Search item">
-
-  <!-- ===== FILTER TOGGLE ===== -->
-  <div id="filterToggle">Filters ▼</div>
-
-  <!-- ===== FILTER PANEL ===== -->
-  <div id="filterPanel">
-    <label><input type="checkbox" value="drop1"> Drop 1</label>
-    <label><input type="checkbox" value="pink"> Pink Edition</label>
-    <label><input type="checkbox" value="cross"> Cross Edition</label>
-    <label><input type="checkbox" value="shirts"> Shirts</label>
-    <!---
-    <label><input type="checkbox" value="coming-soon"> Coming Soon</label>
-    <label><input type="checkbox" value="sweat-suits"> SweatSuits</label>
-    <label><input type="checkbox" value="drop2"> Drop 2</label>
-  -->
-  </div>
-
-  <!-- ===== FILTER INFO ===== -->
-  <div class="filter-info" id="filterInfo">
-    Showing <span id="resultCount">0</span> items
-  </div>
-<style>
-/* ===== SHOP TITLE ===== */
-.shop-title {
-  text-align: center;
-  color: #ff69b4;
-  font-size: 3em;
-  font-weight: bold;
-  padding: 20px 0;
-  text-shadow: 0 0 15px #ff69b4, 0 0 30px rgba(255,105,180,0.5);
-  animation: glowTitle 2s infinite alternate;
-}
-
-/* ===== SEARCH BAR ===== */
-#searchBar {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 2px solid #ff69b4;
-  width: 250px;
-  background: #111;
-  color: #fff;
-  font-weight: bold;
-  box-shadow: 0 0 12px #ff69b4, 0 0 20px rgba(255,105,180,0.3);
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-}
-#searchBar::placeholder {
-  color: #ff69b4;
-  font-weight: bold;
-}
-#searchBar:focus {
-  outline: none;
-  box-shadow: 0 0 25px #ff69b4, 0 0 50px rgba(0,255,255,0.5);
-  border-color: #ff69b4;
-}
-
-/* ===== FILTER TOGGLE ===== */
-#filterToggle {
-  display: inline-block;
-  background: #111;
-  border: 2px solid #ff69b4;
-  color: #ff69b4;
-  padding: 8px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-}
-#filterToggle:hover {
-  background: #ff69b4;
-  color: #fff;
-  box-shadow: 0 0 25px #ff69b4, 0 0 50px rgba(255,105,180,0.5);
-}
-
-/* ===== FILTER PANEL ===== */
-#filterPanel {
-  display: none;
-  background: #111;
-  padding: 15px;
-  border: 2px solid #ff69b4;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  animation: slideDown 0.4s ease forwards;
-}
-#filterPanel label {
-  display: inline-block;
-  margin-right: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #ff69b4;
-  transition: all 0.3s ease;
-}
-#filterPanel label:hover {
-  color: #ff69b4;
-  text-shadow: 0 0 5px #ff69b4;
-}
-
-/* ===== FILTER INFO ===== */
-.filter-info {
-  color: #ff69b4;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-shadow: 0 0 5px #ff69b4;
-}
-
-/* ===== PRODUCT GRID ===== */
-.shop-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
-}
-
-/* ===== PRODUCT CARD ===== */
-.product-card {
-  background: #222;
-  border-radius: 12px;
-  text-align: center;
-  padding: 15px;
-  border: 2px solid #ff69b4;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInCard 0.5s forwards;
-}
-.product-title {
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 5px #ff69b4;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes glowTitle {
-  from { text-shadow: 0 0 15px #ff69b4, 0 0 30px rgba(255,105,180,0.5); }
-  to { text-shadow: 0 0 25px #ff69b4, 0 0 50px rgba(255,105,180,0.7); }
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInCard {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-</style>
-
-<script>
-// Toggle filter panel
-document.getElementById("filterToggle").addEventListener("click", () => {
-  const panel = document.getElementById("filterPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-});
-
-// Update visible products and count
-function updateProducts() {
-  const searchValue = document.getElementById("searchBar").value.toLowerCase();
-  const checkboxes = Array.from(document.querySelectorAll("#filterPanel input:checked")).map(cb => cb.value);
-  let count = 0;
-
-  document.querySelectorAll(".product-card").forEach(card => {
-    const title = card.querySelector(".product-title").innerText.toLowerCase();
-    const category = card.dataset.category;
-
-    const matchesSearch = title.includes(searchValue);
-    const matchesFilter = checkboxes.length === 0 || checkboxes.some(f => category.includes(f));
-
-    if (matchesSearch && matchesFilter) {
-      card.style.display = "block";
-      count++;
-      card.style.animation = "fadeInCard 0.5s forwards";
-    } else {
-      card.style.display = "none";
-    }
-  });
-
-  document.getElementById("resultCount").innerText = count;
-}
-
-// Event listeners
-document.getElementById("searchBar").addEventListener("input", updateProducts);
-document.querySelectorAll("#filterPanel input").forEach(cb => cb.addEventListener("change", updateProducts));
-
-// Initialize count
-updateProducts();
-</script>
-
-  <!-- ===================== SHIRTS ===================== -->
-  <div class="section-title">Shirts</div>
-  <div class="shop-container">
-
-    <div class="product-card" data-category="drop1 cross shirts">
-      <span class="label best-seller">Best Seller</span>
-      <img src="https://i.postimg.cc/PJBSCTtR/Untitled-design-3.png" alt="Shirt 4">
-      <div class="product-title">Jesus Christ Heavyweight Tee</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-        <span class="tag cross">Cross Edition</span>
-      </div>
-      <div class="product-price">$30.00</div>
-      <a href="https://www.projectr3vival.com/product-page/jesus-christ-heavyweight-tee" class="buy-btn">Buy Now</a>
-    </div>
-
-    <div class="product-card" data-category="drop1 pink shirts">
-      <span class="label new-drop">New Drop</span> 
-      <img src="https://i.postimg.cc/kgnbxGjP/Untitled-design-6.png" alt="Shirt 7">
-      <div class="product-title">Heavyweight Drop Shoulder Cotton T-Shirt</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-        <span class="tag pink">Cherry Edition</span>
-      </div>
-      <div class="product-price">$30.00</div>
-      <a href="https://www.projectr3vival.com/product-page/heavyweight-drop-shoulder-cotton-t-shirt-1" class="buy-btn">Buy Now</a>
-    </div>
-
-    <div class="product-card" data-category="drop1 shirts">
-      <img src="https://i.postimg.cc/T2DgxZyF/Untitled-design-4.png" alt="Shirt 5">
-      <span class="label new-drop">New Drop</span> 
-      <div class="product-title">Heavyweight Drop Shoulder Cotton T-Shirt</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-      </div>
-      <div class="product-price">$30.00</div>
-      <a href="https://www.projectr3vival.com/product-page/heavyweight-drop-shoulder-cotton-t-shirt" class="buy-btn">Buy Now</a>
-    </div>
-<!--
-    <div class="product-card" data-category="drop1 shirts">
-      <span class="label new-drop">New Drop</span>
-      <img src="https://i.postimg.cc/Rh04Grnd/Untitled-design-7.png" alt="Shirt 2">
-      <div class="product-title">I love Jesus</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-      </div>
-      <div class="product-price">$35.99</div>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
-
-
-
-    <div class="product-card" data-category="drop1 shirts">
-      <img src="https://i.postimg.cc/gkbR2N8J/Untitled-design-5.png" alt="Shirt 6">
-      <div class="product-title">War is Mean</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-      </div>
-      <div class="product-price">$35.99</div>
-      <a href="#" class="buy-btn">Buy Now</a>
     </div>
   
+</div>
+</section>
 
-    <div class="product-card" data-category="drop1 cross shirts">
-      <span class="label best-seller">Best Seller</span>
-      <img src="https://i.postimg.cc/hG9Dt1BL/IMG-4907.jpg" alt="Shirt 1">
-      <div class="product-title">Black Cross</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-        <span class="tag cross">Cross edition</span>
-      </div>
-      <div class="product-price">$35.99</div>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
-  -->
-
-
-
+<section id="pathway" style="padding:2rem 2rem 4rem;">
+  <div class="section-header">
+    <span class="section-tag">// LEARNING PATH</span>
+    <h2 class="section-title">From Beginner To Robot Programmer</h2>
+    <p class="section-sub">This course is designed so students can start with zero experience and work toward building and troubleshooting a complete FRC robot.</p>
   </div>
 
-  <!-- ===================== SWEATSUITS ===================== 
-  <div class="section-title">Sweatsuits</div>
-  <div class="shop-container">
-
-    <div class="product-card" data-category="drop1 sweat-suits">
-      <img src="https://i.postimg.cc/mZ7H1MTr/Untitled-design-2.png" alt="White Set">
-      <div class="product-title">White Set</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-      </div>
-      <div class="product-price">$74.99</div>
-      <a href="#" class="buy-btn">Buy Now</a>
+  <div class="lessons-grid">
+    <div class="lesson-card">
+      <div class="lesson-num">PHASE 1</div>
+      <div class="lesson-title">Java Fundamentals</div>
+      <div class="lesson-desc">Variables, methods, classes, constructors, objects, loops, conditionals, and problem solving.</div>
     </div>
 
-    <div class="product-card" data-category="drop2 sweat-suits">
-      <img src="https://i.postimg.cc/bNTS3hDc/Untitled-design-1.png" alt="Black Set">
-      <div class="product-title">Black Set</div>
-      <div class="product-tags">
-        <span class="tag drop">Drop 1</span>
-      </div>
-      <div class="product-price">$74.99</div>
-      <a href="#" class="buy-btn">Buy Now</a>
+    <div class="lesson-card">
+      <div class="lesson-num">PHASE 2</div>
+      <div class="lesson-title">Robot Foundations</div>
+      <div class="lesson-desc">WPILib structure, robot loops, commands, subsystems, controllers, and SmartDashboard.</div>
     </div>
-</div>
+
+    <div class="lesson-card">
+      <div class="lesson-num">PHASE 3</div>
+      <div class="lesson-title">Building Real Systems</div>
+      <div class="lesson-desc">Drivetrains, elevators, shooters, pneumatics, sensors, and debugging.</div>
+    </div>
+
+    <div class="lesson-card">
+      <div class="lesson-num">PHASE 4</div>
+      <div class="lesson-title">Problem Solving</div>
+      <div class="lesson-desc">Learn how to debug, tune, organize, and improve robot code like a real competition team.</div>
+    </div>
   </div>
--->
+</section>
 
+<div class="stats-bar">
+
+  <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Lessons</div></div>
+  <div class="stat"><div class="stat-num">JAVA</div><div class="stat-label">Fundamentals</div></div>
+  <div class="stat"><div class="stat-num">FREE</div><div class="stat-label">Always</div></div>
 </div>
-<style>
+
+<!-- LESSONS -->
+<section id="lessons">
+  <div class="section-header">
+    <span class="section-tag">// 01 — CURRICULUM</span>
+    <h2 class="section-title">Learn Step by Step</h2>
+    <p class="section-sub">Start with Java basics, then move into real FRC robot architecture, commands, subsystems, sensors, debugging, advanced robot logic, and real subsystem design.</p>
+  </div>
+  <div class="lessons-grid" id="lessonsGrid"></div>
+</section>
 
 
 
+<footer>
+  <p>564 RoboLions Programming Guide — Built for Team 564 RoboLions &nbsp;|&nbsp; <a href="https://docs.wpilib.org" target="_blank">WPILib Docs ↗</a></p>
+</footer>
 
-/* ===== FILTER BAR ===== */
-.filter-bar {
-  text-align: center;
-  margin: 20px 0;
-}
-
-
-
-/* ===== FILTER INFO ===== */
-.filter-info {
-  text-align: center;
-  margin: 10px 0 20px 0;
-  color: #ff69b4; /* neon blue text */
-  font-weight: bold;
-  font-size: 1.5em;
-  text-shadow:
-    0 0 0px #ff69b4,
-    0 0 1px #ff69b4,
-    0 0 1px #ff69b4,
-    0 0 1px #ff69b4;
-  transition: text-shadow 0.3s ease;
-}
-
-
-
-/* ===== ACTIVE FILTER BUTTON ===== */
-.filter-btn.active {
-  background: #ff69b4; /* neon blue background */
-  color: #fff;
-  box-shadow: 0 0 1px #ff69b4, 0 0 1px #ff69b4;
-}
-
-
-/* ===== PRODUCT GRID ===== */
-.shop-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
-  padding: 0 20px 50px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.product-card {
-  background: #222;
-  border-radius: 12px;
-  text-align: center;
-  padding: 15px;
-  cursor: pointer;
-  border: 2px solid #ff69b4;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.6s forwards;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 0 15px rgba(255,105,180,0.3);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 25px rgba(255,105,180,0.7), 0 0 50px rgba(255,105,180,0.4);
-}
-.product-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-.product-title {
-  font-size: 1.1em;
-  font-weight: 600;
-  color: #fFF;
-  margin-bottom: 5px;
-  text-shadow: 0 0 10px #ff69b4;
-}
-
-
-
-/* ===== PRODUCT TAGS ===== */
-.product-tags {
-  margin: 5px 0;
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-.tag {
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.75em;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 3px #000;
-}
-.tag.drop {
-  background: #ff69b4;
-  box-shadow: 0 0 8px #ff69b4;
-}
-
-.tag.drop2 {
-  background: #DC143C;
-  box-shadow: 0 0 8px #DC143C;
-}
-.tag.pink {
-  background: #ff69b4;
-  box-shadow: 0 0 8px #ff69b4;
-}
-
-.tag.cross {
-  background: #000000;
-  box-shadow: 0 0 8px #000000;
-}
-
-.product-price {
-  font-size: 1em;
-  color: #ff69b4;
-  margin-bottom: 10px;
-  text-shadow: 0 0 8px #ff69b4;
-}
-.buy-btn {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #000;
-  background: linear-gradient(90deg, #ff69b4, #ff69b4);
-  transition: all 0.5s ease;
-  box-shadow: 0 0 5px #ff69b4;
-}
-.buy-btn:hover {
-  box-shadow: 0 0 25px #ff69b4, 0 0 50px #ff69b4;
-}
-
-/* ===== SECTION TITLES GLOW ===== */
-.section-title {
-  color: #ff69b4;
-  font-size:1.8em;
-  font-weight: bold;
-  margin: 20px 0 10px 0;
-  padding-left: 10px;
-  border-left: 3px solid #ff69b4;
- text-shadow:
-    0 0 5px #ff69b4,
-    0 0 10px #ff69b4, 
-}
-
-
-
-/* ===== LABELS ===== */
-.label {
-  position: absolute;
-  top: 10px; left: 10px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 5px black;
-}
-.best-seller { background: #FFD700; color:#000; box-shadow: 0 0 10px #FFD700; }
-.new-drop   { background: #00FF00; box-shadow: 0 0 10px #00FF00; }
-.coming-soon    { background: #FF0000; box-shadow: 0 0 10px #FF0000; }
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeUp {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-</style>
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div id="modalNum" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:2px;margin-bottom:0.5rem;"></div>
+        <h2 id="modalTitle" style="font-size:1.4rem;font-weight:800;"></h2>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 
 <script>
-// ===== UPDATE RESULT COUNT =====
-function updateResultCount() {
-  const allCards = document.querySelectorAll(".product-card");
-  let visibleCount = 0;
-  allCards.forEach(card => {
-    if (card.style.display !== "none") visibleCount++;
-  });
-  document.getElementById("resultCount").innerText = visibleCount;
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const lessons = [
+
+  {
+    num: "01",
+    title: "Variables & Data Types",
+    desc: "Learn how robots store numbers, speeds, and sensor values.",
+    tags: ["java", "basics"],
+    content: `
+      <h3>Variables</h3>
+      <p>Variables store information your robot needs. Examples include motor speeds, controller values, and sensor readings.</p>
+
+      <h3>Common Data Types</h3>
+      <ul>
+        <li><strong>int</strong> → whole numbers</li>
+        <li><strong>double</strong> → decimal numbers</li>
+        <li><strong>boolean</strong> → true or false</li>
+        <li><strong>String</strong> → text</li>
+      </ul>
+
+      <h3>Why This Matters</h3>
+      <p>Robot code constantly stores and updates values while the robot runs.</p>
+    `,
+    quiz: {
+      q: "Which data type stores decimal values?",
+      options: ["boolean", "double", "String", "int"],
+      correct: 1,
+      feedback: "Correct! double stores decimal numbers like motor speeds."
+    }
+  },
+
+  {
+    num: "02",
+    title: "Methods",
+    desc: "Understand reusable actions in robot code.",
+    tags: ["java", "methods"],
+    content: `
+      <h3>What Is A Method?</h3>
+      <p>A method is a reusable block of code that performs a task.</p>
+
+      <h3>Examples In FRC</h3>
+      <ul>
+        <li>drive()</li>
+        <li>shoot()</li>
+        <li>stopMotors()</li>
+      </ul>
+
+      <h3>Why Methods Matter</h3>
+      <p>Methods organize robot behavior into smaller readable pieces.</p>
+    `,
+    quiz: {
+      q: "Why are methods useful?",
+      options: ["They increase battery voltage", "They organize reusable code", "They replace motors", "They wire sensors"],
+      correct: 1,
+      feedback: "Correct! Methods help organize and reuse code."
+    }
+  },
+
+  {
+    num: "03",
+    title: "If Statements",
+    desc: "Teach your robot how to make decisions.",
+    tags: ["logic", "java"],
+    content: `
+      <h3>Robot Decisions</h3>
+      <p>Robots constantly make decisions based on sensors and controller input.</p>
+
+      <h3>Examples</h3>
+      <ul>
+        <li>If a button is pressed → run intake</li>
+        <li>If shooter is ready → allow firing</li>
+        <li>If limit switch is triggered → stop elevator</li>
+      </ul>
+
+      <div class="tip-box">
+        <p>💡 Good robot logic is built from lots of small decisions.</p>
+      </div>
+    `,
+    quiz: {
+      q: "What do if statements allow robots to do?",
+      options: ["Charge batteries", "Make decisions", "Drive automatically", "Build subsystems"],
+      correct: 1,
+      feedback: "Correct! If statements let robots react to situations."
+    }
+  },
+
+  {
+    num: "04",
+    title: "Loops & Robot Periodic",
+    desc: "Understand code that repeats constantly.",
+    tags: ["loops", "robotPeriodic"],
+    content: `
+      <h3>The Robot Loop</h3>
+      <p>FRC robots constantly repeat code many times every second.</p>
+
+      <h3>robotPeriodic()</h3>
+      <p>This method runs repeatedly while the robot is enabled.</p>
+
+      <h3>Why This Matters</h3>
+      <p>Controller input, motor updates, and dashboard values all rely on repeated loops.</p>
+    `,
+    quiz: {
+      q: "Why are loops important in robotics?",
+      options: ["They repeat actions continuously", "They increase speed", "They charge motors", "They store variables"],
+      correct: 0,
+      feedback: "Correct! Loops allow robots to continuously update."
+    }
+  },
+
+  {
+    num: "05",
+    title: "Subsystems",
+    desc: "Learn how FRC robots organize hardware.",
+    tags: ["subsystems", "wpilib"],
+    content: `
+      <h3>What Is A Subsystem?</h3>
+      <p>A subsystem groups related hardware and code together.</p>
+
+      <h3>Examples</h3>
+      <ul>
+        <li>Drivetrain subsystem</li>
+        <li>Shooter subsystem</li>
+        <li>Elevator subsystem</li>
+      </ul>
+
+      <h3>Why Subsystems Matter</h3>
+      <p>Subsystems keep robot code organized and easier to debug.</p>
+    `,
+    quiz: {
+      q: "What does a subsystem do?",
+      options: ["Stores batteries", "Groups related hardware and code", "Controls WiFi", "Builds the robot"],
+      correct: 1,
+      feedback: "Correct! Subsystems organize hardware and functionality."
+    }
+  },
+
+  {
+    num: "06",
+    title: "Motor Controllers",
+    desc: "Learn how code controls real motors.",
+    tags: ["motors", "hardware"],
+    content: `
+      <h3>Motor Controllers</h3>
+      <p>Motor controllers receive instructions from code and control motors safely.</p>
+
+      <h3>Common FRC Controllers</h3>
+      <ul>
+        <li>Spark MAX</li>
+        <li>TalonFX</li>
+        <li>Victor SPX</li>
+      </ul>
+
+      <h3>Important Concepts</h3>
+      <ul>
+        <li>Inversion</li>
+        <li>Brake vs Coast</li>
+        <li>Percent output</li>
+      </ul>
+    `,
+    quiz: {
+      q: "What does a motor controller do?",
+      options: ["Stores code", "Controls motor power", "Builds subsystems", "Reads cameras"],
+      correct: 1,
+      feedback: "Correct! Motor controllers safely control motors."
+    }
+  },
+
+  {
+    num: "07",
+    title: "Sensors",
+    desc: "Teach your robot to understand the world.",
+    tags: ["sensors", "hardware"],
+    content: `
+      <h3>Why Sensors Matter</h3>
+      <p>Sensors allow robots to react intelligently instead of blindly moving.</p>
+
+      <h3>Examples</h3>
+      <ul>
+        <li>Encoders</li>
+        <li>Gyroscopes</li>
+        <li>Limit switches</li>
+        <li>Beam break sensors</li>
+      </ul>
+
+      <h3>Real Uses</h3>
+      <p>Measure distance, speed, angle, or detect game pieces.</p>
+    `,
+    quiz: {
+      q: "What is the purpose of sensors?",
+      options: ["Decorate the robot", "Provide information to code", "Increase battery life", "Store commands"],
+      correct: 1,
+      feedback: "Correct! Sensors provide important information to the robot."
+    }
+  },
+
+  {
+    num: "08",
+    title: "Commands",
+    desc: "Control robot actions in an organized way.",
+    tags: ["commands", "wpilib"],
+    content: `
+      <h3>Command-Based Programming</h3>
+      <p>Commands tell subsystems what to do.</p>
+
+      <h3>Examples</h3>
+      <ul>
+        <li>Drive command</li>
+        <li>Shoot command</li>
+        <li>Intake command</li>
+      </ul>
+
+      <h3>Why Commands Matter</h3>
+      <p>Commands separate actions from hardware, making robots easier to expand.</p>
+    `,
+    quiz: {
+      q: "What do commands do?",
+      options: ["Store battery power", "Tell subsystems what actions to perform", "Build sensors", "Connect motors"],
+      correct: 1,
+      feedback: "Correct! Commands control robot behavior."
+    }
+  },
+
+
+  {
+    num: "00",
+    title: "Java Basics",
+    desc: "Learn variables, methods, classes, and objects before touching robot code.",
+    tags: ["java", "beginner"],
+    content: `
+      <h3>Why Learn Java First?</h3>
+      <p>FRC robot code is written in Java. Before learning robot programming, you need to understand the language itself.</p>
+
+      <h3>Core Java Skills</h3>
+      <ul>
+        <li>Variables and data types</li>
+        <li>If statements</li>
+        <li>Loops</li>
+        <li>Methods</li>
+        <li>Classes and objects</li>
+      </ul>
+
+      <div class="tip-box">
+        <p>💡 Strong Java fundamentals make debugging robot code much easier later.</p>
+      </div>
+    `,
+    quiz: {
+      q: "What is a class in Java?",
+      options: ["A type of sensor", "A blueprint for objects", "A motor controller", "A robot command"],
+      correct: 1,
+      feedback: "Correct! A class acts like a blueprint that defines what an object can do."
+    }
+  },
+
+  {
+    num: "00A",
+    title: "Constructors & Objects",
+    desc: "Understand how robot subsystems are created and initialized.",
+    tags: ["java", "oop"],
+    content: `
+      <h3>Objects in FRC</h3>
+      <p>Almost everything in robot code is an object. Motors, controllers, subsystems, and commands are all Java objects.</p>
+
+      <h3>Constructors</h3>
+      <p>A constructor runs when an object is created. In FRC this is where motors and sensors are configured.</p>
+
+      <h3>Why It Matters</h3>
+      <p>Understanding constructors helps students understand why subsystem setup belongs in constructors instead of periodic().</p>
+    `,
+    quiz: {
+      q: "When does a constructor run?",
+      options: ["Every loop", "When an object is created", "Only in autonomous", "When disabled"],
+      correct: 1,
+      feedback: "Correct! Constructors run once when the object is first created."
+    }
+  },
+
+  {
+    num: "00B",
+    title: "Problem Solving & Debugging",
+    desc: "Learn how programmers think through robot issues.",
+    tags: ["debugging", "mindset"],
+    content: `
+      <h3>Programming Is Problem Solving</h3>
+      <p>Real robot programming is not memorizing code. It is learning how to break problems into smaller parts and test solutions.</p>
+
+      <h3>Debugging Skills</h3>
+      <ul>
+        <li>Read console errors carefully</li>
+        <li>Use SmartDashboard values</li>
+        <li>Test one subsystem at a time</li>
+        <li>Check wiring before blaming code</li>
+        <li>Use print statements and telemetry</li>
+      </ul>
+
+      <div class="warning-box">
+        <p>⚠️ Good programmers expect bugs. Debugging is part of engineering.</p>
+      </div>
+    `,
+    quiz: {
+      q: "What is the best way to debug a robot issue?",
+      options: ["Guess randomly", "Change everything at once", "Test one thing at a time", "Restart the robot repeatedly"],
+      correct: 2,
+      feedback: "Correct! Testing one thing at a time makes problems much easier to isolate."
+    }
+  },
+
+  {
+    num: "01",
+    title: "What is WPILib?",
+    desc: "Understand the library that powers every FRC robot and how it fits together.",
+    tags: ["beginner", "concepts"],
+    content: `
+      <h3>What is WPILib?</h3>
+      <p>WPILib is a collection of code that FIRST provides to every team. Think of it as a toolbox — instead of writing code from scratch to spin a motor, WPILib gives you ready-made tools to do it in just a few lines.</p>
+      <p>Every FRC robot runs WPILib. It handles the communication between your code and the actual hardware on the robot — motors, sensors, pneumatics, and more.</p>
+
+      <h3>The Big Picture</h3>
+      <p>Your robot code is structured around a few key ideas:</p>
+      <ul>
+        <li><strong>Subsystems</strong> — the physical parts of your robot (drivetrain, shooter, elevator)</li>
+        <li><strong>Commands</strong> — actions your robot can do (drive forward, shoot, raise elevator)</li>
+        <li><strong>RobotContainer</strong> — where you wire everything together</li>
+        <li><strong>Robot.java</strong> — the main loop that runs your code</li>
+      </ul>
+
+      <h3>How the Code Runs</h3>
+      <p>Your robot code runs in a loop, 50 times per second. Every loop, WPILib checks for controller input, runs any active commands, and calls <code>periodic()</code> on every subsystem. This happens constantly the entire time the robot is on.</p>
+
+      <div class="tip-box"><p>💡 <strong>Tip:</strong> WPILib documentation lives at docs.wpilib.org — it's detailed but dense. This site explains the same stuff in plain english.</p></div>
+    `,
+    quiz: {
+      q: "How many times per second does the robot loop run?",
+      options: ["10 times", "50 times", "100 times", "1000 times"],
+      correct: 1,
+      feedback: "Correct! The robot loop runs at 50Hz — 50 times every second. This is why periodic() is called so often."
+    }
+  },
+  {
+    num: "02",
+    title: "Project Structure",
+    desc: "Learn what every file in your robot project does and why it exists.",
+    tags: ["beginner", "structure"],
+    content: `
+      <h3>The Main Files</h3>
+      <p>When you create a new WPILib project you get a few files. Here's what each one actually does:</p>
+      <ul>
+        <li><strong>Main.java</strong> — the entry point. Don't touch this. It just starts the robot.</li>
+        <li><strong>Robot.java</strong> — controls what happens in each mode (teleop, auto, disabled). The <code>robotPeriodic()</code> method here runs the command scheduler.</li>
+        <li><strong>RobotContainer.java</strong> — where you create your subsystems and bind buttons to commands.</li>
+        <li><strong>Constants.java</strong> — a place to store numbers like motor IDs and speed values so they're easy to find and change.</li>
+      </ul>
+
+      <h3>Subsystem Files</h3>
+      <p>Each physical part of your robot gets its own file. Best practice is to put them in folders:</p>
+      <div class="code-wrap">
+        <div class="code-label">Project Structure</div>
+        <pre><code class="language-java">src/main/java/frc/robot/
+├── Main.java
+├── Robot.java
+├── RobotContainer.java
+├── Constants.java
+└── subsystems/
+    ├── drive/
+    │   ├── DrivetrainSubsystem.java
+    │   └── DriveConstants.java
+    └── shooter/
+        ├── ShooterSubsystem.java
+        └── ShooterConstants.java</code></pre>
+      </div>
+
+      <h3>Constants Files</h3>
+      <p>Never hardcode numbers directly in your subsystem. Put them in a constants file instead. This way if you change a motor ID you only change it in one place.</p>
+      <div class="code-wrap">
+        <div class="code-label">DriveConstants.java</div>
+        <pre><code class="language-java">public class DriveConstants {
+    public static final int kFrontLeft = 1;
+    public static final int kFrontRight = 2;
+    public static final int kBackLeft = 3;
+    public static final int kBackRight = 4;
+}</code></pre>
+      </div>
+
+      <div class="warning-box"><p>⚠️ <strong>Common Mistake:</strong> Putting motor IDs directly in the subsystem file. If you have to change an ID you'll forget where it is.</p></div>
+    `,
+    quiz: {
+      q: "Where should you store motor CAN IDs?",
+      options: ["Directly in the subsystem", "In a Constants file", "In Robot.java", "In Main.java"],
+      correct: 1,
+      feedback: "Correct! Constants files keep all your numbers in one easy-to-find place."
+    }
+  },
+  {
+    num: "03",
+    title: "What is a Subsystem?",
+    desc: "Understand how subsystems represent physical robot parts in code.",
+    tags: ["beginner", "subsystems"],
+    content: `
+      <h3>The Concept</h3>
+      <p>A subsystem is a class that represents one physical part of your robot. Your drivetrain is a subsystem. Your shooter is a subsystem. Your elevator is a subsystem.</p>
+      <p>Each subsystem owns its motors and sensors, and provides methods for commands to call. Nothing outside the subsystem should directly touch its motors.</p>
+
+      <h3>The Template</h3>
+      <div class="code-wrap">
+        <div class="code-label">SubsystemTemplate.java</div>
+        <pre><code class="language-java">import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class MySubsystem extends SubsystemBase {
+
+    // 1. Declare your hardware here
+    private final SparkMax m_motor = new SparkMax(1, MotorType.kBrushless);
+
+    // 2. Constructor — runs once when robot starts
+    public MySubsystem() {
+        // configure hardware here
+    }
+
+    // 3. Public methods — commands call these
+    public void doSomething() {
+        m_motor.set(0.5);
+    }
+
+    public void stop() {
+        m_motor.set(0);
+    }
+
+    // 4. periodic() — runs 50x per second automatically
+    @Override
+    public void periodic() {
+        // put SmartDashboard updates here
+    }
+}</code></pre>
+      </div>
+
+      <h3>Why extends SubsystemBase?</h3>
+      <p>By extending <code>SubsystemBase</code>, WPILib automatically registers your subsystem and calls <code>periodic()</code> every loop. It also enables the command scheduler to know which subsystem a command is using — which prevents two commands from fighting over the same motor.</p>
+
+      <div class="tip-box"><p>💡 <strong>Rule:</strong> Only one command can use a subsystem at a time. If a second command tries to use it, WPILib will cancel the first one automatically.</p></div>
+    `,
+    quiz: {
+      q: "What does extending SubsystemBase do?",
+      options: ["Makes the code run faster", "Registers the subsystem so periodic() is called automatically", "Connects to the motor", "Nothing important"],
+      correct: 1,
+      feedback: "Correct! SubsystemBase registers your subsystem with WPILib so periodic() gets called every loop automatically."
+    }
+  },
+  {
+    num: "04",
+    title: "What is a Command?",
+    desc: "Learn how commands tell your subsystems what to do and when.",
+    tags: ["beginner", "commands"],
+    content: `
+      <h3>The Concept</h3>
+      <p>A command is an action your robot takes. Commands call methods on subsystems. The command scheduler runs commands, checks if they're done, and handles cancellation.</p>
+      <p>Think of it like this: your subsystem is a machine, and commands are instructions you give to the machine.</p>
+
+      <h3>InstantCommand — The Simple One</h3>
+      <p>For simple one-shot actions (like toggling a solenoid), use <code>InstantCommand</code>. It runs once and immediately finishes.</p>
+      <div class="code-wrap">
+        <div class="code-label">InstantCommand usage</div>
+        <pre><code class="language-java">// Runs elevator.upLaunch() once when button is pressed
+new InstantCommand(elevator::upLaunch, elevator)
+
+// With a lambda (for methods that take parameters)
+new InstantCommand(() -> shooter.setSpeed(0.5), shooter)</code></pre>
+      </div>
+
+      <h3>RunCommand — The Continuous One</h3>
+      <p>For things that need to keep running (like driving), use <code>RunCommand</code>. It runs its action every loop until cancelled.</p>
+      <div class="code-wrap">
+        <div class="code-label">RunCommand usage</div>
+        <pre><code class="language-java">// Keeps driving every loop until cancelled
+new RunCommand(
+    () -> drive.arcadeDrive(controller.getLeftY(), controller.getRightX()),
+    drive
+)</code></pre>
+      </div>
+
+      <h3>The Second Argument</h3>
+      <p>Always pass the subsystem as the second argument. This tells the scheduler which subsystem the command uses so it can prevent conflicts.</p>
+
+      <div class="warning-box"><p>⚠️ <strong>Common Mistake:</strong> Forgetting the subsystem argument. Your code will still run but the scheduler won't know what the command is using, which can cause weird behavior.</p></div>
+    `,
+    quiz: {
+      q: "Which command type should you use for an action that needs to keep running continuously?",
+      options: ["InstantCommand", "RunCommand", "WaitCommand", "PrintCommand"],
+      correct: 1,
+      feedback: "Correct! RunCommand keeps running its action every loop until it's cancelled or interrupted."
+    }
+  },
+  {
+    num: "05",
+    title: "Button Bindings",
+    desc: "Wire controller buttons to commands in RobotContainer.",
+    tags: ["beginner", "controls"],
+    content: `
+      <h3>CommandXboxController</h3>
+      <p>WPILib provides <code>CommandXboxController</code> which makes binding buttons to commands very clean. Each button has <code>onTrue()</code>, <code>onFalse()</code>, and <code>whileTrue()</code> methods.</p>
+
+      <div class="code-wrap">
+        <div class="code-label">RobotContainer.java — bindings</div>
+        <pre><code class="language-java">private final CommandXboxController m_driver = 
+    new CommandXboxController(0); // port 0
+
+// Runs once when button is pressed
+m_driver.a().onTrue(new InstantCommand(elevator::up, elevator));
+
+// Runs once when button is released
+m_driver.a().onFalse(new InstantCommand(elevator::down, elevator));
+
+// Runs every loop WHILE button is held
+m_driver.b().whileTrue(new RunCommand(() -> shooter.rev(), shooter));
+
+// Default command runs when no other command is using the subsystem
+drive.setDefaultCommand(
+    new RunCommand(() -> drive.arcadeDrive(
+        m_driver.getLeftY(), 
+        m_driver.getRightX()
+    ), drive)
+);</code></pre>
+      </div>
+
+      <h3>Button Reference</h3>
+      <ul>
+        <li><strong>m_driver.a()</strong> — A button</li>
+        <li><strong>m_driver.b()</strong> — B button</li>
+        <li><strong>m_driver.x()</strong> — X button</li>
+        <li><strong>m_driver.y()</strong> — Y button</li>
+        <li><strong>m_driver.leftBumper()</strong> — Left bumper</li>
+        <li><strong>m_driver.rightBumper()</strong> — Right bumper</li>
+        <li><strong>m_driver.leftTrigger()</strong> — Left trigger (acts as button)</li>
+      </ul>
+
+      <div class="tip-box"><p>💡 <strong>Tip:</strong> Use port 0 for driver controller and port 1 for operator controller. Set them up in Driver Station or the Sim GUI.</p></div>
+    `,
+    quiz: {
+      q: "Which method runs a command every loop WHILE the button is held?",
+      options: ["onTrue()", "onFalse()", "whileTrue()", "toggle()"],
+      correct: 2,
+      feedback: "Correct! whileTrue() keeps the command running every loop as long as the button is held, and cancels it when released."
+    }
+  },
+  {
+    num: "06",
+    title: "Drivetrain Subsystem",
+    desc: "Build a working differential drive drivetrain with SparkMax motors.",
+    tags: ["intermediate", "hardware"],
+    content: `
+      <h3>Differential Drive</h3>
+      <p>Most FRC robots use differential drive (also called tank drive) — two sets of wheels, one on each side. To turn left, you slow down the left side. To go forward, both sides go the same speed.</p>
+      <p>WPILib has a <code>DifferentialDrive</code> class that handles the math for you.</p>
+
+      <div class="code-wrap">
+        <div class="code-label">DrivetrainSubsystem.java</div>
+        <pre><code class="language-java">public class DrivetrainSubsystem extends SubsystemBase {
+
+    private final SparkMax m_frontLeft = 
+        new SparkMax(DriveConstants.kFrontLeft, MotorType.kBrushless);
+    private final SparkMax m_backLeft = 
+        new SparkMax(DriveConstants.kBackLeft, MotorType.kBrushless);
+    private final SparkMax m_frontRight = 
+        new SparkMax(DriveConstants.kFrontRight, MotorType.kBrushless);
+    private final SparkMax m_backRight = 
+        new SparkMax(DriveConstants.kBackRight, MotorType.kBrushless);
+
+    private final DifferentialDrive m_drive = 
+        new DifferentialDrive(this::leftSide, this::rightSide);
+
+    public DrivetrainSubsystem() {
+        // One side needs to be inverted
+        m_frontLeft.setInverted(true);
+        m_backLeft.setInverted(true);
+    }
+
+    // Called by DifferentialDrive to set left motors
+    private void leftSide(double speed) {
+        m_frontLeft.set(speed);
+        m_backLeft.set(speed);
+    }
+
+    // Called by DifferentialDrive to set right motors
+    private void rightSide(double speed) {
+        m_frontRight.set(speed);
+        m_backRight.set(speed);
+    }
+
+    // Arcade drive: one stick for speed, one for turning
+    public void arcadeDrive(double speed, double rotation) {
+        m_drive.arcadeDrive(speed, rotation);
+    }
+
+    // Command for RobotContainer to use
+    public Command driveCommand(DoubleSupplier speed, DoubleSupplier rot) {
+        return new RunCommand(
+            () -> arcadeDrive(speed.getAsDouble(), rot.getAsDouble()), 
+            this
+        );
+    }
+}</code></pre>
+      </div>
+
+      <div class="warning-box"><p>⚠️ <strong>Common Mistake:</strong> If your robot drives sideways or spins when you try to go straight, one side's motors need to be inverted. Flip the <code>setInverted()</code> calls until it drives correctly.</p></div>
+    `,
+    quiz: {
+      q: "Why do we invert one side of the drivetrain motors?",
+      options: ["To make it faster", "Because both sides face opposite directions physically", "It's required by WPILib", "To save battery"],
+      correct: 1,
+      feedback: "Correct! The left and right motors face opposite directions on the robot, so without inverting one side they'd fight each other."
+    }
+  },
+  {
+    num: "07",
+    title: "periodic() Deep Dive",
+    desc: "Understand when and how to use periodic() correctly.",
+    tags: ["intermediate", "concepts"],
+    content: `
+      <h3>What is periodic()?</h3>
+      <p><code>periodic()</code> is a method that WPILib calls automatically 50 times per second on every subsystem. It always runs — whether the robot is enabled or disabled, in teleop or auto.</p>
+      <p>Use it for things that need to constantly update: reading sensors, posting data to SmartDashboard, checking safety conditions.</p>
+
+      <h3>What SHOULD go in periodic()</h3>
+      <ul>
+        <li>SmartDashboard updates</li>
+        <li>Reading encoder or sensor values</li>
+        <li>Safety checks (like stopping a motor if a limit switch is hit)</li>
+        <li>Updating calculated values</li>
+      </ul>
+
+      <h3>What should NOT go in periodic()</h3>
+      <ul>
+        <li>Setting motor speeds based on controller input (do that in commands)</li>
+        <li>Heavy calculations that take a long time</li>
+        <li>Anything that should only run once (do that in the constructor)</li>
+      </ul>
+
+      <div class="code-wrap">
+        <div class="code-label">Good periodic() usage</div>
+        <pre><code class="language-java">@Override
+public void periodic() {
+    // Good — updating dashboard
+    SmartDashboard.putNumber("Flywheel RPS", 
+        m_motor.getVelocity().getValueAsDouble());
+    
+    // Good — safety check
+    if (m_limitSwitch.get()) {
+        m_motor.set(0);
+    }
+    
+    // BAD — don't set motor based on controller here
+    // m_motor.set(controller.getLeftY()); // do this in a command!
+}</code></pre>
+      </div>
+
+      <div class="warning-box"><p>⚠️ <strong>Common Mistake:</strong> Overriding button commands from periodic(). If your periodic() sets a motor to 0 every loop, your button commands will never work because periodic() keeps overwriting them.</p></div>
+    `,
+    quiz: {
+      q: "What is the best thing to put inside periodic()?",
+      options: ["Setting motor speeds from controller", "SmartDashboard updates and sensor reads", "Running autonomous routines", "Creating new commands"],
+      correct: 1,
+      feedback: "Correct! periodic() is best for monitoring — reading sensors and posting data to SmartDashboard."
+    }
+  },
+  {
+    num: "08",
+    title: "SmartDashboard & Elastic",
+    desc: "Debug your robot in real time using SmartDashboard and Elastic.",
+    tags: ["beginner", "debugging"],
+    content: `
+      <h3>What is SmartDashboard?</h3>
+      <p>SmartDashboard is a way to send data from your robot to a dashboard on your driver station laptop. You can see motor speeds, sensor values, boolean states — anything you want to monitor.</p>
+
+      <h3>Sending Data</h3>
+      <div class="code-wrap">
+        <div class="code-label">SmartDashboard examples</div>
+        <pre><code class="language-java">// Numbers
+SmartDashboard.putNumber("Flywheel RPS", m_motor.getVelocity());
+SmartDashboard.putNumber("Hood Angle", getHoodAngle());
+
+// Booleans (show as green/red lights in Elastic)
+SmartDashboard.putBoolean("Shooter Ready", isSpunUp());
+SmartDashboard.putBoolean("Elevator Up", isElevatorUp());
+
+// Text
+SmartDashboard.putString("Robot State", "SHOOTING");
+
+// Sendable Chooser (dropdown in dashboard)
+SmartDashboard.putData("Auto Mode", m_autoChooser);</code></pre>
+      </div>
+
+      <h3>Elastic Dashboard</h3>
+      <p>Elastic is the best dashboard for FRC. Download it free from <strong>github.com/Gold872/elastic-dashboard</strong>. Once open, set your team number or IP to <strong>localhost</strong> when simulating.</p>
+      <p>In Elastic, click + to add widgets and drag your SmartDashboard values onto the canvas. Boolean values show as colored indicators, numbers show as gauges or text, and choosers show as dropdowns.</p>
+
+      <div class="tip-box"><p>💡 <strong>Tip:</strong> Put SmartDashboard calls inside periodic() so they update every loop automatically. Don't put them inside methods that only run sometimes or you'll only see updates when that method is called.</p></div>
+    `,
+    quiz: {
+      q: "Where should you put SmartDashboard.put() calls so they update constantly?",
+      options: ["In the constructor", "In periodic()", "In command methods", "In Robot.java"],
+      correct: 1,
+      feedback: "Correct! periodic() runs every loop so SmartDashboard values placed there always stay up to date."
+    }
+  },
+  {
+    num: "09",
+    title: "Simulation",
+    desc: "Test your robot code at home without any hardware using WPILib simulation.",
+    tags: ["intermediate", "simulation"],
+    content: `
+      <h3>What is Simulation?</h3>
+      <p>WPILib has a built-in simulation mode that lets you run your robot code on your computer without any real hardware. You can test button bindings, logic, and SmartDashboard output.</p>
+
+      <h3>How to Run It</h3>
+      <ul>
+        <li>Press <strong>Ctrl+Shift+P</strong> in VS Code</li>
+        <li>Type <strong>WPILib: Simulate Robot Code</strong></li>
+        <li>Check both Sim GUI and Driver Station</li>
+        <li>Click OK</li>
+      </ul>
+
+      <h3>In the Sim GUI</h3>
+      <ul>
+        <li>Drag your controller from <strong>System Joysticks</strong> into <strong>Joystick[0]</strong></li>
+        <li>Click <strong>Teleoperated</strong> then <strong>Enable</strong> at the top</li>
+        <li>Press buttons and move sticks — your code runs!</li>
+      </ul>
+
+      <div class="code-wrap">
+        <div class="code-label">build.gradle — required for sim</div>
+        <pre><code class="language-java">// These lines enable simulation in build.gradle
+def includeDesktopSupport = true
+wpi.sim.addGui().defaultEnabled = true
+wpi.sim.addDriverstation()</code></pre>
+      </div>
+
+      <h3>What Works in Sim</h3>
+      <p>Button bindings, SmartDashboard, command scheduling, and pneumatics all work. CAN motor controllers (SparkMax, TalonFX) have limited sim support — you won't see encoder values change, but your logic and bindings will run correctly.</p>
+
+      <div class="tip-box"><p>💡 <strong>Tip:</strong> Open Elastic and connect to localhost while simulating. You'll see all your SmartDashboard values update in real time as you press buttons.</p></div>
+    `,
+    quiz: {
+      q: "What do you need to do in the Sim GUI before your controller inputs work?",
+      options: ["Install a driver", "Drag your controller to Joystick[0] and click Enable", "Restart VS Code", "Nothing, it works automatically"],
+      correct: 1,
+      feedback: "Correct! You need to assign your controller to a joystick slot and enable the robot in teleop mode."
+    }
+  },
+  {
+    num: "10",
+    title: "Autonomous Basics",
+    desc: "Make your robot do things automatically during the autonomous period.",
+    tags: ["intermediate", "autonomous"],
+    content: `
+      <h3>How Autonomous Works</h3>
+      <p>During the autonomous period (first 15 seconds of a match), your robot runs pre-programmed commands with no driver input. In WPILib, you schedule a command in <code>autonomousInit()</code> and it runs until it finishes or teleop starts.</p>
+
+      <h3>Simple Auto with SequentialCommandGroup</h3>
+      <p>Chain commands together to run one after another:</p>
+
+      <div class="code-wrap">
+        <div class="code-label">Simple autonomous routine</div>
+        <pre><code class="language-java">// In RobotContainer.java
+public Command getAutonomousCommand() {
+    return new SequentialCommandGroup(
+        // 1. Drive forward for 2 seconds
+        new RunCommand(() -> drive.arcadeDrive(0.5, 0), drive)
+            .withTimeout(2.0),
+        
+        // 2. Stop
+        new InstantCommand(() -> drive.arcadeDrive(0, 0), drive),
+        
+        // 3. Shoot
+        new InstantCommand(shooter::shoot, shooter),
+        
+        // 4. Wait 1 second
+        new WaitCommand(1.0),
+        
+        // 5. Stop shooting
+        new InstantCommand(shooter::stop, shooter)
+    );
+}</code></pre>
+      </div>
+
+      <h3>Scheduling in Robot.java</h3>
+      <div class="code-wrap">
+        <div class="code-label">Robot.java — autonomousInit</div>
+        <pre><code class="language-java">@Override
+public void autonomousInit() {
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+    }
+}</code></pre>
+      </div>
+
+      <div class="tip-box"><p>💡 <strong>Next step:</strong> Once you're comfortable with this, look into PathPlanner — it lets you draw paths on a field and your robot follows them automatically. Much more powerful than timing-based auto.</p></div>
+    `,
+    quiz: {
+      q: "What class lets you run multiple commands one after another?",
+      options: ["ParallelCommandGroup", "SequentialCommandGroup", "InstantCommand", "RunCommand"],
+      correct: 1,
+      feedback: "Correct! SequentialCommandGroup runs commands in order — command 1 finishes, then command 2 starts, and so on."
+    }
+  }
+];
+
+const examples = [
+  {
+    title: "Subsystem Template",
+    desc: "A clean starting point for any subsystem",
+    lang: "java",
+    code: `public class MySubsystem extends SubsystemBase {
+    
+    // Declare hardware
+    private final SparkMax m_motor = 
+        new SparkMax(1, MotorType.kBrushless);
+
+    public MySubsystem() {
+        // Configure hardware in constructor
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.inverted(false);
+        config.idleMode(SparkMaxConfig.IdleMode.kBrake);
+        m_motor.configure(config, 
+            ResetMode.kResetSafeParameters, 
+            PersistMode.kPersistParameters);
+    }
+
+    public void setSpeed(double speed) {
+        m_motor.set(speed);
+    }
+
+    public void stop() {
+        m_motor.set(0);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Motor Output", 
+            m_motor.getAppliedOutput());
+    }
+}`
+  },
+  {
+    title: "Button Bindings",
+    desc: "Common button binding patterns in RobotContainer",
+    lang: "java",
+    code: `// In RobotContainer.java
+
+private final CommandXboxController m_driver = 
+    new CommandXboxController(0);
+private final CommandXboxController m_operator = 
+    new CommandXboxController(1);
+
+private void configureBindings() {
+    
+    // Default driving command
+    drive.setDefaultCommand(drive.driveCommand(
+        m_driver::getLeftY, 
+        m_driver::getRightX
+    ));
+
+    // Button press — runs once
+    m_driver.a().onTrue(
+        new InstantCommand(elevator::up, elevator));
+    
+    // Button release — runs once
+    m_driver.a().onFalse(
+        new InstantCommand(elevator::down, elevator));
+
+    // Hold button — runs while held
+    m_driver.rightBumper().whileTrue(
+        new RunCommand(shooter::rev, shooter));
+
+    // Operator controller
+    m_operator.leftBumper().onTrue(
+        new InstantCommand(() -> hood.setSpeed(0.2), hood));
+    m_operator.leftBumper().onFalse(
+        new InstantCommand(() -> hood.setSpeed(0), hood));
+}`
+  },
+  {
+    title: "SmartDashboard Usage",
+    desc: "How to send all types of data to the dashboard",
+    lang: "java",
+    code: `@Override
+public void periodic() {
+    // Numbers
+    SmartDashboard.putNumber("Flywheel RPS", 
+        m_motor.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Hood Angle", 
+        getHoodAngle());
+    SmartDashboard.putNumber("Battery Voltage",
+        RobotController.getBatteryVoltage());
+    
+    // Booleans (show as green/red in Elastic)
+    SmartDashboard.putBoolean("Shooter Ready", 
+        isSpunUp());
+    SmartDashboard.putBoolean("At Target", 
+        isAtTarget());
+    
+    // Strings
+    SmartDashboard.putString("State", 
+        currentState.toString());
+    
+    // Chooser (shows as dropdown)
+    SmartDashboard.putData("Auto Mode", m_chooser);
+}`
+  },
+  {
+    title: "Differential Drivetrain",
+    desc: "Full drivetrain subsystem with arcade drive",
+    lang: "java",
+    code: `public class DrivetrainSubsystem extends SubsystemBase {
+
+    private final SparkMax m_frontLeft = 
+        new SparkMax(1, MotorType.kBrushless);
+    private final SparkMax m_backLeft = 
+        new SparkMax(2, MotorType.kBrushless);
+    private final SparkMax m_frontRight = 
+        new SparkMax(3, MotorType.kBrushless);
+    private final SparkMax m_backRight = 
+        new SparkMax(4, MotorType.kBrushless);
+
+    private final DifferentialDrive m_dif = 
+        new DifferentialDrive(this::leftMotors, this::rightMotors);
+
+    public DrivetrainSubsystem() {
+        m_frontLeft.setInverted(true);
+        m_backLeft.setInverted(true);
+    }
+
+    private void leftMotors(double speed) {
+        m_frontLeft.set(speed);
+        m_backLeft.set(speed);
+    }
+
+    private void rightMotors(double speed) {
+        m_frontRight.set(speed);
+        m_backRight.set(speed);
+    }
+
+    public Command driveCommand(
+            DoubleSupplier speed, DoubleSupplier rot) {
+        return new RunCommand(
+            () -> m_dif.arcadeDrive(
+                speed.getAsDouble(), 
+                rot.getAsDouble()
+            ), this
+        );
+    }
+}`
+  },
+  {
+    title: "SendableChooser (Auto Selector)",
+    desc: "Let drivers pick an auto mode from the dashboard",
+    lang: "java",
+    code: `// In RobotContainer.java
+
+private final SendableChooser<Command> m_chooser = 
+    new SendableChooser<>();
+
+public RobotContainer() {
+    // Add auto options
+    m_chooser.setDefaultOption("Do Nothing", 
+        new InstantCommand());
+    m_chooser.addOption("Drive Forward", 
+        driveForwardAuto());
+    m_chooser.addOption("Shoot and Drive", 
+        shootAndDriveAuto());
+    
+    // Put on dashboard
+    SmartDashboard.putData("Auto Mode", m_chooser);
 }
 
-// 🔎 Search
-document.getElementById("searchBar").addEventListener("keyup", function() {
-  let value = this.value.toLowerCase();
-  document.querySelectorAll(".product-card").forEach(card => {
-    let title = card.querySelector(".product-title").innerText.toLowerCase();
-    card.style.display = title.includes(value) ? "block" : "none";
+public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+}
+
+private Command driveForwardAuto() {
+    return new RunCommand(
+        () -> drive.arcadeDrive(0.5, 0), drive
+    ).withTimeout(2.0);
+}`
+  },
+  {
+    title: "Sequential Auto Routine",
+    desc: "Chain multiple actions together for autonomous",
+    lang: "java",
+    code: `public Command getAutonomousCommand() {
+    return new SequentialCommandGroup(
+        
+        // Step 1: Spin up shooter
+        new InstantCommand(shooter::spinUp, shooter),
+        
+        // Step 2: Wait for shooter to reach speed
+        new WaitUntilCommand(shooter::isSpunUp)
+            .withTimeout(3.0), // timeout if never ready
+        
+        // Step 3: Shoot
+        new InstantCommand(feeder::run, feeder),
+        new WaitCommand(1.5),
+        new InstantCommand(feeder::stop, feeder),
+        new InstantCommand(shooter::stop, shooter),
+        
+        // Step 4: Drive back
+        new RunCommand(
+            () -> drive.arcadeDrive(-0.4, 0), drive
+        ).withTimeout(2.0),
+        
+        // Step 5: Stop
+        new InstantCommand(
+            () -> drive.arcadeDrive(0, 0), drive)
+    );
+}`
+  }
+];
+
+// ─── RENDER LESSONS ──────────────────────────────────────────────────────────
+
+function renderLessons() {
+  const grid = document.getElementById('lessonsGrid');
+  lessons.forEach((l, i) => {
+    const card = document.createElement('div');
+    card.className = 'lesson-card';
+    card.onclick = () => openLesson(i);
+    card.innerHTML = `
+      <div class="lesson-num">LESSON ${l.num}</div>
+      <div class="lesson-title">${l.title}</div>
+      <div class="lesson-desc">${l.desc}</div>
+      <div class="lesson-tags">${l.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    `;
+    grid.appendChild(card);
   });
-  updateResultCount();
-});
+}
 
-// 🎛 Filter buttons
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", function() {
-    let filter = this.dataset.filter;
+function openLesson(i) {
+  const l = lessons[i];
+  document.getElementById('modalNum').textContent = `LESSON ${l.num}`;
+  document.getElementById('modalTitle').textContent = l.title;
+  
+  let quizHtml = '';
+  if (l.quiz) {
+    quizHtml = `
+      <div class="quiz-section">
+        <div class="quiz-title">// Quick Check</div>
+        <div class="quiz-q">${l.quiz.q}</div>
+        <div class="quiz-options">
+          ${l.quiz.options.map((o, idx) => `
+            <button class="quiz-opt" onclick="answerQuiz(this, ${idx}, ${l.quiz.correct}, '${l.quiz.feedback.replace(/'/g, "\\'")}')">
+              ${o}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+      </div>
+    `;
+  }
+  
+  document.getElementById('modalBody').innerHTML = l.content + quizHtml;
+  document.getElementById('modalOverlay').classList.add('open');
+  
+  // Highlight code
+  document.querySelectorAll('.modal pre code').forEach(el => hljs.highlightElement(el));
+}
 
-    // Highlight active button
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    this.classList.add("active");
+function answerQuiz(btn, chosen, correct, feedback) {
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+  
+  const fb = document.getElementById('quizFeedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ ' + feedback;
+    fb.className = 'quiz-feedback show correct';
+  } else {
+    btn.classList.add('wrong');
+    opts[correct].classList.add('correct');
+    fb.textContent = '✗ Not quite. ' + feedback;
+    fb.className = 'quiz-feedback show wrong';
+  }
+}
 
-    // Show/hide products based on filter
-    document.querySelectorAll(".product-card").forEach(card => {
-      if (filter === "all" || card.dataset.category.includes(filter)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ─── RENDER EXAMPLES ─────────────────────────────────────────────────────────
+
+function renderExamples() {
+  const grid = document.getElementById('examplesGrid');
+  examples.forEach(ex => {
+    const card = document.createElement('div');
+    card.className = 'example-card';
+    card.innerHTML = `
+      <div class="example-header">
+        <div class="example-title">${ex.title}</div>
+        <div class="example-desc">${ex.desc}</div>
+      </div>
+      <div class="code-wrap" style="border:none;border-radius:0;">
+        <div class="code-label">${ex.title}</div>
+        <pre><code class="language-${ex.lang}">${escapeHtml(ex.code)}</code></pre>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#examplesGrid pre code').forEach(el => hljs.highlightElement(el));
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copyCode(btn) {
+  const code = btn.closest('.code-wrap').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'COPIED!';
+    btn.style.color = 'var(--accent)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+  });
+}
+
+// ─── AI TUTOR ────────────────────────────────────────────────────────────────
+
+let apiKey = localStorage.getItem('frc_api_key') || '';
+let chatHistory = [];
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val) return;
+  apiKey = val;
+  localStorage.setItem('frc_api_key', val);
+  document.getElementById('apiKeyBanner').style.display = 'none';
+}
+
+function checkApiKey() {
+  if (apiKey) {
+    document.getElementById('apiKeyBanner').style.display = 'none';
+    document.getElementById('apiKeyInput').value = apiKey;
+  }
+}
+
+function askSuggested(btn) {
+  document.getElementById('chatInput').value = btn.textContent;
+  sendMessage();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  if (!apiKey) {
+    alert('Please enter your Anthropic API key first.');
+    return;
+  }
+
+  input.value = '';
+  appendMessage('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.disabled = true;
+
+  const typingDiv = appendTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are an expert FRC robot programming tutor. Explain concepts in simple plain english like you are talking to a high school student who is brand new to programming. Always use real Java/WPILib code examples. Keep answers concise and practical. Format code blocks with triple backticks and java language tag. Use bullet points for lists. Don't use overly technical jargon — if you must use a technical term, explain it immediately. Reference docs.wpilib.org when relevant.`,
+        messages: chatHistory
+      })
     });
 
-    updateResultCount();
+    typingDiv.remove();
+
+    if (!res.ok) {
+      const err = await res.json();
+      appendMessage('ai', `Error: ${err.error?.message || 'Something went wrong. Check your API key.'}`);
+    } else {
+      const data = await res.json();
+      const reply = data.content[0].text;
+      chatHistory.push({ role: 'assistant', content: reply });
+      appendMessage('ai', reply);
+    }
+  } catch (e) {
+    typingDiv.remove();
+    appendMessage('ai', 'Network error. Make sure you have an internet connection and a valid API key.');
+  }
+
+  sendBtn.disabled = false;
+}
+
+function appendMessage(role, text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `
+    <div class="msg-avatar">${role === 'user' ? 'YOU' : 'AI'}</div>
+    <div class="msg-content">${formatMessage(text)}</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Highlight any code blocks in the new message
+  div.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+  return div;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `
+    <div class="msg-avatar">AI</div>
+    <div class="msg-content"><div class="typing-indicator"><span></span><span></span><span></span></div></div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function formatMessage(text) {
+  // Code blocks
+  text = text.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><code class="language-${lang || 'java'}">${escapeHtml(code.trim())}</code></pre>`;
+  });
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Bold
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Newlines
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
+// Enter to send
+document.addEventListener('DOMContentLoaded', () => {
+  renderLessons();
+  renderExamples();
+  checkApiKey();
+  hljs.highlightAll();
+
+  document.getElementById('chatInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   });
 });
-
-// Initialize count on page load
-updateResultCount();
 </script>
-
-
-<div id="prices" class="tab-content">
-  <style>
-    body {
-      background-color: #111;
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .compare-section {
-      position: relative;
-      max-width: 900px;
-      margin: 50px auto;
-      padding: 50px;
-      background: linear-gradient(135deg, #000011, #000022);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 35px rgba(255,105,180,.9);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .compare-section::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255,105,180,.09),
-        rgba(255,105,180,.09) 2px,
-        transparent 2px,
-        transparent 12px
-      );
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .compare-section::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 120%;
-      height: 120%;
-      background: radial-gradient(circle, rgba(255,105,180,.5) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .compare-section > * { position: relative; z-index: 1; }
-
-    h2 {
-      text-align: center;
-      color: #F6B;
-      font-size: 3.2em;
-      margin-bottom: 50px;
-      text-shadow: 0 0 15px #F6B, 0 0 30px rgba(255,105,180,.9), 0 0 60px rgba(255,105,180,.9);
-      animation: textGlow 2.5s ease-in-out infinite alternate;
-      letter-spacing: 2px;
-    }
-
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 6px #F6B, 0 0 20px #F6B, 0 0 40px rgba(255,105,180,.7); }
-      100% { text-shadow: 0 0 25px #F6B, 0 0 50px #F6B, 0 0 75px rgba(255,105,180,.7); }
-    }
-
-    h3 {
-      text-align: center;
-      color: #fff;
-      font-size: 2em;
-      margin: 25px 0 25px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      position: relative;
-    }
-
-    h3::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 4px;
-      margin: 10px auto 0;
-      background: #F6B;
-      border-radius: 2px;
-      animation: underlineGlow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes underlineGlow {
-      0% { box-shadow: 0 0 5px #F6B; }
-      100% { box-shadow: 0 0 20px #F6B; }
-    }
-
-    .prices-grid {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .price-card {
-      background: rgba(255,105,180,.09);
-      border: 1px solid rgba(255,105,180,.7);
-      border-radius: 15px;
-      width: 45%;
-      padding: 25px;
-      box-shadow: 0 0 25px rgba(255,105,180,.1);
-      transition: box-shadow 0.3s ease-in-out;
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 1s ease forwards;
-    }
-
-    .price-card:hover {
-      box-shadow: 0 0 50px rgba(255,105,180,1.5), 0 0 60px rgba(255,105,180,.9) inset;
-    }
-
-    .price-card h4 {
-      text-align: center;
-      color: #F6B;
-      margin-bottom: 20px;
-      font-size: 1.8em;
-      text-shadow: 0 0 10px #F6B;
-    }
-
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 14px 10px;
-      border-bottom: 1px solid rgba(255,105,180,.5);
-      align-items: center;
-    }
-
-    .price-row:last-child { border-bottom: none; }
-
-    .item-name { color: #fff; font-weight: 600; }
-    .price { color: #F6B; font-weight: bold; text-align: right; }
-
-    .badge {
-      display: inline-block;
-      background: #F6B;
-      color: #fff;
-      font-size: 0.8em;
-      font-weight: bold;
-      padding: 3px 6px;
-      border-radius: 5px;
-      text-transform: uppercase;
-      margin-left: 5px;
-      box-shadow: 0 0 12px #F6B;
-      animation: badgeGlow 2s ease-in-out infinite alternate;
-    }
-
-    /* Glowing badge animation */
-    @keyframes badgeGlow {
-      0% { box-shadow: 0 0 6px #F6B; }
-      50% { box-shadow: 0 0 20px #F6B, 0 0 40px rgba(255,105,180,.9); }
-      100% { box-shadow: 0 0 6px #F6B; }
-    }
-
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive tweaks for mobile readability */
-    @media (max-width: 768px) {
-      .price-card { width: 100%; }
-      h2 { font-size: 2.5em; }
-      h3 { font-size: 2.2em; }
-      .price-card h4 { font-size: 2em; }
-      .badge { font-size: 0.95em; padding: 4px 8px; }
-    }
-
-    @media (max-width: 480px) {
-      h2 { font-size: 2.2em; }
-      h3 { font-size: 2em; }
-      .price-card h4 { font-size: 1.8em; }
-      .badge { font-size: 1em; padding: 5px 10px; }
-    }
-  </style>
-
-  <div class="compare-section">
-    <h2>R3vival Prices</h2>
-
-    <h3>Shirts</h3>
-    <div class="prices-grid">
-      <div class="price-card">
-        <h4>R3vival</h4>
-        <div class="price-row"><span class="item-name">100% Cotton <span class="badge">Best Value</span></span> <span class="price">$30.00</span></div>
-        <div class="price-row"><span class="item-name">Polyester</span> <span class="price">$45.00</span></div>
-        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$42.00</span></div>
-      </div>
-      <div class="price-card">
-        <h4>Custom</h4>
-        <div class="price-row"><span class="item-name">100% Cotton</span> <span class="price">$50.00</span></div>
-        <div class="price-row"><span class="item-name">Polyester</span> <span class="price">$55.00</span></div>
-        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$50.00</span></div>
-      </div>
-    </div>
-
-    <h3>Hoodies</h3>
-    <div class="prices-grid">
-      <div class="price-card">
-        <h4>R3vival</h4>
-        <div class="price-row"><span class="item-name">100% Cotton <span class="badge">Best Value</span></span> <span class="price">$49.00</span></div>
-        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$54.00</span></div>
-      </div>
-      <div class="price-card">
-        <h4>Custom</h4>
-        <div class="price-row"><span class="item-name">100% Cotton</span> <span class="price">$69.00</span></div>
-        <div class="price-row"><span class="item-name">Cotton/Polyester Mix</span> <span class="price">$69.00</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="contact" class="tab-content highlight-box">
-  <style>
-    body {
-      background-color: #111;
-      font-family: "Segoe UI", sans-serif;
-    }
-
-    .contact-container {
-      position: relative;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 40px;
-      background: linear-gradient(135deg, #000011, #000022);
-      border-radius: 15px;
-      box-shadow: 0 0 25px rgba(255,105,180,.1);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 1s ease-in-out;
-    }
-
-    .contact-container.animate {
-      opacity: 1;
-      transform: translateY(0);
-      box-shadow: 0 0 35px rgba(255,105,180,1.2);
-    }
-
-    /* Background diagonal lines */
-    .contact-container::after {
-      content: '';
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255,105,180,.08),
-        rgba(255,105,180,.08) 2px,
-        transparent 2px,
-        transparent 12px
-      );
-      z-index: 0;
-      pointer-events: none;
-      animation: slideBG 15s linear infinite;
-    }
-
-    @keyframes slideBG {
-      0% { background-position: 0 0; }
-      100% { background-position: 150px 150px; }
-    }
-
-    .contact-container > * { position: relative; z-index: 1; }
-
-    /* Header */
-    .contact-header img {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 200px;
-      filter: drop-shadow(0 0 12px #FF69B4);
-      transition: transform 0.3s ease;
-    }
-    .contact-header img:hover { transform: scale(1.05); }
-
-    .contact-container h2 {
-      text-align: center;
-      color: #FF69B4;
-      font-size: 2.2em;
-      margin-bottom: 25px;
-      text-shadow: 0 0 8px rgba(255,105,180,.9);
-      animation: textGlow 2.5s ease-in-out infinite alternate;
-    }
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 6px #FF69B4; }
-      100% { text-shadow: 0 0 15px #FF69B4; }
-    }
-
-    /* Form styling */
-    .contact-form .form-group { position: relative; margin-top: 20px; }
-    .contact-form label {
-      font-weight: bold;
-      display: block;
-      color: #fff;
-      margin-bottom: 6px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
-    }
-    .contact-form label.show { opacity:1; transform: translateY(0); }
-
-    .contact-form .icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #FF69B4;
-      pointer-events: none;
-      font-size: 18px;
-    }
-
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 14px 14px 14px 45px;
-      border-radius: 10px;
-      border: 1px solid #FF69B4;
-      background: #1a1a2e;
-      color: #fff;
-      font-size: 16px;
-      transition: all 0.3s ease, box-shadow 0.5s ease;
-      opacity: 0;
-      transform: translateY(20px);
-      box-sizing: border-box;
-    }
-    .contact-form input.show, .contact-form textarea.show { opacity: 1; transform: translateY(0); }
-
-    .contact-form input:focus, .contact-form textarea:focus {
-      outline: none;
-      box-shadow: 0 0 12px rgba(255,105,180,1.4);
-      border-color: #FF69B4;
-    }
-
-    /* Submit button */
-    .contact-form button {
-      margin-top: 20px;
-      background: #FF69B4;
-      color: #fff;
-      border: none;
-      padding: 14px;
-      width: 100%;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(255,105,180,1.4);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    .contact-form button.show { opacity: 1; transform: translateY(0); }
-
-    .contact-form button:hover { transform: scale(1.03); box-shadow: 0 0 25px rgba(255,105,180,.1.5); }
-    .contact-form button::before {
-      content: '';
-      position: absolute;
-      top:0; left:-100%;
-      width:100%; height:100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shimmer 3s infinite;
-    }
-    @keyframes shimmer { 0%{left:-100%;} 100%{left:100%;} }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .contact-container { padding: 25px 15px; }
-      .contact-container h2 { font-size: 1.8em; }
-      .contact-form input, .contact-form textarea, .contact-form button { font-size: 16px; padding:12px; }
-      .contact-form .icon { font-size:16px; left:10px; }
-    }
-  </style>
-
-  <div class="contact-container">
-    <header class="contact-header">
-      <a href="#home">
-        <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" alt="R3vival Logo">
-      </a>
-    </header>
-
-    <h2>Contact R3vival Support</h2>
-
-    <form class="contact-form" action="https://formspree.io/f/mkgvdbwq" method="POST">
-      <div class="form-group">
-        <label for="name">Your Name</label>
-        <span class="icon">👤</span>
-        <input type="text" name="name" id="name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Your Email</label>
-        <span class="icon">📧</span>
-        <input type="email" name="email" id="email" required>
-      </div>
-
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <span class="icon">💬</span>
-        <textarea name="message" id="message" required style="height:120px; resize:vertical;"></textarea>
-      </div>
-
-      <button type="submit">Send Message</button>
-    </form>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function(){
-      const contactSection = document.querySelector('.contact-container');
-      const animateItems = contactSection.querySelectorAll('h2, label, input, textarea, button');
-
-      if('IntersectionObserver' in window){
-        const observer = new IntersectionObserver(entries=>{
-          entries.forEach(entry=>{
-            if(entry.isIntersecting){
-              contactSection.classList.add('animate');
-              animateItems.forEach((item,i)=>{
-                setTimeout(()=>{ item.classList.add('show'); }, i*120);
-              });
-            } else {
-              contactSection.classList.remove('animate');
-              animateItems.forEach(item=>item.classList.remove('show'));
-            }
-          });
-        },{threshold:0.2});
-        observer.observe(contactSection);
-      } else {
-        contactSection.classList.add('animate');
-        animateItems.forEach(item=>item.classList.add('show'));
-      }
-    });
-  </script>
-</div>
-
-  <footer>
-    © 2025 R3vival
-  </footer>
 </body>
-
 </html>
-</body>
