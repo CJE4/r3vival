@@ -201,6 +201,28 @@ function submitNotifyForm(e) {
 }
 
 // ============================================================
+// SELLAUTH — embed checkout popup
+// ============================================================
+const SELLAUTH_SHOP_ID = "179365"; // find this in your SellAuth dashboard → Account → API Access
+
+document.querySelectorAll('.buy-btn[data-product-id]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (typeof window.sellAuthEmbed === 'undefined') {
+      console.error('SellAuth embed script did not load.');
+      return;
+    }
+    const productId = parseInt(btn.dataset.productId, 10);
+    const variantId = btn.dataset.variantId ? parseInt(btn.dataset.variantId, 10) : undefined;
+    window.sellAuthEmbed.checkout(btn, {
+      cart: [{ productId, variantId, quantity: 1 }],
+      shopId: parseInt(SELLAUTH_SHOP_ID, 10),
+      modal: true,
+      scrollTop: true
+    });
+  });
+});
+
+// ============================================================
 // SHOP — search & filter
 // ============================================================
 (function () {
