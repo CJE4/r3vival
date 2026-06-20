@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R3vival – Faith, Community, Apparel</title>
+<meta name="description" content="R3vival is a Christian clothing brand offering high-quality, custom-designed apparel that blends faith and modern fashion.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png">
+<meta property="og:title" content="R3vival – Faith, Community, Apparel">
+<meta property="og:description" content="Christian clothing built to spark conversation and inspire faith through fashion.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07060a">
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-mark"></div>
+  <div class="loader-text">R3VIVAL</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<div id="scrollProgress"></div>
+
+<!-- NAV / TABS -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="javascript:void(0)" class="nav-logo" onclick="switchTab('home')">
+      <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" alt="R3vival logo">
+      <div class="nav-logo-text">R3vival<span>Faith &amp; Apparel</span></div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="javascript:void(0)" data-tab="home" onclick="switchTab('home')">Home</a></li>
+      <li><a href="javascript:void(0)" data-tab="about" onclick="switchTab('about')">About</a></li>
+      <li><a href="javascript:void(0)" data-tab="shop" onclick="switchTab('shop')">Shop</a></li>
+      <li><a href="javascript:void(0)" data-tab="prices" onclick="switchTab('prices')">Prices</a></li>
+      <li><a href="javascript:void(0)" data-tab="community" onclick="switchTab('community')">Community</a></li>
+      <li><a href="javascript:void(0)" data-tab="contact" onclick="switchTab('contact')">Contact</a></li>
+    </ul>
+    <a href="javascript:void(0)" class="nav-cta" onclick="switchTab('shop')">Shop Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="javascript:void(0)" data-tab="home" onclick="switchTab('home');closeMobile()">Home</a>
+  <a href="javascript:void(0)" data-tab="about" onclick="switchTab('about');closeMobile()">About</a>
+  <a href="javascript:void(0)" data-tab="shop" onclick="switchTab('shop');closeMobile()">Shop</a>
+  <a href="javascript:void(0)" data-tab="prices" onclick="switchTab('prices');closeMobile()">Prices</a>
+  <a href="javascript:void(0)" data-tab="community" onclick="switchTab('community');closeMobile()">Community</a>
+  <a href="javascript:void(0)" data-tab="contact" onclick="switchTab('contact');closeMobile()">Contact</a>
+  <a href="javascript:void(0)" class="btn-primary" onclick="switchTab('shop');closeMobile()">Shop Now</a>
+</div>
+
+<main>
+
+<!-- ══ HOME ══ -->
+<section id="tab-home" class="tab-panel active">
+  <div id="hero">
+    <canvas id="particleCanvas"></canvas>
+    <div class="hero-veil"></div>
+    <svg class="hero-cross" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="44" y="4" width="12" height="92" rx="3" fill="#fff"/>
+      <rect x="10" y="34" width="80" height="12" rx="3" fill="#fff"/>
+    </svg>
+    <div class="hero-content">
+      <div class="hero-badge">Christian Streetwear &amp; Apparel</div>
+      <h1 class="hero-title">Faith Worn <span class="accent">Boldly</span>,<br>Fashion Made <span class="accent">Personal</span></h1>
+      <p class="hero-sub">R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and custom apparel designed to reflect faith and foster community.</p>
+      <p class="hero-verse">“Let your light shine before others.” — Matthew 5:16</p>
+      <div class="hero-buttons">
+        <a href="javascript:void(0)" class="btn-primary" onclick="switchTab('shop')">Shop the Drop</a>
+        <a href="javascript:void(0)" class="btn-secondary" onclick="switchTab('about')">Our Story</a>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-num" data-target="100" data-suffix="%">0</div>
+          <div class="stat-label">Custom Designed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="3" data-suffix="">0</div>
+          <div class="stat-label">Styles in Drop 1</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="3" data-suffix="">0</div>
+          <div class="stat-label">Community Channels</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY R3VIVAL (lives on Home) -->
+  <section id="why">
+    <div class="section-inner center">
+      <div class="section-badge">Why Choose Us</div>
+      <h2 class="section-title">Built for the <span class="accent">Community</span>, Designed for You</h2>
+      <p class="section-sub center">Whether you're new to the brand or growing with it, R3vival has clothes tailored to your ideas.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h4>Full Custom Designs</h4>
+          <p>Custom shirts and hoodies designed from scratch — built around your idea, not a template.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧵</div>
+          <h4>Incredibly Comfortable</h4>
+          <p>Heavyweight cotton and premium blends made to be worn and lived in, every single day.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h4>Active, Personal Support</h4>
+          <p>Real people behind the brand — active support and professional service from order to delivery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta-strip">
+    <div class="section-inner">
+      <h2>Ready to Wear Your Faith?</h2>
+      <p>Shop Drop 1 — heavyweight tees designed to spark conversation.</p>
+      <a href="javascript:void(0)" class="btn-primary" onclick="switchTab('shop')">Shop the Collection</a>
+    </div>
+  </section>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="tab-about" class="tab-panel">
+  <section style="padding-top:60px">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div>
+          <div class="section-badge">Our Story</div>
+          <h2 class="section-title">Faith, Community &amp; <span class="accent">Quality Apparel</span></h2>
+          <p class="section-sub">R3vival is a Christian clothing brand offering high-quality sweat suits, shirts, and other apparel designed to reflect faith and foster community.</p>
+
+          <div class="mission-card fade-up">
+            <div class="label">Our Mission</div>
+            <p>To inspire faith through fashion and build a strong, supportive community.</p>
+          </div>
+
+          <div class="verse-block fade-up">
+            <p>“Let your light shine before others.”</p>
+            <span>Matthew 5:16</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:6px">Who We Are</h3>
+          <p style="color:var(--muted);font-size:.95rem;margin-top:10px">A brand built to combine purposeful messages with modern fashion — blending scripture and Christian principles without being overly loud. Wearing R3vival apparel can spark conversations about faith and empower people to live out their beliefs boldly.</p>
+
+          <div class="pillars">
+            <div class="pillar fade-up">
+              <div class="pillar-mark">01</div>
+              <div>
+                <h4>Stylish Clothing</h4>
+                <p>Streetwear-grade pieces built to be worn daily, not just on Sundays.</p>
+              </div>
+            </div>
+            <div class="pillar fade-up">
+              <div class="pillar-mark">02</div>
+              <div>
+                <h4>Christian Values</h4>
+                <p>Scripture and faith woven into design — present, never preachy.</p>
+              </div>
+            </div>
+            <div class="pillar fade-up">
+              <div class="pillar-mark">03</div>
+              <div>
+                <h4>Quality &amp; Personalization</h4>
+                <p>Focused on real craftsmanship, professionalism, and apparel tailored to you.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ══ SHOP ══ -->
+<section id="tab-shop" class="tab-panel">
+  <div class="store-hero" style="padding-top:60px">
+    <div class="section-badge">Drop 01</div>
+    <h1 class="hero-title" style="font-size:clamp(2.2rem,5vw,3.4rem)">Shop the <span class="accent">Collection</span></h1>
+    <p class="section-sub center" style="margin-top:18px">Heavyweight tees designed from scratch — wear it boldly.</p>
+
+    <form class="notify-bar" action="https://formspree.io/f/xandrjkk" method="POST" onsubmit="submitNotifyForm(event)">
+      <input type="email" name="email" id="notifyEmail" placeholder="Enter your email for early access" required>
+      <button type="submit">Notify Me</button>
+    </form>
+    <div class="notify-msg" id="notifyMessage"></div>
+  </div>
+
+  <div class="shop-toolbar">
+    <input type="text" id="searchBar" placeholder="Search products…">
+    <button class="g-filter active" data-filter="all">All</button>
+    <button class="g-filter" data-filter="drop1">Drop 1</button>
+    <button class="g-filter" data-filter="cross">Cross Edition</button>
+    <button class="g-filter" data-filter="pink">Cherry Edition</button>
+  </div>
+  <div class="filter-info">Showing <span id="resultCount">3</span> items</div>
+
+  <section style="padding-top:30px">
+    <div class="shop-grid">
+
+      <div class="product-card" data-category="drop1 cross shirts">
+        <span class="label best-seller">Best Seller</span>
+        <div class="product-img"><img src="https://i.postimg.cc/PJBSCTtR/Untitled-design-3.png" alt="Jesus Christ Heavyweight Tee"></div>
+        <div class="product-body">
+          <div class="product-tags"><span class="tag">Drop 1</span><span class="tag">Cross Edition</span></div>
+          <div class="product-title">Jesus Christ Heavyweight Tee</div>
+          <div class="product-price">$30.00</div>
+          <a href="https://projectr3vival.mysellauth.com/product/jesus-christ-heavyweight-tee" class="buy-btn" target="_blank" rel="noopener noreferrer">Buy Now</a>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="drop1 pink shirts">
+        <span class="label new-drop">New Drop</span>
+        <div class="product-img"><img src="https://i.postimg.cc/kgnbxGjP/Untitled-design-6.png" alt="Heavyweight Drop Shoulder Cotton T-Shirt — Cherry Edition"></div>
+        <div class="product-body">
+          <div class="product-tags"><span class="tag">Drop 1</span><span class="tag">Cherry Edition</span></div>
+          <div class="product-title">Heavyweight Drop Shoulder Cotton T-Shirt</div>
+          <div class="product-price">$30.00</div>
+          <a href="https://projectr3vival.mysellauth.com/product/blossom-tree-heavyweight-t-shirt" class="buy-btn" target="_blank" rel="noopener noreferrer">Buy Now</a>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="drop1 shirts">
+        <span class="label new-drop">New Drop</span>
+        <div class="product-img"><img src="https://i.postimg.cc/T2DgxZyF/Untitled-design-4.png" alt="R3vival In Christ Heavyweight T-Shirt"></div>
+        <div class="product-body">
+          <div class="product-tags"><span class="tag">Drop 1</span></div>
+          <div class="product-title">R3vival In Christ Heavyweight T-Shirt</div>
+          <div class="product-price">$30.00</div>
+          <a href="https://projectr3vival.mysellauth.com/product/r3vival-in-christ-heavyweight-t-shirt" class="buy-btn" target="_blank" rel="noopener noreferrer">Buy Now</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</section>
+
+<!-- ══ PRICES ══ -->
+<section id="tab-prices" class="tab-panel">
+  <section style="padding-top:60px">
+    <div class="section-inner center">
+      <div class="section-badge">Pricing</div>
+      <h2 class="section-title">R3vival Prices</h2>
+      <p class="section-sub center">Ready-made Drop 1 pieces, or go fully custom.</p>
+
+      <div class="price-tabs">
+        <h3>Shirts</h3>
+        <div class="price-grid">
+          <div class="price-card">
+            <h4>R3vival</h4>
+            <div class="price-row"><span class="item-name">100% Cotton <span class="badge-best">Best Value</span></span><span class="price">$30.00</span></div>
+            <div class="price-row"><span class="item-name">Polyester</span><span class="price">$45.00</span></div>
+            <div class="price-row"><span class="item-name">Cotton / Polyester Mix</span><span class="price">$42.00</span></div>
+          </div>
+          <div class="price-card">
+            <h4>Custom</h4>
+            <div class="price-row"><span class="item-name">100% Cotton</span><span class="price">$50.00</span></div>
+            <div class="price-row"><span class="item-name">Polyester</span><span class="price">$55.00</span></div>
+            <div class="price-row"><span class="item-name">Cotton / Polyester Mix</span><span class="price">$50.00</span></div>
+          </div>
+        </div>
+
+        <h3>Hoodies</h3>
+        <div class="price-grid">
+          <div class="price-card">
+            <h4>R3vival</h4>
+            <div class="price-row"><span class="item-name">100% Cotton <span class="badge-best">Best Value</span></span><span class="price">$49.00</span></div>
+            <div class="price-row"><span class="item-name">Cotton / Polyester Mix</span><span class="price">$54.00</span></div>
+          </div>
+          <div class="price-card">
+            <h4>Custom</h4>
+            <div class="price-row"><span class="item-name">100% Cotton</span><span class="price">$69.00</span></div>
+            <div class="price-row"><span class="item-name">Cotton / Polyester Mix</span><span class="price">$69.00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta-strip">
+    <div class="section-inner">
+      <h2>Want Something Fully Custom?</h2>
+      <p>Reach out and we'll design a piece built around your idea.</p>
+      <a href="javascript:void(0)" class="btn-primary" onclick="switchTab('contact')">Contact Us</a>
+    </div>
+  </section>
+</section>
+
+<!-- ══ COMMUNITY ══ -->
+<section id="tab-community" class="tab-panel">
+  <section style="padding-top:60px">
+    <div class="section-inner">
+      <div class="social-grid">
+        <div class="social-art fade-up">
+          <img src="https://i.postimg.cc/T1HcqppY/Chat-GPT-Image-Sep-27-2025-08-50-40-AM.png" alt="R3vival community">
+        </div>
+        <div>
+          <div class="section-badge">Join the Movement</div>
+          <h2 class="section-title">Connect With the <span class="accent">R3vival</span> Community</h2>
+          <p class="section-sub">A space to share your faith journey, find encouragement, and connect with others who wear their beliefs boldly.</p>
+          <div class="social-list" style="margin-top:32px">
+            <a class="social-row fade-up" href="https://www.tiktok.com/@projectr3vival" target="_blank" rel="noopener noreferrer">
+              <div><span class="s-name">TikTok</span><span class="s-handle">@projectr3vival</span></div>
+              <span class="s-arrow">→</span>
+            </a>
+            <a class="social-row fade-up" href="https://www.instagram.com/r3vivalapparel?igsh=aGJucWkzYXlveGl5" target="_blank" rel="noopener noreferrer">
+              <div><span class="s-name">Instagram</span><span class="s-handle">@r3vivalapparel</span></div>
+              <span class="s-arrow">→</span>
+            </a>
+            <a class="social-row fade-up" href="https://discord.gg/keq3hJbtJB" target="_blank" rel="noopener noreferrer">
+              <div><span class="s-name">Discord</span><span class="s-handle">R3vival Community</span></div>
+              <span class="s-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="tab-contact" class="tab-panel">
+  <section style="padding-top:60px">
+    <div class="section-inner center">
+      <div class="section-badge">Get In Touch</div>
+      <h2 class="section-title">Questions? Need Help?</h2>
+      <p class="section-sub center">Send us a message and we'll get back to you — or reach out directly below.</p>
+
+      <div class="contact-wrap">
+        <form class="contact-form" action="https://formspree.io/f/mkgvdbwq" method="POST" onsubmit="submitContactForm(event)">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" name="name" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" name="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea name="message" id="message" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message →</button>
+        </form>
+
+        <div class="contact-direct">
+          Prefer email? Reach us at <a href="mailto:r3vivalapparel@gmail.com">r3vivalapparel@gmail.com</a> or message us on one of our socials.
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://i.postimg.cc/4Nxqt4T7/Project-Name-63.png" alt="R3vival logo">
+      <span>R3vival</span>
+    </div>
+    <div class="footer-links">
+      <a href="javascript:void(0)" onclick="switchTab('about')">About</a>
+      <a href="javascript:void(0)" onclick="switchTab('shop')">Shop</a>
+      <a href="javascript:void(0)" onclick="switchTab('prices')">Prices</a>
+      <a href="javascript:void(0)" onclick="switchTab('community')">Community</a>
+      <a href="javascript:void(0)" onclick="switchTab('contact')">Contact</a>
+    </div>
+    <div class="footer-verse">“Let your light shine before others.” — Matthew 5:16</div>
+    <div class="footer-copy">© 2025 R3vival. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
